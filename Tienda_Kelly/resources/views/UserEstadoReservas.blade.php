@@ -140,27 +140,27 @@
                                         {{ $item->sin_existencias }}
                                     </span>
                                     @elseif($item->estado == 'sin_espera')
-                                    <span class="px-2 uppercase w-fit py-0.5 md:py-[1rem] md:px-[2rem] text-s md:text-[1rem] font-semibold bg-red-200 text-red-800 rounded">
+                                    <span class="px-1 uppercase py-0.5 text-s md:text-[1rem] font-semibold bg-red-200 text-red-800 rounded">
                                         Cancelado
                                     </span>
                                     @elseif($item->estado == 'en_espera')
-                                    <span class="px-2 uppercase w-fit py-0.5 md:py-[1rem] md:px-[2rem] text-s md:text-[1rem] font-semibold bg-orange-200 text-orange-800 rounded">
+                                    <span class="px-1 uppercase py-0.5 text-s md:text-[1rem] font-semibold bg-orange-200 text-orange-800 rounded">
                                         Se está Esperando
                                     </span>
                                     @elseif($item->estado == 'en_entrega')
-                                    <span class="px-2 uppercase w-fit py-0.5 md:py-[1rem] md:px-[2rem] text-s md:text-[1rem] font-semibold bg-orange-200 text-orange-800 rounded">
+                                    <span class="px-1 uppercase py-0.5 text-s md:text-[1rem] font-semibold bg-orange-200 text-orange-800">
                                         Ya lo puede Recoger
                                     </span>
                                     @elseif($item->estado == 'recibido' || $item->estado == 'archivado')
-                                    <span class="px-2 uppercase w-fit py-0.5 md:py-[1rem] md:px-[2rem] text-s md:text-[1rem] font-semibold bg-green-200 text-green-800 rounded">
+                                    <span class="px-1 uppercase py-0.5 text-s md:text-[1rem] font-semibold bg-green-200 text-green-800 rounded">
                                         Ya lo Recibió
                                     </span>
                                     @elseif($item->estado == 'sin_recibir')
-                                    <span class="px-2 uppercase w-fit py-0.5 md:py-[1rem] md:px-[2rem] text-s md:text-[1rem] font-semibold bg-orange-200 text-orange-800 rounded">
+                                    <span class="px-1 uppercase py-0.5 text-s md:text-[1rem] font-semibold bg-orange-200 text-orange-800 rounded">
                                         No ha recibido el Producto
                                     </span>
                                     @elseif($item->estado == 'problemas')
-                                    <span class="px-2 uppercase w-fit py-0.5 md:py-[1rem] md:px-[2rem] text-s md:text-[1rem] font-semibold bg-orange-200 text-orange-800 rounded">
+                                    <span class="px-1 uppercase py-0.5 text-s md:text-[1rem] font-semiboldd bg-orange-200 text-orange-800 rounded">
                                         El Vendedor tiene Problemas
                                     </span>
                                     @endif

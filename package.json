@@ -1,7 +1,7 @@
 {
-  "name": "creaj-2024-m",
+  "name": "Tienda Kelly",
   "version": "1.0.0",
-  "description": "MiniShop (Nombre oficial) es un software en planificación por estudiantes de la Universidad Don Bosco.",
+  "description": "Tienda Kelly (Nombre oficial) es un software en planificación por estudiantes de la Universidad Don Bosco.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

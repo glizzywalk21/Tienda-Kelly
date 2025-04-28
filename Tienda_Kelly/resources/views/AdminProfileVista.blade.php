@@ -68,13 +68,13 @@
         </div>
 
         <div class="flex justify-center mt-5">
-            <img class="w-40 h40- bg-white rounded-full shadow-md  " src="{{ asset('imgs/Portada.png') }}" alt="User Icon">
+            <img class="w-40 h-40 rounded-full shadow-md  " src="{{ asset('imgs/ClienteIcon.png') }}" alt="User Icon">
         </div>
 
         <div class="text-center mt-3">
             <h3 class="text-xs">Administrador de TiendaKelly</h3>
             <h3 class="font-bold">Administrador General</h3>
-            <h3 class="text-xs">admin@TiendaKelly.sv</h3>
+            <h3 class="text-xs">admin@minishop.sv</h3>
         </div>
 
 

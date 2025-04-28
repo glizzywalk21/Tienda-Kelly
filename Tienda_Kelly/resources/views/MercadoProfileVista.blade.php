@@ -96,17 +96,18 @@
             <a href="{{ route('mercados.listavendedores')}}" class=" mx-auto flex items-center mt-10">
                 <img class="w-5" src="{{ asset('imgs/mercado.vendedores.png') }}" alt="User Icon">
                 <h3 class="flex-grow text-left font-bold ml-5">Listado de Vendedores</h3> <!-- Alineado a la derecha -->
-        </div>
-        <a href="{{ route('mercados.reservas')}}" class=" mx-auto flex items-center mt-10">
+            
+            <a href="{{ route('mercados.reservas')}}" class=" mx-auto flex items-center mt-10">
             <img class="w-5" src="{{ asset('imgs/mercado.reservas.png') }}" alt="User Icon">
             <h3 class="flex-grow text-left font-bold ml-5">Reservas de Vendedores</h3> <!-- Alineado a la derecha -->
-        </a>
+            </a>
 
 
-        <a href="{{ route('mercados.historial')}}" class=" mx-auto flex items-center mt-10">
+            <a href="{{ route('mercados.historial')}}" class=" mx-auto flex items-center mt-10">
             <img class="w-5" src="{{ asset('imgs/mercado.historial.png') }}" alt="User Icon">
             <h3 class="flex-grow text-left font-bold ml-5">Historial de Compras</h3> <!-- Alineado a la derecha -->
-        </a>
+            </a>
+    
 
 
         <form action="{{ route('logout') }}" method="GET">
@@ -118,6 +119,7 @@
             </div>
         </form>
 
+    </div>
     </div>
 
 
