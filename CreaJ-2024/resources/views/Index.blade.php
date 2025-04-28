@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
-    <title>Minishop</title>
-        <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+    <title>Tienda Kelly</title>
+    <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
 </head>
+
 <body>
     <div class="md:flex md:bg-[#BDD7FF] ">
         <div class="flex justify-center items-center h-screen md:w-[50%]">
@@ -14,14 +16,14 @@
                 <div>
                     <div class=" w-[70%] mx-auto">
                         <h3 class="font-bold text-6xl text-center flex items-center justify-center">
-                            <span class="inline md:text-white">Mini</span> <span class="text-blue-500 inline pl-2">Shop</span>
+                            <span class="inline md:text-white">Tienda</span> <span class="text-blue-500 inline pl-2">Kelly</span>
                         </h3>
 
 
 
                         <div class="hidden md:flex justify-center w-[90%] mx-auto">
                             <h3 class="text-white mt-5 text-justify ">
-                                En <span class="font-semibold">Mini Shop</span> puedes encontrar tus Mercados Municipales favoritos, puedes encontrar tus locales, vendedores, comedores, tienda de mayoreo de costumbre, y puedes reservar todos los productos que desees y retirarlos en la puerta de tu Mercado más cercano.
+                                En <span class="font-semibold">Tienda Kelly</span> puedes encontrar tus Mercados Municipales favoritos, puedes encontrar tus locales, vendedores, comedores, tienda de mayoreo de costumbre, y puedes reservar todos los productos que desees y retirarlos en la puerta de tu Mercado más cercano.
                             </h3>
                         </div>
                     </div>
@@ -31,7 +33,7 @@
                         <h3 class="text-center md:hidden">lugar</h3>
                     </h3>
 
-            </div>
+                </div>
                 <div class="mt-16 flex justify-center">
                     <a href="{{ route('login') }}">
                         <button class="mr-2 bg-indigo-300 w-32 h-12 rounded-md">
@@ -75,4 +77,5 @@
     </div>
 
 </body>
+
 </html>
