@@ -199,7 +199,7 @@
                     </div>
                     <div class="flex justify-center mt-4">
 
-                        <a href="{{ route('mercados.index')}}"  class=" bg-gray-600  text-white font-bold rounded-md  py-[0.75rem] px-[3.5rem]">Cancelar Actualizacion</a>
+                        <a href="{{ route('mercados.listavendedores')}}"  class=" bg-gray-600  text-white font-bold rounded-md  py-[0.75rem] px-[3.5rem]">Cancelar Actualizacion</a>
                     </a>
                     </div>
                 </div>
