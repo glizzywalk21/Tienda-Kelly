@@ -109,7 +109,7 @@ Route::get('/usuarios', [UsuariosController::class, 'index'])->name('usuarios.in
 Route::get('/usuarios/mercado/{id}', [UsuariosController::class, 'mercado'])->name('usuarios.mercado')->middleware('check.user.session');
 Route::get('/usuarios/vendedor/{id}', [UsuariosController::class, 'vendedor'])->name('usuarios.vendedor')->middleware('check.user.session');
 Route::get('/usuarios/producto/{id}', [UsuariosController::class, 'producto'])->name('usuarios.producto')->middleware('check.user.session');
-//ruta para aniadir alc arrito e index
+//ruta para añadir alc arrito e index
 Route::post('/usuarios/addcarrito/{product}', [UsuariosController::class, 'addcarrito'])->name('usuarios.addcarrito')->middleware('check.user.session');
 //RESERVAR y RESERVAS
 Route::post('/usuarios/reservar', [UsuariosController::class, 'reservar'])->name('usuarios.reservar')->middleware('check.user.session');

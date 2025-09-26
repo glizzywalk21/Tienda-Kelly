@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -6,34 +6,27 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
-
-
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::create('mercado_locals', function (Blueprint $table) {
-
             $table->id();
             $table->string('usuario');
             $table->string('password');
             $table->string('nombre');
-            $table->double('ROL')->unsigned()->nullable()->default(2);
+            $table->unsignedTinyInteger('ROL')->nullable()->default(2);
             $table->string('imagen_referencia')->nullable();
-            $table->string('municipio');
-            $table->string('ubicacion');
-            $table->time('horaentrada');
-            $table->time('horasalida');
             $table->text('descripcion');
-            $table->timestamp('created_at')->nullable();
-            $table->timestamp('updated_at')->nullable();
-
+            $table->timestamps();
         });
-        //MERCADO CENTRAL
-        $password = 'MercadoCentral1';
+
+        // =======================
+        // Puesto: Verduras
+        // =======================
+        $password = 'Verduras1';
         $hash = Hash::make($password);
 
         DB::insert('insert into mercado_locals (
@@ -43,33 +36,25 @@ return new class extends Migration
             nombre,
             ROL,
             imagen_referencia,
-            municipio,
-            ubicacion,
-            horaentrada,
-            horasalida,
             descripcion,
             created_at,
-            updated_at)
-            values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+            updated_at
+        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [
             1,
-            'MercadoCentral@minishop.sv',
+            'almuerzo@mercado.sv',
             $hash,
-            'Mercado Central',
+            'Almuerzos',
             2,
-            'mercadocentral.png',
-            'San Salvador Centro',
-            '3av norte y 1a calle poniente, san salvador centro',
-            '085000',
-            '203000',
-            'El mercado central es uno de los principales mercados de San Salvador, se pueden encontrar diversos productos',
+            'verduras.jpg',
+            'El puesto de Verduras ofrece una gran variedad de productos frescos de temporada, incluyendo hortalizas, tubérculos y hierbas cultivadas localmente.',
             now(),
             now()
         ]);
 
-        /**
-         * MEERCADO HULA HULA
-         */
-        $password = 'MercadoHulaHula1';
+        // =======================
+        // Puesto: Electrodomésticos
+        // =======================
+        $password = 'Electrodomesticos1';
         $hash = Hash::make($password);
 
         DB::insert('insert into mercado_locals (
@@ -79,32 +64,25 @@ return new class extends Migration
             nombre,
             ROL,
             imagen_referencia,
-            municipio,
-            ubicacion,
-            horaentrada,
-            horasalida,
             descripcion,
             created_at,
-            updated_at)
-            values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+            updated_at
+        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [
             2,
-            'MercadoHulaHula@minishop.sv',
+            'electro@tiendakelly.sv',
             $hash,
-            'Mercado Hula Hula',
+            'Electrodomésticos',
             2,
-            'mercadohulahula.png',
-            'San Salvador Centro',
-            'Calle Ruben Dario &, 3 Avenida Sur, San Salvador',
-            '085000',
-            '203000',
-            'El Mercado Hula Hula en San Salvador es un bullicioso centro de comercio conocido por su diversidad de productos, desde alimentos frescos hasta ropa y electrónica, y su ambiente vibrante que refleja la cultura local',
+            'electro.jpg',
+            'El puesto de Electrodomésticos es un lugar ideal para encontrar una amplia variedad de productos electrónicos y electrodomésticos, desde televisores y refrigeradores hasta pequeños aparatos de cocina.',
             now(),
             now()
         ]);
-        /**
-         * MEERCADO Sagrado Corazon
-         */
-        $password = 'MercadoLaTiendona1';
+
+        // =======================
+        // Puesto: Juguetes
+        // =======================
+        $password = 'Juguetes1';
         $hash = Hash::make($password);
 
         DB::insert('insert into mercado_locals (
@@ -114,32 +92,25 @@ return new class extends Migration
             nombre,
             ROL,
             imagen_referencia,
-            municipio,
-            ubicacion,
-            horaentrada,
-            horasalida,
             descripcion,
             created_at,
-            updated_at)
-            values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+            updated_at
+        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [
             3,
-            'MercadoLaTiendona@minishop.sv',
+            'juguetes@mercado.sv',
             $hash,
-            'Mercado La Tiendona',
+            'Juguetes',
             2,
-            'mercadolatiendona.png',
-            'San Salvador Centro',
-            '24a Avenida Norte, San Salvador',
-            '085000',
-            '203000',
-            'El Mercado La Tiendona en San Salvador es un vibrante centro de abastos mayorista, famoso por su amplia oferta de frutas, verduras, carnes y productos frescos. Es un lugar esencial para abastecer negocios locales',
+            'juguetes.jpg',
+            'El puesto de Juguetes es un espacio lleno de diversión y color, donde los niños encuentran muñecos, carros, peluches y juegos didácticos que estimulan la imaginación.',
             now(),
             now()
         ]);
-        /**
-         * MEERCADO EX CUARTEL
-         */
-        $password = 'MercadoExCuartel1';
+
+        // =======================
+        // Puesto: Zapatos
+        // =======================
+        $password = 'Zapatos1';
         $hash = Hash::make($password);
 
         DB::insert('insert into mercado_locals (
@@ -149,29 +120,20 @@ return new class extends Migration
             nombre,
             ROL,
             imagen_referencia,
-            municipio,
-            ubicacion,
-            horaentrada,
-            horasalida,
             descripcion,
             created_at,
-            updated_at)
-            values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+            updated_at
+        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [
             4,
-            'MercadoExCuartel@minishop.sv',
+            'zapatos@mercado.sv',
             $hash,
-            'Mercado Ex-Cuartel',
+            'Zapatos',
             2,
-            'mercadoex-cuartel.png',
-            'San Salvador Centro',
-            '1a Calle Ote. &, 8a Avenida Norte, San Salvador',
-            '085000',
-            '203000',
-            'El Mercado Excuartel en San Salvador es un punto comercial vibrante, ubicado en un antiguo cuartel militar. Ofrece una amplia variedad de productos, especialmente ropa y calzado, en un entorno lleno de historia y cultura local',
+            'zapateria.jpg',
+            'El puesto de Zapatos es reconocido por su gran variedad de calzado para toda la familia, desde zapatos formales hasta deportivos, siempre con diseños modernos y precios accesibles.',
             now(),
             now()
         ]);
-
     }
 
     /**
@@ -179,6 +141,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mercado_local');
+        Schema::dropIfExists('mercado_locals');
     }
 };

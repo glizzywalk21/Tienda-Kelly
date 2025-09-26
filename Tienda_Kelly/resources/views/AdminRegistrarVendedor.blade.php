@@ -100,37 +100,32 @@
                     </div>
                     <div class="flex justify-center">
                         <input required type="text" name="numero_puesto" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('numero_puesto') is-invalid @enderror" value="{{ old('numero_puesto') }}" id="numero_puesto" placeholder="Escriba el Número Puesto">
-                    </div>
-                    <select name="clasificacion" id="clasificacion" class="border rounded border-gray-400 w-full h-9 pl-5 text-xs mt-2 text-gray-400" required>
-                        <option class="font-bold text-xs text-white" value="null">Escoga su Clasificacion</option>
-                        <option class="font-bold text-xl text-gray-800" value="comedor" {{ old('clasificacion') == 'comedor' ? 'selected' : '' }}>Comedor</option>
-                        <option class="font-bold text-xl text-gray-800" value="ropa" {{ old('clasificacion') == 'ropa' ? 'selected' : '' }}>Ropa</option>
-                        <option class="font-bold text-xl text-gray-800" value="granosbasicos" {{ old('clasificacion') == 'granosbasicos' ? 'selected' : '' }}>Granos Basicos</option>
-                        <option class="font-bold text-xl text-gray-800" value="artesanias" {{ old('clasificacion') == 'artesanias' ? 'selected' : '' }}>Artesanias</option>
-                        <option class="font-bold text-xl text-gray-800" value="mariscos" {{ old('clasificacion') == 'mariscos' ? 'selected' : '' }}>Mariscos</option>
-                        <option class="font-bold text-xl text-gray-800" value="carnes" {{ old('clasificacion') == 'carnes' ? 'selected' : '' }}>Carnes</option>
-                        <option class="font-bold text-xl text-gray-800" value="lacteos" {{ old('clasificacion') == 'lacteos' ? 'selected' : '' }}>Lacteos</option>
-                        <option class="font-bold text-xl text-gray-800" value="aves" {{ old('clasificacion') == 'aves' ? 'selected' : '' }}>Aves</option>
-                        <option class="font-bold text-xl text-gray-800" value="plasticos" {{ old('clasificacion') == 'plasticos' ? 'selected' : '' }}>Plasticos</option>
-                        <option class="font-bold text-xl text-gray-800" value="frutasyverduras" {{ old('clasificacion') == 'frutasyverduras' ? 'selected' : '' }}>Frutas Y Verduras</option>
-                        <option class="font-bold text-xl text-gray-800" value="emprendimiento" {{ old('clasificacion') == 'emprendimiento' ? 'selected' : '' }}>Emprendimiento</option>
-                        <option class="font-bold text-xl text-gray-800" value="otros" {{ old('clasificacion') == 'otros' ? 'selected' : '' }}>Otros</option>
-
-
-                    </select>
+                    </div>                   
 
                     <div class="flex justify-center">
-                        <select name="fk_mercado" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400  mt-2 text-gray-400 form-control @error('fk_mercado') is-invalid @enderror" id="fk_mercado">
+                        <select 
+                            name="fk_mercado" 
+                            id="fk_mercado"
+                            class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 mt-2 text-gray-400 form-control @error('fk_mercado') is-invalid @enderror"
+                    >
+                            <option value="" disabled selected>Seleccione un área</option>
                             @foreach($mercados as $mercado)
-                                <option class="font-bold text-xl text-gray-800" value="{{ $mercado->id }}" {{ old('fk_mercado') == $mercado->id ? 'selected' : '' }}>{{ $mercado->nombre }}</option>
+                                <option 
+                                    class="font-bold text-xl text-gray-800"
+                                    value="{{ $mercado->id }}" {{ old('fk_mercado') == $mercado->id ? 'selected' : '' }}
+                            >
+                                {{ $mercado->nombre }}
+                            </option>
                             @endforeach
                         </select>
+
                         @error('fk_mercado')
                             <div class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </div>
                         @enderror
                     </div>
+
                     <div class="flex justify-center mt-16">
                         <button class="btn btn-primary bg-purple-600 w-72 h-10 text-white font-bold rounded-md">Registrar Vendedor</button>
                     </div>

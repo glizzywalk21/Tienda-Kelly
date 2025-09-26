@@ -187,7 +187,7 @@
                                 </div>
                             </form>
                             @elseif($item->estado == 'en_entrega')
-                            <h2 class="text-xl font-bold mb-4 text-center">Ya se Envio su producto. <br> Lo puede recibir en: <b>El Porton Principal del {{$item->mercados->nombre}}</b> <br> Ya lo Recibio?</h2>
+                            <h2 class="text-xl font-bold mb-4 text-center">Ya se Envio su producto. <br> Lo puede recibir en: <b>El Porton Principal de TiendaKelly</b> <br> Ya lo Recibio?</h2>
                             <form id="form-{{ $item->id }}" action="{{ route('usuarios.publicarestadoreserva', $item->id) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="estado" id="estado-{{ $item->id }}" value="">

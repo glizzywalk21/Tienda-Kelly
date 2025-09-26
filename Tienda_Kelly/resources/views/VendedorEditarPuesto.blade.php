@@ -141,23 +141,6 @@
                         {!! $errors->first('fk_mercado', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
                     </div>
 
-                    <select name="clasificacion" id="clasificacion" class="border rounded border-gray-400 w-full h-9 pl-5 text-xs mt-2 text-gray-400" required>
-                        <option class=" font-medium text-[1rem] text-black" value="null">Escoge su Clasificación</option>
-                        <option class="font-medium text-[1rem] text-black" value="comedor" {{ old('clasificacion', $vendedor?->clasificacion) == 'comedor' ? 'selected' : '' }}>Comedor</option>
-                        <option class="font-medium text-[1rem] text-black" value="venta de abarrotes" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de abarrotes' ? 'selected' : '' }}>Venta de Abarrotes</option>
-                        <option class="font-medium text-[1rem] text-black" value="venta de ropa" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de ropa' ? 'selected' : '' }}>Venta de Ropa</option>
-                        <option class="font-medium text-[1rem] text-black" value="venta de calzado" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de calzado' ? 'selected' : '' }}>Venta de Calzado</option>
-                        <option class="font-medium text-[1rem] text-black" value="venta de herramientas" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de herramientas' ? 'selected' : '' }}>Venta de Herramientas</option>
-                        <option class="font-medium text-[1rem] text-black" value="venta de verduras" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de verduras' ? 'selected' : '' }}>Venta de Verduras</option>
-                        <option class="font-medium text-[1rem] text-black" value="venta de juguetes" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de juguetes' ? 'selected' : '' }}>Venta de Juguetes</option>
-                        <option class="font-medium text-[1rem] text-black" value="venta de frutas" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de frutas' ? 'selected' : '' }}>Venta de Frutas</option>
-                        <option class="font-medium text-[1rem] text-black" value="venta de flores" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de flores' ? 'selected' : '' }}>Venta de Flores</option>
-                        <option class="font-medium text-[1rem] text-black" value="venta de carne" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de carne' ? 'selected' : '' }}>Venta de Carne</option>
-                        <option class="font-medium text-[1rem] text-black" value="venta de pescado" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de pescado' ? 'selected' : '' }}>Venta de Pescado</option>
-                        <option class="font-medium text-[1rem] text-black" value="venta de pollo" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de pollo' ? 'selected' : '' }}>Venta de Pollo</option>
-                    </select>
-                    {!! $errors->first('clasificacion', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-
                     <div class="flex justify-center">
                         <div class="flex justify-center mt-8">
 

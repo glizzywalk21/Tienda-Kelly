@@ -68,12 +68,12 @@
                     <h3 class="text-blue-800 font-bold">Administrador General</h3>
                 </div>
                 <div class="mr-[5%] mt-4">
-                    <img class=" rounded-full w-12" src="{{ asset('imgs/MiCarritoUser.png') }}" alt="User Icon">
+                    <img class= "rounded-full w-12" src="{{ asset('imgs/MiCarritoUser.png') }}" alt="User Icon">
                 </div>
             </div>
             @if(session('usuario') && session('password'))
             <div class="bg-green-500 text-white text-center py-4 px-6 rounded-md mb-6 mx-4">
-                <strong>¡Nuevo Mercado Creado llamado "{{ session('nombre')}}"!</strong><br>
+                <strong>¡Nueva area creada llamado "{{ session('nombre')}}"!</strong><br>
                 Las credenciales del mercado son las siguientes:<br>
                 <span><strong>Usuario:</strong> {{ session('usuario') }}</span><br>
                 <span><strong>Contraseña:</strong> {{ session('password') }}</span>
@@ -86,7 +86,7 @@
                 <img class="w-[100%]" src="{{ asset('imgs/Portada.png') }}" alt="User Icon">
             </div>-->
             <div class="w-screen hidden md:block">
-                <img class="w-full h-[35rem] object-cover" src="{{ asset('imgs/mercadolatiendona.png') }}" alt="Banner Image">
+                <img class="w-full h-[35rem] object-cover" src="{{ asset('imgs/index.jpg') }}" alt="Banner Image">
             </div>
 
             <div class="flex mt-5 justify-around w-[90%] mx-auto">

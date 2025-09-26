@@ -73,28 +73,6 @@
             </div>
 
         </div>
-        <!--El titulo-->
-
-        <div class="flex mt-5 lg:mt-[40px]">
-            <div class="flex mx-auto">
-                <button
-                    class="flex items-center lg:h-11  h-8 border  px-1 py-0.5 rounded-md mr-2 text-xs lg:text-[20px] bg-blue-300 border-blue-300 text-white font-bold">
-                    <img class="w-7" src="{{ asset('imgs/SelectBox.png') }}" alt="User Icon">
-                    <span class="ml-1">Todos Los puestos</span>
-                </button>
-
-                <button class="flex items-center border text-black px-1 py-0.5 rounded-md mr-2 text-xs lg:text-[20px] ">
-                    <img class="w-5" src="{{ asset('imgs/ClotheSelected.png') }}" alt="User Icon">
-                    <span class="ml-1">Ropa</span>
-                </button>
-
-                <button
-                    class="flex items-center border text-black px-1 py-0.5 rounded-md text-xs lg:text-[20px] hover:bg-blue-200">
-                    <img class="w-5" src="{{ asset('imgs/FoodSelected.png') }}" alt="User Icon">
-                    <span class="ml-1">Comida</span>
-                </button>
-            </div>
-        </div>
 
         <!--Comienzo de las cartas -->
 

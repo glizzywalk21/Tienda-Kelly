@@ -34,11 +34,13 @@ use Barryvdh\DomPDF\Facade\Pdf;
  * @package App/Http/Controllers
  */
 
- class UsuariosController extends Controller{
+class UsuariosController extends Controller
+{
 
 
     //VER MERCADOS LOCALES O INDEX
-    public function index(){
+    public function index()
+    {
         $mercadoLocals = MercadoLocal::paginate();
         $vendedors = Vendedor::paginate();
 
@@ -47,10 +49,11 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
         // Retorna la vista 'UserHome' con los datos paginados
         return view('UserHome', compact('vendedors', 'mercadoLocals'))
-        ->with('iVendedors', $iVendedors)
-        ->with('iMercadoLocals', $iMercadoLocals);
+            ->with('iVendedors', $iVendedors)
+            ->with('iMercadoLocals', $iMercadoLocals);
     }
-    public function create(){
+    public function create()
+    {
         $cliente = new User();
         return view('RegistroUser', compact('cliente'));
 
@@ -68,63 +71,63 @@ use Barryvdh\DomPDF\Facade\Pdf;
     }
 
     public function actualizar(Request $request, $id)
-{
-    // Validación de los campos
-    $request->validate([
-        'password' => 'nullable|string|min:8|confirmed',
-        'nombre' => 'required|string|max:255',
-        'apellido' => 'required|string|max:255',
-        'telefono' => 'nullable|string|max:15',
-        'sexo' => 'nullable|string|in:Masculino,Femenino',
-        'imagen_perfil' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
-        'usuario' => 'required|string|email|max:255|unique:users,usuario,' . $id, // Asegura la unicidad del usuario (correo)
-        'ROL' => 'required|in:4', // Asegura que el ROL sea uno de los permitidos
-    ]);
+    {
+        // Validación de los campos
+        $request->validate([
+            'password' => 'nullable|string|min:8|confirmed',
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'telefono' => 'nullable|string|max:15',
+            'sexo' => 'nullable|string|in:Masculino,Femenino',
+            'imagen_perfil' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'usuario' => 'required|string|email|max:255|unique:users,usuario,' . $id, // Asegura la unicidad del usuario (correo)
+            'ROL' => 'required|in:4', // Asegura que el ROL sea uno de los permitidos
+        ]);
 
-    // Verificar si el usuario autenticado puede actualizar este registro
-    if (Auth::id() != $id && Auth::user()->ROL != 1) {
-        return redirect()->route('login')->with('error', 'Acceso no autorizado');
-    }
-
-    // Encontrar el usuario por ID
-    $user = User::findOrFail($id);
-
-    // Actualizar los campos
-    $user->usuario = $request->input('usuario');
-    $user->ROL = $request->input('ROL');
-
-    // Si la contraseña se envía, actualiza, de lo contrario, deja la existente
-    if ($request->filled('password')) {
-        $user->password = bcrypt($request->input('password'));
-    }
-
-    // Actualizar los demás campos
-    $user->nombre = $request->input('nombre');
-    $user->apellido = $request->input('apellido');
-    $user->telefono = $request->input('telefono');
-    $user->sexo = $request->input('sexo');
-
-    // Manejar la imagen de perfil
-    if ($request->hasFile('imagen_perfil')) {
-        // Guardar la nueva imagen
-        $imageName = time() . '.' . $request->imagen_perfil->extension();
-        $request->imagen_perfil->move(public_path('imgs'), $imageName);
-
-        // Eliminar la imagen anterior si existe
-        if ($user->imagen_perfil && $user->imagen_perfil != 'non-img.png' && file_exists(public_path('imgs/' . $user->imagen_perfil))) {
-            unlink(public_path('imgs/' . $user->imagen_perfil));
+        // Verificar si el usuario autenticado puede actualizar este registro
+        if (Auth::id() != $id && Auth::user()->ROL != 1) {
+            return redirect()->route('login')->with('error', 'Acceso no autorizado');
         }
 
-        // Actualizar la referencia de la imagen de perfil en la base de datos
-        $user->imagen_perfil = $imageName;
+        // Encontrar el usuario por ID
+        $user = User::findOrFail($id);
+
+        // Actualizar los campos
+        $user->usuario = $request->input('usuario');
+        $user->ROL = $request->input('ROL');
+
+        // Si la contraseña se envía, actualiza, de lo contrario, deja la existente
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
+
+        // Actualizar los demás campos
+        $user->nombre = $request->input('nombre');
+        $user->apellido = $request->input('apellido');
+        $user->telefono = $request->input('telefono');
+        $user->sexo = $request->input('sexo');
+
+        // Manejar la imagen de perfil
+        if ($request->hasFile('imagen_perfil')) {
+            // Guardar la nueva imagen
+            $imageName = time() . '.' . $request->imagen_perfil->extension();
+            $request->imagen_perfil->move(public_path('imgs'), $imageName);
+
+            // Eliminar la imagen anterior si existe
+            if ($user->imagen_perfil && $user->imagen_perfil != 'non-img.png' && file_exists(public_path('imgs/' . $user->imagen_perfil))) {
+                unlink(public_path('imgs/' . $user->imagen_perfil));
+            }
+
+            // Actualizar la referencia de la imagen de perfil en la base de datos
+            $user->imagen_perfil = $imageName;
+        }
+
+        // Guardar los cambios en la base de datos
+        $user->save();
+
+        // Redireccionar o devolver una respuesta
+        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
     }
-
-    // Guardar los cambios en la base de datos
-    $user->save();
-
-    // Redireccionar o devolver una respuesta
-    return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
-}
 
 
 
@@ -132,7 +135,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
     /**
      * FUNCIONES DEL USUARIO
      */
-    public function store(ClienteRequest $request){
+    public function store(ClienteRequest $request)
+    {
         $validator = Validator::make($request->all(), [
             'usuario' => 'required|email|unique:clientes',
             'nombre' => 'required|string|max:255',
@@ -168,24 +172,24 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
     //VER MERCADO Y SUS PUESTOS
     public function mercado($id, Request $request)
-{
-    // Buscar el mercado local por ID
-    $mercadoLocal = MercadoLocal::find($id);
+    {
+        // Buscar el mercado local por ID
+        $mercadoLocal = MercadoLocal::find($id);
 
-    // Filtrar vendedores según la clasificación si se proporciona, de lo contrario obtener todos con paginación
-    $query = Vendedor::where('fk_mercado', $id);
+        // Filtrar vendedores según la clasificación si se proporciona, de lo contrario obtener todos con paginación
+        $query = Vendedor::where('fk_mercado', $id);
 
-    if ($request->has('clasificacion') && $request->clasificacion != 'todos') {
-        $query->where('clasificacion', $request->clasificacion);
+        if ($request->has('clasificacion') && $request->clasificacion != 'todos') {
+            $query->where('clasificacion', $request->clasificacion);
+        }
+
+        // Obtener los vendedores filtrados con paginación
+        $vendedors = $query->paginate();
+
+        // Retornar la vista con ambos datos
+        return view('UserPuestosVendedores', compact('mercadoLocal', 'vendedors'))
+            ->with('i', (request()->input('page', 1) - 1) * $vendedors->perPage());
     }
-
-    // Obtener los vendedores filtrados con paginación
-    $vendedors = $query->paginate();
-
-    // Retornar la vista con ambos datos
-    return view('UserPuestosVendedores', compact('mercadoLocal', 'vendedors'))
-        ->with('i', (request()->input('page', 1) - 1) * $vendedors->perPage());
-}
 
 
     //VER VENDEDOR Y SUS PRODUCTOS
@@ -193,17 +197,17 @@ use Barryvdh\DomPDF\Facade\Pdf;
     {
         $vendedor = Vendedor::find($id);
 
-        if(!$vendedor) {
-            return redirect()->back()->with('error','Vendedor no encontrado');
+        if (!$vendedor) {
+            return redirect()->back()->with('error', 'Vendedor no encontrado');
         }
 
         //Esta variable es para sacar el nombre del fk__mercadolocal
         $mercadoLocal = $vendedor->mercadoLocal;
 
         //esta varaible es para sacar los productos
-        $products = Product::where('fk_vendedors',$id)->paginate();
+        $products = Product::where('fk_vendedors', $id)->paginate();
 
-        return view('UserProductosDeUnPuesto', compact('vendedor','mercadoLocal','products'))->with('i',(request()->input('page',1) - 1) * $products->perPage());
+        return view('UserProductosDeUnPuesto', compact('vendedor', 'mercadoLocal', 'products'))->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
 
     //VER EL PRODCUTO
@@ -212,16 +216,21 @@ use Barryvdh\DomPDF\Facade\Pdf;
         // Obtener el producto específico por su ID
         $product = Product::find($id);
 
-        // Obtener otros 3 productos de la misma categoría que no sean el actual
+        if (!$product) {
+            return redirect()->back()->with('error', 'Producto no encontrado');
+        }
+
+        // Obtener otros 3 productos del mismo vendedor que no sean el actual
         $products = Product::where('id', '!=', $id)
-        ->where('clasificacion', $product->clasificacion)
-        ->take(3)
+            ->where('fk_vendedors', $product->fk_vendedors)
+            ->take(3)
             ->get();
+
         $vendedor = $product->vendedor;
 
         // Retornar la vista con ambos datos
         return view('UserProductoEnEspecifico', compact('product', 'products', 'vendedor'))
-        ->with('i', 0); // Ajustar 'i' manualmente si es necesario
+            ->with('i', 0);
     }
 
 
@@ -236,8 +245,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
         $quantity = $request->input('quantity');
 
         $cartItem = Cart::where('fk_product', $product->id)
-                        ->where('fk_user', Auth::id())
-                        ->first();
+            ->where('fk_user', Auth::id())
+            ->first();
 
         if ($cartItem) {
             $cartItem->quantity += $quantity;
@@ -258,62 +267,62 @@ use Barryvdh\DomPDF\Facade\Pdf;
     /**
      * IMPRIMIR RECIBO
      */
-        public function generateReceipt($id)
-{
-    // Obtener la reserva y los ítems relacionados con el vendedor y el mercado local
-    $reservation = Reservation::with('items.product.vendedor.mercadoLocal')->findOrFail($id);
+    public function generateReceipt($id)
+    {
+        // Obtener la reserva y los ítems relacionados con el vendedor y el mercado local
+        $reservation = Reservation::with('items.product.vendedor.mercadoLocal')->findOrFail($id);
 
-    // Obtener los mercados únicos relacionados con la reserva
-    $mercados = $reservation->items->map(function($item) {
-        return $item->product->vendedor->mercadoLocal;
-    })->unique('id');
+        // Obtener los mercados únicos relacionados con la reserva
+        $mercados = $reservation->items->map(function ($item) {
+            return $item->product->vendedor->mercadoLocal;
+        })->unique('id');
 
-    $vendedor = $reservation->items->map(function($item) {
-        return $item->product->vendedor;
-    })->unique('id');
+        $vendedor = $reservation->items->map(function ($item) {
+            return $item->product->vendedor;
+        })->unique('id');
 
-    // Generar el PDF
-    $pdf = Pdf::loadView('receipt', [
-        'reservation' => $reservation,
-        'mercados' => $mercados,
-        'vendedor' => $vendedor
-    ]);
+        // Generar el PDF
+        $pdf = Pdf::loadView('receipt', [
+            'reservation' => $reservation,
+            'mercados' => $mercados,
+            'vendedor' => $vendedor
+        ]);
 
-    // Descargar el PDF
-    $pdf->download('recibo-reserva-'.$id.'.pdf');
+        // Descargar el PDF
+        $pdf->download('recibo-reserva-' . $id . '.pdf');
 
-    // Redirigir a la vista usuarios.reservas
-    return redirect()->route('usuarios.reservas');
-}
+        // Redirigir a la vista usuarios.reservas
+        return redirect()->route('usuarios.reservas');
+    }
 
-        /**
-         * ABRIR RECIBO
-         */
-        public function viewReceipt($id)
-{
-    // Obtener la reserva y los ítems relacionados con el vendedor y el mercado local
-    $reservation = Reservation::with('items.product.vendedor.mercadoLocal')->findOrFail($id);
+    /**
+     * ABRIR RECIBO
+     */
+    public function viewReceipt($id)
+    {
+        // Obtener la reserva y los ítems relacionados con el vendedor y el mercado local
+        $reservation = Reservation::with('items.product.vendedor.mercadoLocal')->findOrFail($id);
 
-    // Obtener los mercados únicos relacionados con la reserva
-    $mercados = $reservation->items->map(function($item) {
-        return $item->product->vendedor->mercadoLocal;
-    })->unique('id');
+        // Obtener los mercados únicos relacionados con la reserva
+        $mercados = $reservation->items->map(function ($item) {
+            return $item->product->vendedor->mercadoLocal;
+        })->unique('id');
 
-    // Obtener los vendedores únicos
-    $vendedor = $reservation->items->map(function($item) {
-        return $item->product->vendedor;
-    })->unique('id');
+        // Obtener los vendedores únicos
+        $vendedor = $reservation->items->map(function ($item) {
+            return $item->product->vendedor;
+        })->unique('id');
 
-    // Generar el PDF
-    $pdf = Pdf::loadView('receipt', [
-        'reservation' => $reservation,
-        'mercados' => $mercados,
-        'vendedor' => $vendedor
-    ]);
+        // Generar el PDF
+        $pdf = Pdf::loadView('receipt', [
+            'reservation' => $reservation,
+            'mercados' => $mercados,
+            'vendedor' => $vendedor
+        ]);
 
-    // Abrir el PDF en una nueva página
-    return $pdf->stream('recibo-reserva-' . $id . '.pdf');
-}
+        // Abrir el PDF en una nueva página
+        return $pdf->stream('recibo-reserva-' . $id . '.pdf');
+    }
 
 
 
@@ -323,7 +332,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
             $userid = Auth::id();
 
             $cartItems = Cart::with('product')->where('fk_user', $userid)->get();
-            $total = $cartItems->reduce(fn ($carry, $item) => $carry + ($item->product->price * $item->quantity), 0);
+            $total = $cartItems->reduce(fn($carry, $item) => $carry + ($item->product->price * $item->quantity), 0);
             return view('UserCarritoGeneral', compact('cartItems', 'total', 'userid'));
         } catch (\Exception $e) {
             \Log::error('Error en carrito: ' . $e->getMessage());
@@ -353,7 +362,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
                     'fk_reservation' => $reservation->id,
                     'fk_product' => $item->fk_product,
                     'quantity' => $item->quantity,
-                    'nombre'=>$item->product->nombre,
+                    'nombre' => $item->product->nombre,
                     'subtotal' => $item->subtotal,
                     'fk_vendedors' => $item->product->vendedor->id,
                     'fk_mercados' => $item->product->vendedor->fk_mercado,
@@ -391,9 +400,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
         // Obtener las reservas del usuario autenticado con los ítems y productos relacionados
         // y que el estado sea "archivado"
         $reservations = Reservation::where('fk_user', Auth::id())
-        ->where('estado', 'archivado')
-        ->with('items.product')
-        ->get();
+            ->where('estado', 'archivado')
+            ->with('items.product')
+            ->get();
 
         return view('UserHistorialPedidos', compact('reservations'));
     }
@@ -405,171 +414,171 @@ use Barryvdh\DomPDF\Facade\Pdf;
      * CAMBIAR ESTADO RESERVAS
      */
     public function publicarestadoreserva(Request $request, $id)
-        {
-            // Obtener el ReservationItem por ID
-            $item = ReservationItem::find($id);
+    {
+        // Obtener el ReservationItem por ID
+        $item = ReservationItem::find($id);
 
-            // Verificar si el item fue encontrado
-            if (!$item) {
-                return redirect()->route('usuarios.reservas')->with('error', 'El ítem de la reserva no fue encontrado.');
-            }
+        // Verificar si el item fue encontrado
+        if (!$item) {
+            return redirect()->route('usuarios.reservas')->with('error', 'El ítem de la reserva no fue encontrado.');
+        }
 
-            // Verificar si el item pertenece al vendedor con id = 1
-            if ($item->reservation->user->id == Auth::id()) {
-                // Validar el estado enviado
-                $estadoValido = ['enviado', 'sin_existencias', 'en_espera', 'sin_espera', 'en_entrega', 'recibido', 'sin_recibir', 'problemas', 'archivado'];
-                $nuevoEstado = $request->input('estado');
+        // Verificar si el item pertenece al vendedor con id = 1
+        if ($item->reservation->user->id == Auth::id()) {
+            // Validar el estado enviado
+            $estadoValido = ['enviado', 'sin_existencias', 'en_espera', 'sin_espera', 'en_entrega', 'recibido', 'sin_recibir', 'problemas', 'archivado'];
+            $nuevoEstado = $request->input('estado');
 
-                if (in_array($nuevoEstado, $estadoValido)) {
-                    // Actualizar el estado del item
-                    $item->estado = $nuevoEstado;
-                    $item->save();
-
-
-                    /**
-                     * SIN EXISTENCIAS
-                     */
-                    // Verificar si todos los items relacionados tienen estado 'en_entrega'
-                    $fk_reservation = $item->fk_reservation;
-                    $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
-                        ->where('estado', '!=', 'sin_existencias')
-                        ->count() == 0;
-
-                    if ($todosEnEntrega) {
-                        // Actualizar el estado de la reserva a 'en_entrega'
-                        $reserva = Reservation::find($fk_reservation);
-                        $reserva->estado = 'sin_existencias';
-                        $reserva->save();
-                    }
-                    /**
-                     * EN ESPERA
-                     */
-                    // Verificar si todos los items relacionados tienen estado 'en_entrega'
-                    $fk_reservation = $item->fk_reservation;
-                    $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
-                        ->where('estado', '!=', 'en_espera')
-                        ->count() == 0;
-
-                    if ($todosEnEntrega) {
-                        // Actualizar el estado de la reserva a 'en_entrega'
-                        $reserva = Reservation::find($fk_reservation);
-                        $reserva->estado = 'en_espera';
-                        $reserva->save();
-                    }
-                    /**
-                     * SIN ESPERA
-                     */
-                    // Verificar si todos los items relacionados tienen estado 'en_entrega'
-                    $fk_reservation = $item->fk_reservation;
-                    $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
-                        ->where('estado', '!=', 'sin_espera')
-                        ->count() == 0;
-
-                    if ($todosEnEntrega) {
-                        // Actualizar el estado de la reserva a 'en_entrega'
-                        $reserva = Reservation::find($fk_reservation);
-                        $reserva->estado = 'sin_espera';
-                        $reserva->save();
-                    }
+            if (in_array($nuevoEstado, $estadoValido)) {
+                // Actualizar el estado del item
+                $item->estado = $nuevoEstado;
+                $item->save();
 
 
+                /**
+                 * SIN EXISTENCIAS
+                 */
+                // Verificar si todos los items relacionados tienen estado 'en_entrega'
+                $fk_reservation = $item->fk_reservation;
+                $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
+                    ->where('estado', '!=', 'sin_existencias')
+                    ->count() == 0;
 
-
-
-                    /**
-                     * En ENTREGA
-                     */
-                    // Verificar si todos los items relacionados tienen estado 'en_entrega'
-                    $fk_reservation = $item->fk_reservation;
-                    $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
-                        ->where('estado', '!=', 'en_entrega')
-                        ->count() == 0;
-
-                    if ($todosEnEntrega) {
-                        // Actualizar el estado de la reserva a 'en_entrega'
-                        $reserva = Reservation::find($fk_reservation);
-                        $reserva->estado = 'en_entrega';
-                        $reserva->save();
-                    }
-                    /**
-                     * SIN RECIBIR
-                     */
-                    // Verificar si todos los items relacionados tienen estado 'en_entrega'
-                    $fk_reservation = $item->fk_reservation;
-                    $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
-                        ->where('estado', '!=', 'sin_recibir')
-                        ->count() == 0;
-
-                    if ($todosEnEntrega) {
-                        // Actualizar el estado de la reserva a 'en_entrega'
-                        $reserva = Reservation::find($fk_reservation);
-                        $reserva->estado = 'sin_recibir';
-                        $reserva->save();
-                    }
-                    /**
-                     * PROBLEMA
-                     */
-                    // Verificar si todos los items relacionados tienen estado 'en_entrega'
-                    $fk_reservation = $item->fk_reservation;
-                    $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
-                        ->where('estado', '!=', 'problema')
-                        ->count() == 0;
-
-                    if ($todosEnEntrega) {
-                        // Actualizar el estado de la reserva a 'en_entrega'
-                        $reserva = Reservation::find($fk_reservation);
-                        $reserva->estado = 'problema';
-                        $reserva->save();
-                    }
-                    /**
-                     * RECIBIDO
-                     */
-                    // Verificar si todos los items relacionados tienen estado 'en_entrega'
-                    $fk_reservation = $item->fk_reservation;
-                    $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
-                        ->where('estado', '!=', 'recibido')
-                        ->count() == 0;
-
-                    if ($todosEnEntrega) {
-                        // Actualizar el estado de la reserva a 'en_entrega'
-                        $reserva = Reservation::find($fk_reservation);
-                        $reserva->estado = 'recibido';
-                        $reserva->save();
-                    }
-
-
-                    // Redireccionar a la vista o hacer otra acción
-                    return redirect()->route('usuarios.reservas')->with('success', 'El estado de la reserva ha sido actualizado.');
-                } else {
-                    // Estado no válido
-                    return redirect()->route('usuarios.reservas')->with('error', 'El estado proporcionado no es válido.');
+                if ($todosEnEntrega) {
+                    // Actualizar el estado de la reserva a 'en_entrega'
+                    $reserva = Reservation::find($fk_reservation);
+                    $reserva->estado = 'sin_existencias';
+                    $reserva->save();
                 }
+                /**
+                 * EN ESPERA
+                 */
+                // Verificar si todos los items relacionados tienen estado 'en_entrega'
+                $fk_reservation = $item->fk_reservation;
+                $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
+                    ->where('estado', '!=', 'en_espera')
+                    ->count() == 0;
+
+                if ($todosEnEntrega) {
+                    // Actualizar el estado de la reserva a 'en_entrega'
+                    $reserva = Reservation::find($fk_reservation);
+                    $reserva->estado = 'en_espera';
+                    $reserva->save();
+                }
+                /**
+                 * SIN ESPERA
+                 */
+                // Verificar si todos los items relacionados tienen estado 'en_entrega'
+                $fk_reservation = $item->fk_reservation;
+                $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
+                    ->where('estado', '!=', 'sin_espera')
+                    ->count() == 0;
+
+                if ($todosEnEntrega) {
+                    // Actualizar el estado de la reserva a 'en_entrega'
+                    $reserva = Reservation::find($fk_reservation);
+                    $reserva->estado = 'sin_espera';
+                    $reserva->save();
+                }
+
+
+
+
+
+                /**
+                 * En ENTREGA
+                 */
+                // Verificar si todos los items relacionados tienen estado 'en_entrega'
+                $fk_reservation = $item->fk_reservation;
+                $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
+                    ->where('estado', '!=', 'en_entrega')
+                    ->count() == 0;
+
+                if ($todosEnEntrega) {
+                    // Actualizar el estado de la reserva a 'en_entrega'
+                    $reserva = Reservation::find($fk_reservation);
+                    $reserva->estado = 'en_entrega';
+                    $reserva->save();
+                }
+                /**
+                 * SIN RECIBIR
+                 */
+                // Verificar si todos los items relacionados tienen estado 'en_entrega'
+                $fk_reservation = $item->fk_reservation;
+                $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
+                    ->where('estado', '!=', 'sin_recibir')
+                    ->count() == 0;
+
+                if ($todosEnEntrega) {
+                    // Actualizar el estado de la reserva a 'en_entrega'
+                    $reserva = Reservation::find($fk_reservation);
+                    $reserva->estado = 'sin_recibir';
+                    $reserva->save();
+                }
+                /**
+                 * PROBLEMA
+                 */
+                // Verificar si todos los items relacionados tienen estado 'en_entrega'
+                $fk_reservation = $item->fk_reservation;
+                $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
+                    ->where('estado', '!=', 'problema')
+                    ->count() == 0;
+
+                if ($todosEnEntrega) {
+                    // Actualizar el estado de la reserva a 'en_entrega'
+                    $reserva = Reservation::find($fk_reservation);
+                    $reserva->estado = 'problema';
+                    $reserva->save();
+                }
+                /**
+                 * RECIBIDO
+                 */
+                // Verificar si todos los items relacionados tienen estado 'en_entrega'
+                $fk_reservation = $item->fk_reservation;
+                $todosEnEntrega = ReservationItem::where('fk_reservation', $fk_reservation)
+                    ->where('estado', '!=', 'recibido')
+                    ->count() == 0;
+
+                if ($todosEnEntrega) {
+                    // Actualizar el estado de la reserva a 'en_entrega'
+                    $reserva = Reservation::find($fk_reservation);
+                    $reserva->estado = 'recibido';
+                    $reserva->save();
+                }
+
+
+                // Redireccionar a la vista o hacer otra acción
+                return redirect()->route('usuarios.reservas')->with('success', 'El estado de la reserva ha sido actualizado.');
             } else {
-                // Si no pertenece al vendedor correcto, mostrar un error
-                return redirect()->route('usuarios.reservas')->with('error', 'No tienes permiso para actualizar este item.');
+                // Estado no válido
+                return redirect()->route('usuarios.reservas')->with('error', 'El estado proporcionado no es válido.');
             }
+        } else {
+            // Si no pertenece al vendedor correcto, mostrar un error
+            return redirect()->route('usuarios.reservas')->with('error', 'No tienes permiso para actualizar este item.');
         }
+    }
 
-        public function eliminarcarrito(Product $product){
-            {
-                $cartItem = Cart::where('fk_product', $product->id)
-                                ->where('fk_user', Auth::id())
-                                ->first();
+    public function eliminarcarrito(Product $product)
+    { {
+            $cartItem = Cart::where('fk_product', $product->id)
+                ->where('fk_user', Auth::id())
+                ->first();
 
-                if ($cartItem) {
-                    if ($cartItem->quantity > 1) {
-                        $cartItem->quantity--;
-                        $cartItem->subtotal = $cartItem->quantity * $cartItem->product->price;
-                        $cartItem->save();
-                    } else {
-                        $cartItem->delete();
-                    }
+            if ($cartItem) {
+                if ($cartItem->quantity > 1) {
+                    $cartItem->quantity--;
+                    $cartItem->subtotal = $cartItem->quantity * $cartItem->product->price;
+                    $cartItem->save();
+                } else {
+                    $cartItem->delete();
                 }
-
-                return redirect()->route('usuarios.carrito')->with('success', 'Producto eliminado del carrito correctamente.');
             }
+
+            return redirect()->route('usuarios.carrito')->with('success', 'Producto eliminado del carrito correctamente.');
         }
+    }
 
 
- }
+}
 

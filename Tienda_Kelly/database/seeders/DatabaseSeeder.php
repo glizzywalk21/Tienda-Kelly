@@ -11,8 +11,8 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'ROL' => 1,
-                'usuario' => 'admin@minishop.sv',
-                'password' => Hash::make('minishop1'),
+                'usuario' => 'admin@tiendakelly.sv',
+                'password' => Hash::make('tiendakelly'),
                 'nombre' => 'Administrador',
                 'apellido' => 'De MiniShop',
                 'telefono' => null,
@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'ROL' => 2,
-                'usuario' => 'admin_mercado@minishop.sv',
+                'usuario' => 'admin_mercado@tiendakelly.sv',
                 'password' => Hash::make('adminmercado1'),
                 'nombre' => 'Admin',
                 'apellido' => 'Mercado',
@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'ROL' => 3,
-                'usuario' => 'vendedor@minishop.sv',
+                'usuario' => 'vendedor@tiendakelly.sv',
                 'password' => Hash::make('vendedor1'),
                 'nombre' => 'Vendedor',
                 'apellido' => 'De Mercado',
