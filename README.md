@@ -1,10 +1,10 @@
 # Guía de instalación
-Tener composer instalado y node js
-En VS Code, abrir terminal (Ctrl+ñ)
-Instalar composer dentro del proyecto
-Una vez hecho esto, procedemos a generar la llave
+*Tener composer instalado y node js
+*En VS Code, abrir terminal (Ctrl+ñ)
+*Instalar composer dentro del proyecto
+*Una vez hecho esto, procedemos a generar la llave
 
-Usaremos estos siguientes comandos para correr backend
+*Usaremos estos siguientes comandos para correr backend
 
 composer i
 php artisan key:generate
