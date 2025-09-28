@@ -18,7 +18,7 @@
         "vite": "^7.1.7",
         "vue": "^3.2.37"
     },
-    "name": "creaj-2024",
+    "name": "TiendaKelly",
     "version": "1.0.0",
     "description": "Ho",
     "main": "postcss.config.js",
