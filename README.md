@@ -6,7 +6,6 @@ Tienda Kelly es un software en planificación por estudiantes de la Universidad 
 ## Autores ✒️
 * **Guevara Campos Victor Alexander** - **Programación, lógica y manuales**
 * **Jacinto Ventura Geovanni Francisco** - **Programación, diseño y lógica**
-* **Valencia Rosales Sergio Enrique** - **Programación,  diseño y lógica**
 
 ## Herramientas 
 * Tailwind CSS
