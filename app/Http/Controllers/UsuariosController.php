@@ -71,63 +71,56 @@ class UsuariosController extends Controller
     }
 
     public function actualizar(Request $request, $id)
-    {
-        // Validación de los campos
-        $request->validate([
-            'password' => 'nullable|string|min:8|confirmed',
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'telefono' => 'nullable|string|max:15',
-            'sexo' => 'nullable|string|in:Masculino,Femenino',
-            'imagen_perfil' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
-            'usuario' => 'required|string|email|max:255|unique:users,usuario,' . $id, // Asegura la unicidad del usuario (correo)
-            'ROL' => 'required|in:4', // Asegura que el ROL sea uno de los permitidos
-        ]);
+{
+    $request->validate([
+        'password' => 'nullable|string|min:8|confirmed',
+        'nombre' => 'required|string|max:255',
+        'apellido' => 'required|string|max:255',
+        'telefono' => 'nullable|string|max:15',
+        'sexo' => 'nullable|string|in:Masculino,Femenino',
+        'imagen_perfil' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'usuario' => 'required|string|email|max:255|unique:users,usuario,' . $id,
+    ]);
 
-        // Verificar si el usuario autenticado puede actualizar este registro
-        if (Auth::id() != $id && Auth::user()->ROL != 1) {
-            return redirect()->route('login')->with('error', 'Acceso no autorizado');
-        }
+    $user = User::findOrFail($id);
 
-        // Encontrar el usuario por ID
-        $user = User::findOrFail($id);
+    // Actualizar campos, sin tocar el ROL
+    $user->usuario = $request->input('usuario');
+    $user->nombre = $request->input('nombre');
+    $user->apellido = $request->input('apellido');
+    $user->telefono = $request->input('telefono');
+    $user->sexo = $request->input('sexo');
 
-        // Actualizar los campos
-        $user->usuario = $request->input('usuario');
-        $user->ROL = $request->input('ROL');
-
-        // Si la contraseña se envía, actualiza, de lo contrario, deja la existente
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->input('password'));
-        }
-
-        // Actualizar los demás campos
-        $user->nombre = $request->input('nombre');
-        $user->apellido = $request->input('apellido');
-        $user->telefono = $request->input('telefono');
-        $user->sexo = $request->input('sexo');
-
-        // Manejar la imagen de perfil
-        if ($request->hasFile('imagen_perfil')) {
-            // Guardar la nueva imagen
-            $imageName = time() . '.' . $request->imagen_perfil->extension();
-            $request->imagen_perfil->move(public_path('imgs'), $imageName);
-
-            // Eliminar la imagen anterior si existe
-            if ($user->imagen_perfil && $user->imagen_perfil != 'non-img.png' && file_exists(public_path('imgs/' . $user->imagen_perfil))) {
-                unlink(public_path('imgs/' . $user->imagen_perfil));
-            }
-
-            // Actualizar la referencia de la imagen de perfil en la base de datos
-            $user->imagen_perfil = $imageName;
-        }
-
-        // Guardar los cambios en la base de datos
-        $user->save();
-
-        // Redireccionar o devolver una respuesta
-        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
+    if ($request->filled('password')) {
+        $user->password = bcrypt($request->input('password'));
     }
+
+    // ⚡ Manejo de imagen
+    if ($request->hasFile('imagen_perfil') && $request->file('imagen_perfil')->isValid()) {
+        $file = $request->file('imagen_perfil');
+
+        // Nombre único para la imagen
+        $imageName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+        // Guardar en storage/app/public/imgs
+        $file->storeAs('public/imgs', $imageName);
+
+        // Borrar imagen anterior si no es la por defecto
+        if ($user->imagen_perfil && $user->imagen_perfil != 'non-img.png') {
+            $oldImagePath = storage_path('app/public/imgs/' . $user->imagen_perfil);
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath);
+            }
+        }
+
+        // Guardar el nombre de la nueva imagen
+        $user->imagen_perfil = $imageName;
+    }
+
+    $user->save();
+
+    return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
+}
 
 
 

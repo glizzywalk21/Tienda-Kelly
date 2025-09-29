@@ -9,97 +9,113 @@
     <title>Registrar Usuario</title>
 </head>
 
-<body>
-    <section>
-        <!-- INFO DE ARRIBA COMO MOVIL -->
-        <div class="pl-5"> <!-- Contenedor de Login -->
-            <div class="login flex items-center">
-                <div class="title">
-                    <h2 class="font-bold">Registrar Cuenta</h2>
-                </div>
-                <div class="icon">
-                    <img class="w-4 ml-2" src="../imgs/non-img.png" alt="User Icon">
-                </div>
-            </div>
-            <h3 class="text-xs font-bold">¡Bienvenido a Tienda kelly!</h3>
-        </div>
+<body class="bg-gradient-to-br from-indigo-200 via-blue-100 to-white min-h-screen flex items-center justify-center">
+    <div class="md:flex w-full h-screen shadow-lg bg-white rounded-xl overflow-hidden">
 
-        <div id="registroExitoso" class="bg-green-500 text-white p-2 rounded text-center mt-4" style="display: none;">
-            ¡Registro exitoso!
-        </div>
-
-        <!-- TITULO DE Tienda Kelly -->
-        <div class="w-72 h-96 mt-16 mx-auto"> <!-- Contenedor Principal -->
-            <div class="text-center"> <!-- Contenedor Tienda Kelly -->
-                <h1 class="text-5xl font-bold">Tienda<span class="text-purple-400 font-bold">Kelly</span></h1>
+        <!-- Sección izquierda (Formulario) -->
+        <div class="md:w-1/2 p-10 flex flex-col justify-center">
+            <!-- Título móvil -->
+            <div class="md:hidden text-center mb-6">
+                <h1 class="font-extrabold text-2xl">Registrar Cuenta</h1>
+                <p class="text-xs font-semibold text-gray-500">¡Bienvenido a Tienda Kelly!</p>
             </div>
 
-            <!-- FORMULARIO -->
-            <form method="POST" action="{{ route('validar-registro') }}" role="form" enctype="multipart/form-data">
+            <!-- Logo -->
+            <div class="hidden md:block text-center mb-10">
+                <h1 class="text-5xl font-extrabold tracking-tight">
+                    Tienda <span class="text-indigo-600">Kelly</span>
+                </h1>
+                <p class="mt-2 text-gray-600">Crea tu cuenta y empieza a disfrutar</p>
+            </div>
+
+            <!-- Formulario -->
+            <form method="POST" action="{{ route('validar-registro') }}" enctype="multipart/form-data" 
+                  class="space-y-4 max-w-sm mx-auto w-full">
                 @csrf
 
-                <!-- Mostrar mensajes de error -->
-                <div class="flex flex-col mt-6">
-                    <input required type="email" name="usuario" placeholder="Ingrese su Correo Electrónico" class="border rounded border-gray-400 w-full md:h-12 h-9 pl-5 md:text-[1rem] text-xs mt-2" value="{{ old('usuario') }}">
-                    @if ($errors->has('usuario'))
-                    <span class="text-red-500 text-xs mt-1">{{ $errors->first('usuario') }}</span>
-                    @endif
+                <!-- Email -->
+                <input type="email" name="usuario" placeholder="Correo Electrónico"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
+                    value="{{ old('usuario') }}" required>
+                @if ($errors->has('usuario'))
+                    <span class="text-red-500 text-xs">{{ $errors->first('usuario') }}</span>
+                @endif
 
-                    <input required type="text" name="nombre" id="nombre" placeholder="Ingrese sus Nombres" class="border rounded border-gray-400 w-full md:h-12 h-9 pl-5 md:text-[1rem] text-xs mt-2" value="{{ old('nombre') }}">
-                    @if ($errors->has('nombre'))
-                    <span class="text-red-500 text-xs mt-1">{{ $errors->first('nombre') }}</span>
-                    @endif
-
-                    <input required type="text" name="apellido" id="apellido" placeholder="Ingrese su Apellido" class="border rounded border-gray-400 w-full md:h-12 h-9 pl-5 md:text-[1rem] text-xs mt-2" value="{{ old('apellido') }}">
-                    @if ($errors->has('apellido'))
-                    <span class="text-red-500 text-xs mt-1">{{ $errors->first('apellido') }}</span>
-                    @endif
-
-                    <input required type="text" maxlength="8" name="telefono" id="telefono" placeholder="Ingrese su Número de Teléfono" class="border rounded border-gray-400 w-full md:h-12 h-9 pl-5 md:text-[1rem] text-xs mt-2" value="{{ old('telefono') }}">
-                    @if ($errors->has('telefono'))
-                    <span class="text-red-500 text-xs mt-1">{{ $errors->first('telefono') }}</span>
-                    @endif
-
-                    <select name="sexo" id="sexo" class="border rounded border-gray-400 w-full md:h-12 h-9 pl-5 md:text-[1rem] text-xs mt-2 text-gray-400" required>
-                        <option value="">Escoga su Género</option>
-                        <option value="Masc" {{ old('sexo') == 'Masc' ? 'selected' : '' }}>Género: Masculino</option>
-                        <option value="Fem" {{ old('sexo') == 'Fem' ? 'selected' : '' }}>Género: Femenino</option>
-                    </select>
-                    @if ($errors->has('sexo'))
-                    <span class="text-red-500 text-xs mt-1">{{ $errors->first('sexo') }}</span>
-                    @endif
-
-                    <input required type="password" name="password" id="password" placeholder="Escriba su Contraseña" class="border rounded border-gray-400 w-full md:h-12 h-9 pl-5 md:text-[1rem] text-xs mt-2">
-                    @if ($errors->has('password'))
-                    <span class="text-red-500 text-xs mt-1">{{ $errors->first('password') }}</span>
-                    @endif
-
-                    <input required type="password" name="password_confirmation" id="password_confirmation" placeholder="Escriba de nuevo su Contraseña" class="border rounded border-gray-400 w-full md:h-12 h-9 pl-5 md:text-[1rem] text-xs mt-2">
-                    <div class="flex items-center justify-center mt-2">
-                        <input
-                            class="checked:appearance-auto appearance-none h-5 w-5 border border-gray-500 rounded-sm checked:border-gray-700 focus:outline-none"
-                            type="checkbox"
-                            id="show-passwords">
-                        <span class="ml-2 pt-1 md:text-[1rem] text-sm text-gray-500">Mostrar Contraseña</span>
-                    </div>
+                <!-- Nombre y Apellido -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <input type="text" name="nombre" placeholder="Nombres"
+                        class="border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
+                        value="{{ old('nombre') }}" required>
+                    <input type="text" name="apellido" placeholder="Apellidos"
+                        class="border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
+                        value="{{ old('apellido') }}" required>
                 </div>
 
-                <div class="flex justify-center mt-5">
-                    <button type="submit" class="bg-purple-400 w-72 h-10 flex items-center justify-center gap-x-2 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-50">Registrarse</button>
+                <!-- Teléfono -->
+                <input type="text" name="telefono" maxlength="8" placeholder="Número de Teléfono"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
+                    value="{{ old('telefono') }}" required>
+
+                <!-- Género -->
+                <select name="sexo"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm text-gray-500 focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
+                    required>
+                    <option value="">Seleccione Género</option>
+                    <option value="Masc" {{ old('sexo') == 'Masc' ? 'selected' : '' }}>Masculino</option>
+                    <option value="Fem" {{ old('sexo') == 'Fem' ? 'selected' : '' }}>Femenino</option>
+                </select>
+
+                <!-- Password -->
+                <input type="password" name="password" id="password" placeholder="Contraseña"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
+                    required>
+
+                <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirmar Contraseña"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
+                    required>
+
+                <!-- Mostrar contraseña -->
+                <div class="flex items-center">
+                    <input type="checkbox" id="show-passwords"
+                        class="h-4 w-4 text-indigo-500 border-gray-300 rounded focus:ring-indigo-400">
+                    <label for="show-passwords" class="ml-2 text-sm text-gray-600">Mostrar contraseña</label>
                 </div>
+
+                <!-- Botón -->
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-bold py-3 rounded-lg shadow-md transition transform hover:scale-105">
+                    Registrarse
+                </button>
             </form>
 
+            <!-- Línea divisoria -->
+            <div class="flex items-center my-6 max-w-sm mx-auto w-full">
+                <div class="flex-grow border-t border-gray-300"></div>
+                <span class="px-3 text-xs text-gray-500">O</span>
+                <div class="flex-grow border-t border-gray-300"></div>
+            </div>
+
+            <!-- Ir al login -->
+            <p class="text-center text-sm text-gray-600">
+                ¿Ya tienes cuenta?
+                <a href="{{ route('login') }}" class="text-indigo-600 font-semibold hover:underline">Inicia Sesión</a>
+            </p>
         </div>
-    </section>
+
+        <!-- Sección derecha (Imagen y bienvenida) -->
+        <div class="hidden md:flex md:w-1/2 flex-col items-center justify-center bg-gradient-to-tr from-indigo-100 via-blue-50 to-white relative">
+            <h3 class="font-bold text-3xl mb-4 text-gray-700">Crea tu Cuenta</h3>
+            <img class="w-[70%] drop-shadow-2xl animate-fade-in" src="{{ asset('imgs/imagenindex.png') }}" alt="Register Image">
+            <h3 class="mt-6 text-lg text-gray-600">Comienza tu experiencia en <span class="font-bold text-indigo-600">Tienda Kelly</span></h3>
+        </div>
+    </div>
+
     <script>
-        document.getElementById('show-passwords').addEventListener('change', function() {
+        document.getElementById('show-passwords').addEventListener('change', function () {
             const passwords = document.querySelectorAll('#password, #password_confirmation');
-            passwords.forEach(password => {
-                password.type = this.checked ? 'text' : 'password';
-            });
+            passwords.forEach(p => p.type = this.checked ? 'text' : 'password');
         });
     </script>
 </body>
 
 </html>
-<script src="../js/ComprobarContrasena.js"></script>

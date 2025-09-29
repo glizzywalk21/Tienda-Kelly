@@ -128,7 +128,6 @@ Route::get('/usuarios/editar/{id}', [UsuariosController::class, 'editar'])->name
 Route::post('/usuarios/actualizar/{id}', [UsuariosController::class, 'actualizar'])->name('usuarios.actualizar')->middleware('check.user.session');
 
 
-
 /**
  * RUTAS PARA EL VENDEDOR CONTROLADOR
  */
