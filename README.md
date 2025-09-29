@@ -23,4 +23,4 @@ La Licencia Pública General GNU Affero v3.0 (AGPL-3.0) permite la distribución
 * En caso de no poder generar la llave, hagan lo siguiente, copy .env.example .env
 
 * Ahora en la siguiente terminal haremos lo siguiente para correr frontend
-* npm i y npn run dev
+* npm i y npm run dev
