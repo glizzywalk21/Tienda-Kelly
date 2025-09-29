@@ -4,98 +4,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="expires" content="0">
     @vite('resources/css/app.css')
-    <title>Inicia Sesion con Nosotros</title>
+    <title>Inicia Sesión con Nosotros</title>
     <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
 </head>
 
-<body>
-    <div class="md:flex h-screen">
-        <div class="pt-7 md:bg-[#BDD7FF] md:w-[50%] md:flex md:flex-col md:justify-center">
-            <div class="login pl-5">
-                <div class="flex items-center">
-                    <div class="md:hidden">
-                        <h1 class="font-bold">Iniciar Sesión ADIOS</h1>
-                    </div>
-                    <div class="hidden">
-                        <img class="md:w-[75%] mx-auto" src="{{ asset('imgs/imagenindex.png') }}" alt="Login Image">
-                    </div>
-                </div>
-                <div class="md:hidden">
-                    <h3 class="text-xs font-bold">¡Bienvenidos a Tienda Kelly!</h3>
-                </div>
+<body class="bg-gradient-to-br from-indigo-200 via-blue-100 to-white min-h-screen flex items-center justify-center">
+    <div class="md:flex w-full h-screen shadow-lg bg-white rounded-xl overflow-hidden">
+        
+        <!-- Sección izquierda (Formulario) -->
+        <div class="md:w-1/2 p-10 flex flex-col justify-center">
+            <!-- Título móvil -->
+            <div class="md:hidden text-center mb-6">
+                <h1 class="font-extrabold text-2xl">Iniciar Sesión</h1>
+                <p class="text-xs font-semibold text-gray-500">¡Bienvenidos a Tienda Kelly!</p>
             </div>
 
-            <form action="{{ route('login') }}" method="POST">
+            <!-- Logo -->
+            <div class="hidden md:block text-center mb-10">
+                <h1 class="text-5xl font-extrabold tracking-tight">
+                    Tienda <span class="text-indigo-600">Kelly</span>
+                </h1>
+                <p class="mt-2 text-gray-600">Accede a tu cuenta y disfruta de nuestros productos</p>
+            </div>
+
+            <!-- Formulario -->
+            <form action="{{ route('login') }}" method="POST" class="space-y-5 max-w-sm mx-auto w-full">
                 @csrf
-                <div class="w-72 h-96 mt-10 mx-auto">
-                    <div class="text-center">
-                        <h1 class="text-6xl font-bold">Tienda<span class="text-[#3679F5] ml-3 font-bold">Kelly</span></h1>
-                    </div>
-                    <div class="flex flex-col mt-5">
-                        <div class="flex justify-center pt-5">
-                            <input class="border rounded w-80 md:h-12 h-9 pl-5 md:text-[1rem] text-sm border-gray-400 bg-transparent" type="email" name="usuario" id="usuario" placeholder="Ingrese su correo electrónico">
-                        </div>
-                        @if($errors->has('usuario'))
+                <!-- Email -->
+                <div>
+                    <input class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                        type="email" name="usuario" id="usuario" placeholder="Ingrese su correo electrónico">
+                    @if($errors->has('usuario'))
                         <div class="text-red-500 text-sm mt-1">{{ $errors->first('usuario') }}</div>
-                        @endif
-                        <div class="flex justify-center mt-2">
-                            <input class="border rounded w-80 md:h-12 h-9 pl-5 md:text-[1rem] text-sm border-gray-400 bg-transparent" type="password" name="password" id="password" placeholder="Ingrese su contraseña">
-                        </div>
-
-
-                        @if($errors->has('password'))
-                        <div class="text-red-500 text-sm mt-1">{{ $errors->first('password') }}</div>
-                        @endif
-                        <div class="flex items-center justify-center mt-2">
-                            <input
-                                class="checked:appearance-auto appearance-none h-5 w-5 border border-gray-500 rounded-sm checked:border-gray-700 focus:outline-none"
-                                type="checkbox"
-                                id="show-passwords"
-                                maxlength="8">
-                            <span class="ml-2 pt-1 md:text-[1rem] text-sm text-gray-500">Mostrar Contraseña</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-center mt-5">
-                        <button type="submit" class="w-72 h-12 font-bold btn overflow-hidden relative bg-[#96A6E8] text-black py-2 px-4 rounded-xl">Iniciar Sesión</button>
-                    </div>
+                    @endif
                 </div>
+
+                <!-- Password -->
+                <div>
+                    <input class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                        type="password" name="password" id="password" placeholder="Ingrese su contraseña">
+                    @if($errors->has('password'))
+                        <div class="text-red-500 text-sm mt-1">{{ $errors->first('password') }}</div>
+                    @endif
+                </div>
+
+                <!-- Mostrar contraseña -->
+                <div class="flex items-center">
+                    <input type="checkbox" id="show-passwords" class="h-4 w-4 text-indigo-500 border-gray-300 rounded focus:ring-indigo-400">
+                    <label for="show-passwords" class="ml-2 text-sm text-gray-600">Mostrar contraseña</label>
+                </div>
+
+                <!-- Botón login -->
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-bold py-3 rounded-lg shadow-md transition transform hover:scale-105">
+                    Iniciar Sesión
+                </button>
             </form>
 
-            <div class="hidden md:flex items-center mt-1">
-                <div class="flex-grow border-t border-gray-400"></div>
-                <span class="px-4 text-xs">O</span>
-                <div class="flex-grow border-t border-gray-400"></div>
+            <!-- Línea divisoria -->
+            <div class="flex items-center my-6 max-w-sm mx-auto w-full">
+                <div class="flex-grow border-t border-gray-300"></div>
+                <span class="px-3 text-xs text-gray-500">O</span>
+                <div class="flex-grow border-t border-gray-300"></div>
             </div>
-            <div class="mt-10">
-                <h3 class="text-center text-sm">¿Aún no se ha registrado? <a href="{{ route('RegistroUser') }}" class="text-blue-950 font-bold">Crear Cuenta</a></h3>
-            </div>
+
+            <!-- Crear cuenta -->
+            <p class="text-center text-sm text-gray-600">
+                ¿Aún no tienes cuenta?
+                <a href="{{ route('RegistroUser') }}" class="text-indigo-600 font-semibold hover:underline">Crear Cuenta</a>
+            </p>
         </div>
 
-        <div class="hidden md:flex md:flex-col md:items-center md:justify-center md:w-[50%]">
-            <div class="text-center mb-4">
-                <h3 class="font-bold text-3xl">Inicia Sesion</h3>
-            </div>
-            <div class="flex justify-center">
-                <img class="md:w-[75%] mx-auto" src="{{ asset('imgs/imagenindex.png') }}" alt="Login Image">
-            </div>
-            <div>
-                <h3 class="font-bold text-xl">Bienvenido de Regreso</h3>
-                <h3 class="font-bold text-center text-xl">Tienda Kelly!</h3>
-            </div>
+        <!-- Sección derecha (Imagen y bienvenida) -->
+        <div class="hidden md:flex md:w-1/2 flex-col items-center justify-center bg-gradient-to-tr from-indigo-100 via-blue-50 to-white relative">
+            <h3 class="font-bold text-3xl mb-4 text-gray-700">Bienvenido de Regreso</h3>
+            <img class="w-[70%] drop-shadow-2xl animate-fade-in" src="{{ asset('imgs/imagenindex.png') }}" alt="Login Image">
+            <h3 class="mt-6 text-lg text-gray-600">Nos alegra verte otra vez en <span class="font-bold text-indigo-600">Tienda Kelly</span></h3>
         </div>
     </div>
-</body>
-<script>
-    document.getElementById('show-passwords').addEventListener('change', function() {
-        const passwords = document.querySelectorAll('#password, #password_confirmation');
-        passwords.forEach(password => {
+
+    <script>
+        document.getElementById('show-passwords').addEventListener('change', function () {
+            const password = document.getElementById('password');
             password.type = this.checked ? 'text' : 'password';
         });
-    });
-</script>
+    </script>
+</body>
 
 </html>

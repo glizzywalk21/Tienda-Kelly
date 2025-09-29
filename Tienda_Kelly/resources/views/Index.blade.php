@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -9,73 +9,70 @@
     <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
 </head>
 
-<body>
-    <div class="md:flex md:bg-[#BDD7FF] ">
-        <div class="flex justify-center items-center h-screen md:w-[50%]">
-            <div class="p-8">
-                <div>
-                    <div class=" w-[70%] mx-auto">
-                        <h3 class="font-bold text-6xl text-center flex items-center justify-center">
-                            <span class="inline md:text-white">Tienda</span> <span class="text-blue-500 inline pl-2">Kelly</span>
-                        </h3>
+<body class="bg-gradient-to-br from-indigo-200 via-blue-100 to-white">
+    <div class="md:flex min-h-screen">
+        <!-- Texto -->
+        <div class="flex justify-center items-center md:w-1/2 p-10">
+            <div class="max-w-lg">
+                <!-- Logo / Título -->
+                <h1 class="font-extrabold text-6xl text-center tracking-tight">
+                    <span class="text-indigo-600">Tienda</span> 
+                    <span class="text-blue-500">Kelly</span>
+                </h1>
 
+                <!-- Descripción -->
+                <p class="hidden md:block text-gray-700 mt-6 text-lg text-justify leading-relaxed">
+                    En <span class="font-semibold text-indigo-600">Tienda Kelly</span> puedes encontrar tus 
+                    <span class="font-semibold">Mercados Municipales</span> favoritos, locales, vendedores, 
+                    comedores, tiendas de mayoreo y reservar productos para retirarlos en tu Mercado más cercano.
+                </p>
 
+                <p class="md:hidden mt-4 text-center text-gray-700 text-sm">
+                    Los mejores productos en el mejor <br><span class="font-semibold text-indigo-600">lugar</span>.
+                </p>
 
-                        <div class="hidden md:flex justify-center w-[90%] mx-auto">
-                            <h3 class="text-white mt-5 text-justify ">
-                                En <span class="font-semibold">Tienda Kelly</span> puedes encontrar tus Mercados Municipales favoritos, puedes encontrar tus locales, vendedores, comedores, tienda de mayoreo de costumbre, y puedes reservar todos los productos que desees y retirarlos en la puerta de tu Mercado más cercano.
-                            </h3>
-                        </div>
-                    </div>
-
-                    <h3 class="mt-3 w-[90%] mx-auto md:text-xs text-justify md:hidden ml-6">
-                        Los mejores productos en el mejor
-                        <h3 class="text-center md:hidden">lugar</h3>
-                    </h3>
-
-                </div>
-                <div class="mt-16 flex justify-center">
+                <!-- Botones -->
+                <div class="mt-10 flex justify-center gap-4">
                     <a href="{{ route('login') }}">
-                        <button class="mr-2 bg-indigo-300 w-32 h-12 rounded-md">
-                            Iniciar Sesion
+                        <button
+                            class="bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-semibold w-40 h-12 rounded-xl shadow-lg transition transform hover:scale-105">
+                            Iniciar Sesión
                         </button>
                     </a>
-                    <a href="{{ route('usuarios.create') }}" class="mr-2 border border-black w-32 h-12 rounded-md relative flex items-center">
-                        <img class="absolute left-0 top-0 bottom-0 m-auto ml-4 mr-[10px]" src="{{ asset('imgs/play.png') }}" alt="User Icon">
-                        <span class="pl-10">
-                            Registrarse
-                        </span>
+                    <a href="{{ route('usuarios.create') }}"
+                        class="relative flex items-center justify-center border-2 border-indigo-400 text-indigo-600 font-semibold w-40 h-12 rounded-xl shadow-md hover:bg-indigo-50 transition transform hover:scale-105">
+                        <img class="absolute left-4 w-6" src="{{ asset('imgs/play.png') }}" alt="User Icon">
+                        <span class="pl-6">Registrarse</span>
                     </a>
                 </div>
-                <div>
-                    <div class="flex gap-7 justify-center mt-8">
-                        <a href="https://www.facebook.com/DirectivaCentralMercadosSanSalvador/?locale=es_LA" class="bg-black p-1 rounded-full inline-block">
-                            <img class="rounded-full w-6" src="{{ asset('imgs/facebook.png') }}" alt="User Icon">
-                        </a>
-                        <a href="https://x.com/SsMercados" class="bg-black p-1 rounded-full inline-block">
-                            <img class="rounded-full w-6" src="{{ asset('imgs/twitter.png') }}" alt="User Icon">
-                        </a>
-                        <a href="https://www.instagram.com/explore/locations/198993770818162/mercado-central-de-san-salvador/?next=%2Fformasiparisi%2F" class="bg-black p-1 rounded-full inline-block">
-                            <img class="rounded-full w-6" src="{{ asset('imgs/instagram.png') }}" alt="User Icon">
-                        </a>
 
-                        <a href="https://www.linkedin.com/company/sansalvador" class="bg-black p-1 rounded-full inline-block">
-                            <img class="rounded-full w-6" src="{{ asset('imgs/linkedin.png') }}" alt="User Icon">
-                        </a>
-                    </div>
-
+                <!-- Redes sociales -->
+                <div class="flex justify-center gap-5 mt-10">
+                    <a href="https://www.facebook.com/DirectivaCentralMercadosSanSalvador/?locale=es_LA"
+                        class="bg-indigo-600 hover:bg-indigo-700 p-2 rounded-full shadow-md transition">
+                        <img class="w-6" src="{{ asset('imgs/facebook.png') }}" alt="Facebook">
+                    </a>
+                    <a href="https://x.com/SsMercados"
+                        class="bg-blue-500 hover:bg-blue-600 p-2 rounded-full shadow-md transition">
+                        <img class="w-6" src="{{ asset('imgs/twitter.png') }}" alt="Twitter">
+                    </a>
+                    <a href="https://www.instagram.com/explore/locations/198993770818162/mercado-central-de-san-salvador"
+                        class="bg-pink-500 hover:bg-pink-600 p-2 rounded-full shadow-md transition">
+                        <img class="w-6" src="{{ asset('imgs/instagram.png') }}" alt="Instagram">
+                    </a>
+                    <a href="https://www.linkedin.com/company/sansalvador"
+                        class="bg-blue-700 hover:bg-blue-800 p-2 rounded-full shadow-md transition">
+                        <img class="w-6" src="{{ asset('imgs/linkedin.png') }}" alt="LinkedIn">
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- Ocultar la imagen en dispositivos móviles y mostrarla en escritorio -->
-        <div class="md:mx-auto h-screen  items-center hidden md:flex">
-            <img class="md:w-[75%] mx-auto" src="{{ asset('imgs/imagenindex.png') }}" alt="User Icon">
+        <!-- Imagen -->
+        <div class="hidden md:flex justify-center items-center md:w-1/2 bg-gradient-to-tr from-indigo-100 via-blue-50 to-white">
+            <img class="w-[80%] drop-shadow-2xl animate-fade-in" src="{{ asset('imgs/imagenindex.png') }}" alt="Imagen principal">
         </div>
-
-
     </div>
-
 </body>
 
 </html>

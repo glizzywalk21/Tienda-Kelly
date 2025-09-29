@@ -2,238 +2,182 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite('resources/css/app.css')
-    <title>Inicio</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  @vite('resources/css/app.css')
+  <title>Inicio</title>
+  <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+  <style>
+    /* Animaciones y gradientes */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeInUp { animation: fadeInUp 1s ease forwards; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .gradient-text {
+      background: linear-gradient(90deg, #6366f1, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    /* Hover efectos para botones principales */
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 10px 20px rgba(99,102,241,0.25);
+    }
+    /* Efecto sombra suave para tarjetas */
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 
-<body class="">
-    <!-- Desktop Navbar -->
-    <div class="hidden md:flex p-4 bg-white items-center justify-between shadow-md">
-        <a href="{{ route('usuarios.index') }}">
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-semibold">
-                Tienda <span class="text-blue-600"><b>Kelly</b></span>
-            </h1>
+<body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white text-gray-800">
+
+  <!-- Desktop Navbar -->
+  <nav class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
+    <a href="{{ route('usuarios.index') }}" class="flex items-center gap-2">
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+        Tienda <span class="text-indigo-600">Kelly</span>
+      </h1>
+    </a>
+    <div class="flex gap-8">
+      <a href="{{ route('usuarios.index') }}" class="font-medium uppercase text-sm hover:text-indigo-600 transition">Hogar</a>
+      <a href="{{ route('usuarios.carrito') }}" class="font-medium uppercase text-sm hover:text-indigo-600 transition">Carrito</a>
+      <a href="{{ route('usuarios.reservas') }}" class="font-medium uppercase text-sm hover:text-indigo-600 transition">Reservas</a>
+      <a href="{{ route('usuarios.historial') }}" class="font-medium uppercase text-sm hover:text-indigo-600 transition">Historial</a>
+      <a href="{{ route('UserProfileVista') }}" class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
+        Perfil
+      </a>
+    </div>
+  </nav>
+
+  <!-- Mobile Navbar -->
+  <div class="bottom-bar fixed bottom-3 left-0 right-0 md:hidden flex justify-center z-50">
+    <div class="bg-gray-900 shadow-xl rounded-2xl w-72 h-14 flex justify-around items-center px-3">
+      <a href="{{ route('usuarios.index') }}" class="bg-white rounded-full p-2 shadow-lg">
+        <img class="w-6" src="{{ asset('imgs/HomeSelectedIcon.png') }}" alt="Home Icon" />
+      </a>
+      <a href="{{ route('usuarios.carrito') }}">
+        <img class="w-6" src="{{ asset('imgs/CarritoIcon.png') }}" alt="Cart Icon" />
+      </a>
+      <a href="{{ route('usuarios.reservas') }}">
+        <img class="w-6" src="{{ asset('imgs/FavIcon.png') }}" alt="Favorites Icon" />
+      </a>
+      <a href="{{ route('UserProfileVista') }}">
+        <img class="w-8 h-8 rounded-full object-cover border-2 border-white shadow" src="{{ asset('imgs/' . Auth::user()->imagen_de_referencia) }}" alt="Profile Icon" />
+      </a>
+    </div>
+  </div>
+
+  <!-- Bienvenida Mejorada -->
+  <header class="mt-10 px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="space-y-2 animate-fadeInUp">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold gradient-text">
+        ¡Hola, <span class="text-indigo-700">{{ Auth::user()->nombre }}</span>! 👋
+      </h1>
+      <h3 class="text-indigo-600 font-semibold text-lg md:text-xl lg:text-2xl delay-200">
+        Bienvenido de nuevo a <span class="font-bold">Tienda Kelly</span>
+      </h3>
+    </div>
+    <div class="animate-fadeInUp delay-400">
+      <img class="rounded-full w-20 h-20 md:w-24 md:h-24 border-4 border-indigo-500 shadow-lg" src="{{ asset('storage/imgs/' . (Auth::user()->imagen_perfil ?? 'non-img.png')) }}" alt="Foto Usuario">
+    </div>
+  </header>
+
+  <!-- Imagen principal -->
+  <section class="mt-6 h-[60vh] bg-no-repeat bg-cover bg-center rounded-xl shadow-inner mx-4 transition-transform hover:scale-105 duration-500" style="background-image: url({{ asset('imgs/bkg.jpeg') }});">
+  </section>
+
+  <!-- Botones Nosotros/Vision/Mision -->
+  <section class="flex my-8 justify-center gap-6 flex-wrap">
+    <button class="flex items-center px-6 py-3 bg-white border shadow-md rounded-xl btn-primary transition">
+      <img class="w-7 mr-3" src="{{ asset('imgs/NosotrosIcon.png') }}" alt="Nosotros">
+      Nosotros
+    </button>
+    <button class="flex items-center px-6 py-3 bg-white border shadow-md rounded-xl btn-primary transition">
+      <img class="w-7 mr-3" src="{{ asset('imgs/VisionIcon.png') }}" alt="Visión">
+      Visión
+    </button>
+    <button class="flex items-center px-6 py-3 bg-white border shadow-md rounded-xl btn-primary transition">
+      <img class="w-7 mr-3" src="{{ asset('imgs/MisionIcon.png') }}" alt="Misión">
+      Misión
+    </button>
+  </section>
+
+  <!-- Mercados -->
+  @foreach ($mercadoLocals as $mercadoLocal)
+  <section class="my-10">
+    <div class="flex flex-col md:grid md:grid-cols-2 gap-8 items-center max-w-6xl mx-auto rounded-xl overflow-hidden shadow-lg card-hover {{ $mercadoLocal->id % 2 == 0 ? 'bg-indigo-900 text-white' : 'bg-white' }}">
+      @if ($mercadoLocal->id % 2 == 0)
+      <img class="w-full h-full object-cover" src="{{ asset('imgs/' . $mercadoLocal->imagen_referencia) }}" alt="">
+      @endif
+      <div class="p-8 space-y-5">
+        <h2 class="font-extrabold text-3xl text-center">{{ $mercadoLocal->nombre }}</h2>
+        <p class="text-sm leading-relaxed">
+          {{ $mercadoLocal->descripcion }}. Horario: <b>{{ $mercadoLocal->horaentrada }}</b> - <b>{{ $mercadoLocal->horasalida }}</b>.
+          Ubicación: <b>{{ $mercadoLocal->ubicacion }}</b>, {{ $mercadoLocal->municipio }}.
+        </p>
+        <a href="{{ route('usuarios.mercado', $mercadoLocal->id) }}">
+          <button class="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold shadow-lg hover:scale-105 transition">
+            Ver Mercado
+          </button>
         </a>
-        <div class="flex gap-8">
-            <a href="{{ route('usuarios.index') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Hogar</a>
-            <a href="{{ route('usuarios.carrito') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Carrito</a>
-            <a href="{{ route('usuarios.reservas') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Reservas</a>
-            <a href="{{ route('usuarios.historial') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Historial</a>
-            <a
-                href="{{ route('UserProfileVista') }}" class="font-semibold uppercase text-sm lg:text-base hover:text-white hover:bg-black border border-black px-2 py-1 rounded-md">
-                Perfil
-            </a>
-        </div>
+      </div>
+      @if ($mercadoLocal->id % 2 != 0)
+      <img class="w-full h-full object-cover" src="{{ asset('imgs/' . $mercadoLocal->imagen_referencia) }}" alt="">
+      @endif
     </div>
-    <!-- Mobile Navbar -->
-    <div class="bottom-bar fixed bottom-[2%] left-0 right-0 md:hidden flex justify-center">
-        <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
-            <div class="flex items-center">
-                <a href="{{ route('usuarios.index') }}" class="bg-white rounded-full p-1">
-                    <img class="w-6" src="{{ asset('imgs/HomeSelectedIcon.png') }}" alt="Home Icon" />
-                </a>
-            </div>
+  </section>
+  @endforeach
 
-            <div class="flex items-center">
-                <a href="{{ route('usuarios.carrito') }}">
-                    <img class="w-6" src="{{ asset('imgs/CarritoIcon.png') }}" alt="Cart Icon" />
-                </a>
-            </div>
-            <div class="flex items-center">
-                <a href="{{ route('usuarios.reservas') }}">
-                    <img class="w-6" src="{{ asset('imgs/FavIcon.png') }}" alt="Favorites Icon" />
-                </a>
-            </div>
-            <div class="flex items-center">
-                <a href="{{ route('UserProfileVista') }}">
-                    <img class="w-6" src="{{ asset('imgs/' . Auth::user()->imagen_de_referencia) }}" alt="Profile Icon" />
-                </a>
-            </div>
+  <!-- Puestos populares -->
+  <section class="mt-12 px-6">
+    <h2 class="text-center font-extrabold text-3xl mb-10">Puestos Populares</h2>
+    <div class="grid gap-8 md:grid-cols-3">
+      @foreach ($vendedors->take(3) as $vendedor)
+      <div class="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition transform hover:-translate-y-2 card-hover">
+        <img class="h-56 w-full object-cover" src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="">
+        <div class="p-6">
+          <h3 class="font-bold text-lg">Puesto de {{ $vendedor->nombre }} en {{ $vendedor->mercadoLocal->nombre }}</h3>
+          <a href="{{ route('usuarios.vendedor', $vendedor->id) }}" class="flex gap-2 items-center text-indigo-600 font-medium mt-2 hover:underline">
+            Ver Puesto <img width="18" src="{{ asset('imgs/arrow_left.png') }}" alt="">
+          </a>
         </div>
+      </div>
+      @endforeach
     </div>
+  </section>
 
-
-    <!-- Agregar un margen superior al contenido principal igual a la altura de la barra de navegación -->
-    <div class="mt-10">
-        <div class="flex justify-between my-5">
-            <div class="ml-[3%]">
-                <h1 class=" text-[1.25rem]">Hola! Bienvenido &#x1F44B;</h1>
-                <h3 class="text-blue-800 font-bold text-[1.5rem]">{{ Auth::user()->nombre }}
-                    {{ Auth::user()->apellido }}
-                </h3>
-            </div>
-            <div class="mr-[3%] mt-4">
-                <img class=" rounded-full w-12 h-12" src="{{ asset('imgs/'.Auth::user()->imagen_perfil) }}" alt="{{ Auth::user()->imagen_perfil }}">
-            </div>
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white mt-16">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-10 p-10">
+      <div>
+        <h2 class="font-bold text-xl mb-2">Contáctanos</h2>
+        <p>Whatsapp: <a href="https://wa.me/50369565421" class="underline">+503 6956 5421</a></p>
+        <p>Email: contacto@TiendaKelly.sv</p>
+        <p>Dirección: San Rafael Cedros, Cuscatlán</p>
+      </div>
+      <div>
+        <h2 class="font-bold text-xl mb-2">Sobre Nosotros</h2>
+        <p>Apoyamos a los vendedores locales y municipales brindando soluciones tecnológicas para fortalecer los mercados comunitarios.</p>
+      </div>
+      <div class="text-center md:text-right">
+        <h1 class="text-3xl font-black mb-4">Tienda <span class="text-blue-500">Kelly</span></h1>
+        <div class="flex gap-3 justify-center md:justify-end">
+          <img class="w-8 invert hover:scale-110 transition" src="{{ asset('imgs/facebook.png') }}" alt="">
+          <img class="w-8 invert hover:scale-110 transition" src="{{ asset('imgs/google.png') }}" alt="">
+          <img class="w-8 invert hover:scale-110 transition" src="{{ asset('imgs/linkedin.png') }}" alt="">
+          <img class="w-8 invert hover:scale-110 transition" src="{{ asset('imgs/twitter.png') }}" alt="">
+          <img class="w-8 hover:scale-110 transition" src="{{ asset('imgs/youtube.png') }}" alt="">
         </div>
-
-
-        <div class="h-[70vh] bg-no-repeat bg-cover bg-center lg:bg-[center_top_-25rem]" style="background-image: url({{ asset('imgs/bkg.jpeg') }});">
-        </div>
-
-        <div class="flex my-8 justify-around w-[90%]  mx-auto">
-            <button class="flex items-center px-3 py-2  rounded-md">
-                <img class="w-7 mr-2" src="{{ asset('imgs/NosotrosIcon.png') }}" alt="User Icon">
-                Nosotros
-            </button>
-
-            <button class="flex items-center px-3 py-2  rounded-md">
-                <img class="w-7 mr-2" src="{{ asset('imgs/VisionIcon.png') }}" alt="User Icon">
-                Vision
-            </button>
-
-            <button class="flex items-center px-3 py-2  rounded-md">
-                <img class="w-7 mr-2" src="{{ asset('imgs/MisionIcon.png') }}" alt="User Icon">
-                Mision
-            </button>
-        </div>
-
-
-        @foreach ($mercadoLocals as $mercadoLocal)
-        @if ($mercadoLocal->id % 2 != 0)
-        <!--INICIO DE MERCADO-->
-        <div class="md:p-0 p-4">
-            <div
-                class="flex flex-col-reverse p-4 border rounded md:border-none md:p-0 md:grid md:grid-cols-2 items-center">
-                <div class="p-4 space-y-4 max-w-lg mx-auto flex flex-col items-center">
-                    <h2 class="text-center font-bold text-3xl">{{ $mercadoLocal->nombre }}</h2>
-                    <p> {{ $mercadoLocal->descripcion }}. Los horarios disponibles son:
-                        <b>{{ $mercadoLocal->horaentrada }}</b> hasta <b>{{ $mercadoLocal->horasalida }}</b>.
-                        Nos
-                        podes encontrar en <b>{{ $mercadoLocal->ubicacion }}</b>, en el municipio de
-                        {{ $mercadoLocal->municipio }}
-                    </p>
-                    <a class="block w-full mt-4 px-3 py-2"
-                        href="{{ route('usuarios.mercado', $mercadoLocal->id) }}">
-                        <button
-                            class="block w-full mt-4 px-3 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">
-                            Ver Mercado
-                        </button>
-                    </a>
-                </div>
-                <div>
-                    <img class="w-full object-cover"
-                        src="{{ asset('imgs/' . $mercadoLocal->imagen_referencia) }}" alt="">
-                </div>
-            </div>
-        </div>
-        @endif
-
-        @if ($mercadoLocal->id % 2 != 1)
-        <div class="md:p-0 p-4 bg-[#334765] text-white">
-            <div
-                class="flex flex-col p-4 border border-gray-200 rounded md:border-none md:p-0 md:grid md:grid-cols-2 items-center">
-
-                <div>
-                    <img class="h-full w-full object-cover"
-                        src="{{ asset('imgs/' . $mercadoLocal->imagen_referencia) }}" alt="">
-                </div>
-                <div class="p-4 space-y-4 max-w-lg mx-auto flex flex-col items-center">
-                    <h2 class="text-center font-bold text-3xl">{{ $mercadoLocal->nombre }}</h2>
-                    <p> {{ $mercadoLocal->descripcion }}. Los horarios disponibles son:
-                        <b>{{ $mercadoLocal->horaentrada }}</b> hasta <b>{{ $mercadoLocal->horasalida }}</b>.
-                        Nos
-                        podes encontrar en <b>{{ $mercadoLocal->ubicacion }}</b>, en el municipio de
-                        {{ $mercadoLocal->municipio }}
-                    </p>
-                    <a class="block w-full mt-4 px-3 py-2"
-                        href="{{ route('usuarios.mercado', $mercadoLocal->id) }}">
-                        <button
-                            class="block w-full mt-4 px-3 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">
-                            Ver Mercado
-                        </button>
-                    </a>
-                </div>
-            </div>
-        </div>
-        @endif
-        @endforeach
-        <!--FIN DE MERCADO-->
-
-
-
-
-        <div class="mt-6 p-4">
-            <h2 class="text-center font-bold mb-4 text-3xl">Puestos Populares</h2>
-            <div class="flex flex-col md:grid grid-cols-3 gap-6">
-                <!--INICIO DE VENDEDOR-->
-                @foreach ($vendedors->take(3) as $vendedor)
-                <div>
-                    <img class="h-[15rem] w-[40rem] object-cover"
-                        src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="">
-                    <h3 class="font-bold text-lg">Puesto de {{ $vendedor->nombre }} en
-                        {{ $vendedor->mercadoLocal->nombre }}
-                    </h3>
-                    <a href="{{ route('usuarios.vendedor', $vendedor->id) }}">
-                        <div class="flex gap-2 items-center">
-                            <p>Ver Puesto </p>
-                            <img width="18" src="{{ asset('imgs/arrow_left.png') }}" alt="">
-                        </div>
-                    </a>
-                </div>
-                <!--FIN DE VENDEDOR-->
-                @endforeach
-
-            </div>
-        </div>
-
-        <footer class="bg-[#292526] pb-16">
-            <div class="flex flex-col gap-6 md:gap-0 md:grid grid-cols-3 text-white  p-12">
-                <div>
-                    <b><b>
-                            <h2>Contact Us</h2>
-                        </b></b>
-
-                    <p>Whatsapp: wa.me/50369565421</p>
-                    <p>Correo Electronico: contacto@TiendaKelly.sv</p>
-                    <p>Dirección: San Rafael cedros, cuscatlan</p>
-
-                </div>
-                <div>
-                    <b>
-                        <h2>Sobre nosotros</h2>
-                    </b>
-                    <p>Somos un equipo de desarrollo web dedicado a apoyar a los vendedores locales y municipales, brindando soluciones tecnológicas para fortalecer los mercados
-                        locales.</p>
-                </div>
-                <div class="md:self-end md:justify-self-end pb-4">
-                    <p class="font-black text-5xl mb-4">Tienda <span class="text-blue-600">Kelly</span></p>
-                    <div class="flex gap-2">
-                        <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                            <img width="18" class="invert" src="{{ asset('imgs/facebook.png') }}"
-                                alt="">
-                        </div>
-                        <div class="w-8 aspect-square  flex justify-center items-center bg-white rounded-full">
-                            <img width="18" class="invert" src="{{ asset('imgs/google.png') }}" alt="">
-                        </div>
-                        <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                            <img width="18" class="invert" src="{{ asset('imgs/linkedin.png') }}"
-                                alt="">
-                        </div>
-                        <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                            <img width="18" class="invert" src="{{ asset('imgs/twitter.png') }}"
-                                alt="">
-                        </div>
-                        <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                            <img width="18" src="{{ asset('imgs/youtube.png') }}" alt="">
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="w-full h-[2px] bg-white"></div>
-        </footer>
-
+      </div>
     </div>
+    <div class="w-full h-[2px] bg-gray-700"></div>
+    <p class="text-center py-4 text-gray-400 text-sm">© 2025 Tienda Kelly - Todos los derechos reservados</p>
+  </footer>
 
 </body>
-
 </html>
