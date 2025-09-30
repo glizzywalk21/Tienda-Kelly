@@ -36,41 +36,8 @@
 
 <body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white text-gray-800">
 
-  <!-- Desktop Navbar -->
-  <nav class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
-    <a href="{{ route('usuarios.index') }}" class="flex items-center gap-2">
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
-        Tienda <span class="text-indigo-600">Kelly</span>
-      </h1>
-    </a>
-    <div class="flex gap-8">
-      <a href="{{ route('usuarios.index') }}" class="font-medium uppercase text-sm hover:text-indigo-600 transition">Hogar</a>
-      <a href="{{ route('usuarios.carrito') }}" class="font-medium uppercase text-sm hover:text-indigo-600 transition">Carrito</a>
-      <a href="{{ route('usuarios.reservas') }}" class="font-medium uppercase text-sm hover:text-indigo-600 transition">Reservas</a>
-      <a href="{{ route('usuarios.historial') }}" class="font-medium uppercase text-sm hover:text-indigo-600 transition">Historial</a>
-      <a href="{{ route('UserProfileVista') }}" class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
-        Perfil
-      </a>
-    </div>
-  </nav>
-
-  <!-- Mobile Navbar -->
-  <div class="bottom-bar fixed bottom-3 left-0 right-0 md:hidden flex justify-center z-50">
-    <div class="bg-gray-900 shadow-xl rounded-2xl w-72 h-14 flex justify-around items-center px-3">
-      <a href="{{ route('usuarios.index') }}" class="bg-white rounded-full p-2 shadow-lg">
-        <img class="w-6" src="{{ asset('imgs/HomeSelectedIcon.png') }}" alt="Home Icon" />
-      </a>
-      <a href="{{ route('usuarios.carrito') }}">
-        <img class="w-6" src="{{ asset('imgs/CarritoIcon.png') }}" alt="Cart Icon" />
-      </a>
-      <a href="{{ route('usuarios.reservas') }}">
-        <img class="w-6" src="{{ asset('imgs/FavIcon.png') }}" alt="Favorites Icon" />
-      </a>
-      <a href="{{ route('UserProfileVista') }}">
-        <img class="w-8 h-8 rounded-full object-cover border-2 border-white shadow" src="{{ asset('imgs/' . Auth::user()->imagen_de_referencia) }}" alt="Profile Icon" />
-      </a>
-    </div>
-  </div>
+  <!-- Incluir Navbar -->
+  @include('components.navbar')
 
   <!-- Bienvenida Mejorada -->
   <header class="mt-10 px-6 flex flex-col md:flex-row justify-between items-center gap-6">
@@ -151,33 +118,8 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-white mt-16">
-    <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-10 p-10">
-      <div>
-        <h2 class="font-bold text-xl mb-2">Contáctanos</h2>
-        <p>Whatsapp: <a href="https://wa.me/50369565421" class="underline">+503 6956 5421</a></p>
-        <p>Email: contacto@TiendaKelly.sv</p>
-        <p>Dirección: San Rafael Cedros, Cuscatlán</p>
-      </div>
-      <div>
-        <h2 class="font-bold text-xl mb-2">Sobre Nosotros</h2>
-        <p>Apoyamos a los vendedores locales y municipales brindando soluciones tecnológicas para fortalecer los mercados comunitarios.</p>
-      </div>
-      <div class="text-center md:text-right">
-        <h1 class="text-3xl font-black mb-4">Tienda <span class="text-blue-500">Kelly</span></h1>
-        <div class="flex gap-3 justify-center md:justify-end">
-          <img class="w-8 invert hover:scale-110 transition" src="{{ asset('imgs/facebook.png') }}" alt="">
-          <img class="w-8 invert hover:scale-110 transition" src="{{ asset('imgs/google.png') }}" alt="">
-          <img class="w-8 invert hover:scale-110 transition" src="{{ asset('imgs/linkedin.png') }}" alt="">
-          <img class="w-8 invert hover:scale-110 transition" src="{{ asset('imgs/twitter.png') }}" alt="">
-          <img class="w-8 hover:scale-110 transition" src="{{ asset('imgs/youtube.png') }}" alt="">
-        </div>
-      </div>
-    </div>
-    <div class="w-full h-[2px] bg-gray-700"></div>
-    <p class="text-center py-4 text-gray-400 text-sm">© 2025 Tienda Kelly - Todos los derechos reservados</p>
-  </footer>
+  <!-- Incluir Footer -->
+  @include('components.footer')
 
 </body>
 </html>
