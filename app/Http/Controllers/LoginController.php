@@ -18,93 +18,93 @@ class LoginController extends Controller
 
     public function register(Request $request)
     {
-        // Validación de los datos con mensajes de error personalizados
-        $request->validate([
-            'usuario' => [
-                'required',
-                'email',
-                function ($attribute, $value, $fail) {
-                    if (User::where('usuario', $value)->exists() ||
-                        Vendedor::where('usuario', $value)->exists() ||
-                        MercadoLocal::where('usuario', $value)->exists()) {
-                        $fail('El nombre de usuario ya está en uso en otra tabla.');
-                    }
-                },
-            ],
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'telefono' => [
-                'required',
-                'string',
-                'max:15',
-                function ($attribute, $value, $fail) {
-                    if (User::where('telefono', $value)->exists()) {
-                        $fail('El número de teléfono ya está registrado.');
-                    }
-                },
-            ],
-            'sexo' => 'required|in:Masc,Fem',
-            'password' => 'required|min:8|confirmed',
-        ]);
+         // Validación de los datos con mensajes de error personalizados
+    $request->validate([
+        'usuario' => [
+            'required',
+            'email',
+            function ($attribute, $value, $fail) {
+                if (User::where('usuario', $value)->exists() ||
+                    Vendedor::where('usuario', $value)->exists() ||
+                    MercadoLocal::where('usuario', $value)->exists()) {
+                    $fail('El nombre de usuario ya está en uso en otra tabla.');
+                }
+            },
+        ],
+        'nombre' => 'required|string|max:255',
+        'apellido' => 'required|string|max:255',
+        'telefono' => [
+            'required',
+            'string',
+            'max:15',
+            function ($attribute, $value, $fail) {
+                if (User::where('telefono', $value)->exists()) {
+                    $fail('El número de teléfono ya está registrado.');
+                }
+            },
+        ],
+        'sexo' => 'required|in:Masc,Fem',
+        'password' => 'required|min:8|confirmed',
+    ]);
 
-        // Crear un nuevo usuario si la validación pasa
-        $user = new User();
-        $user->usuario = $request->usuario;
-        $user->password = Hash::make($request->password);
-        $user->nombre = $request->nombre;
-        $user->apellido = $request->apellido;
-        $user->telefono = $request->telefono;
-        $user->sexo = $request->sexo;
-        $user->ROL = 4; // 👈 ROL fijo para usuario normal
+    // Crear un nuevo usuario si la validación pasa
+    $user = new User();
+    $user->usuario = $request->usuario;
+    $user->password = Hash::make($request->password);
+    $user->nombre = $request->nombre;
+    $user->apellido = $request->apellido;
+    $user->telefono = $request->telefono;
+    $user->sexo = $request->sexo;
 
-        $user->save();
+    $user->save();
 
-        Auth::login($user);
+    Auth::login($user);
 
-        return redirect(route('usuarios.index'))->with('success', '¡Registro exitoso!');
+    return redirect(route('usuarios.index','user'))->with('success', '¡Registro exitoso!');
     }
 
     public function LoginUser(Request $request)
-    {
-        // Validar los campos de entrada
-        $request->validate([
-            'usuario' => 'required|string',
-            'password' => 'required|string',
-        ], [
-            'usuario.required' => 'El campo email es obligatorio.',
-            'password.required' => 'El campo contraseña es obligatorio.',
-        ]);
+{
+    // Validar los campos de entrada
+    $request->validate([
+        'usuario' => 'required|string',
+        'password' => 'required|string',
+    ], [
+        'usuario.required' => 'El campo email es obligatorio.',
+        'password.required' => 'El campo contraseña es obligatorio.',
+    ]);
 
-        $credentials = $request->only('usuario', 'password');
-        $remember = $request->filled('remember');
+    $credentials = $request->only('usuario', 'password');
+    $remember = $request->filled('remember');
 
-        // Intentar autenticar al usuario en la tabla `User`
-        if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
-            $user = Auth::user();
-            return $this->redirectUser($user->ROL);
-        }
-
-        // Si no es un usuario, intentar en las otras tablas según el rol
-        $vendedor = Vendedor::where('usuario', $credentials['usuario'])->first();
-        if ($vendedor && Hash::check($credentials['password'], $vendedor->password)) {
-            Auth::guard('vendedor')->login($vendedor, $remember);
-            $request->session()->regenerate();
-            return $this->redirectUser(3);
-        }
-
-        $mercado = MercadoLocal::where('usuario', $credentials['usuario'])->first();
-        if ($mercado && Hash::check($credentials['password'], $mercado->password)) {
-            Auth::guard('mercado')->login($mercado, $remember);
-            $request->session()->regenerate();
-            return $this->redirectUser(2);
-        }
-
-        // Si la autenticación falla
-        return redirect('login')->withErrors([
-            'usuario' => 'Datos inválidos. Inténtelo de nuevo.',
-        ]);
+    // Intentar autenticar al usuario en la tabla `User`
+    if (Auth::attempt($credentials, $remember)) {
+        $request->session()->regenerate();
+        $user = Auth::user();
+        return $this->redirectUser($user->ROL);
     }
+
+    // Si no es un usuario, intentar en las otras tablas según el rol
+    $vendedor = Vendedor::where('usuario', $credentials['usuario'])->first();
+    if ($vendedor && Hash::check($credentials['password'], $vendedor->password)) {
+        Auth::guard('vendedor')->login($vendedor, $remember);
+        $request->session()->regenerate();
+        return $this->redirectUser(3);
+    }
+
+    $mercado = MercadoLocal::where('usuario', $credentials['usuario'])->first();
+    if ($mercado && Hash::check($credentials['password'], $mercado->password)) {
+        Auth::guard('mercado')->login($mercado, $remember);
+        $request->session()->regenerate();
+        return $this->redirectUser(2);
+    }
+
+    // Si la autenticación falla
+    return redirect('login')->withErrors([
+        'usuario' => 'Datos inválidos. Inténtelo de nuevo.',
+    ]);
+}
+
 
     protected function redirectUser($rol)
     {

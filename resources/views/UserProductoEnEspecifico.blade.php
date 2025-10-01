@@ -1,148 +1,165 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
-    <title>{{ $product->name }} - Tienda Kelly</title>
+    <title>ProductoUser</title>
     <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
-    <style>
-        /* Animaciones */
-        .fadeInUp {
-            animation: fadeInUp 1s ease forwards;
-        }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Botones hover */
-        .btn-hover:hover {
-            transform: translateY(-3px) scale(1.05);
-            transition: all 0.3s ease;
-        }
-
-        /* Gradiente en títulos */
-        .gradient-text {
-            background: linear-gradient(90deg, #6366f1, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Sombra y overlay para tarjetas recomendadas */
-        .card-hover:hover img {
-            transform: scale(1.05);
-        }
-
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-
-        .shadow-inner {
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-        }
-    </style>
 </head>
 
-<body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white overflow-x-hidden">
-
-    <!-- Navbar reutilizable -->
-    @include('components.navbar')
-
-    <!-- Sección del Producto -->
-    <section class="max-w-7xl mx-auto mt-12 px-4 md:px-0 grid grid-cols-1 md:grid-cols-2 gap-12 items-start fadeInUp">
-        <!-- Imagen del producto -->
-        <div class="relative">
-            <img class="rounded-2xl w-full shadow-xl transform transition duration-700 hover:scale-105"
-                src="{{ asset('imgs/' . $product->imagen_referencia) }}" alt="{{ $product->name }}">
+<body>
+    <!-- Desktop Navbar -->
+    <div class="hidden md:flex p-4 bg-white items-center justify-between shadow-md">
+        <a href="{{ route('usuarios.index') }}">
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-semibold">
+                Tienda <span class="text-blue-600"><b>Kelly</b></span>
+            </h1>
+        </a>
+        <div class="flex gap-8">
+            <a href="{{ route('usuarios.index') }}"
+                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Hogar</a>
+            <a href="{{ route('usuarios.carrito') }}"
+                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Carrito</a>
+            <a href="{{ route('usuarios.reservas') }}"
+                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Reservas</a>
+            <a href="{{ route('usuarios.historial') }}"
+                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Historial</a>
+            <a
+                href="{{ route('UserProfileVista') }}" class="font-semibold uppercase text-sm lg:text-base hover:text-white hover:bg-black border border-black px-2 py-1 rounded-md">
+                Perfil
+            </a>
         </div>
+    </div>
+    <!-- Mobile Navbar -->
+    <div class="fixed bottom-0 left-0 right-0 p-4 md:hidden">
+        <div class="bg-gray-900 rounded-2xl h-14 flex justify-around">
+            <div class="flex items-center">
+                <a href="{{ route('usuarios.index') }}" class="bg-white rounded-full p-1">
+                    <img class="w-6" src="{{ asset('imgs/HomeSelectedIcon.png') }}" alt="Home Icon" />
+                </a>
+            </div>
+            <div class="flex items-center">
+                <a href="{{ route('usuarios.carrito') }}">
+                    <img class="w-6" src="{{ asset('imgs/CarritoIcon.png') }}" alt="Cart Icon" />
+                </a>
+            </div>
+            <div class="flex items-center">
+                <a href="{{ route('usuarios.reservas') }}">
+                    <img class="w-6" src="{{ asset('imgs/FavIcon.png') }}" alt="Favorites Icon" />
+                </a>
+            </div>
+            <div class="flex items-center">
+                <a href="{{ route('UserProfileVista') }}">
+                    <img class="w-6" src="{{ asset('imgs/UserIcon.png') }}" alt="Profile Icon" />
+                </a>
+            </div>
+        </div>
+    </div>
 
-        <!-- Información y carrito -->
-        <div class="bg-white p-8 rounded-2xl shadow-xl fadeInUp shadow-inner">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4 gradient-text">{{ $product->name }}</h1>
-            <p class="text-gray-600 mb-6">{{ $product->description }}</p>
+    <form action="{{ route('usuarios.addcarrito', $product) }}" method="POST">
+        @csrf
+        <div class="mx-auto mt-10 px-4 max-w-7xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <img class="rounded-lg w-full shadow-lg" src="{{ asset('imgs/' . $product->imagen_referencia) }}"
+                    alt="{{ $product->imagen_referencia }}">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
 
-            <!-- Cantidad -->
-            <div class="flex items-center gap-4 mb-6">
-                <span class="font-semibold text-gray-800">Cantidad:</span>
-                <div class="flex items-center gap-2">
-                    <button type="button"
-                        class="bg-gray-200 rounded-full w-8 h-8 flex justify-center items-center text-lg text-gray-700"
-                        onclick="decrement()">-</button>
-                    <input readonly id="quantity" type="number" name="quantity" value="1"
-                        class="w-12 h-8 text-center border border-gray-400 rounded">
-                    <button type="button"
-                        class="bg-gray-200 rounded-full w-8 h-8 flex justify-center items-center text-lg text-gray-700"
-                        onclick="increment()">+</button>
+
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="font-bold text-2xl lg:text-3xl text-gray-800"> {{ $product->name }}</h2>
+
+
+
+                        <!--SUMATORIA-->
+                        <div class="flex items-center space-x-2">
+                            <!--Boton 1-->
+                            <div class="bg-gray-200 border border-gray-400 rounded-full w-8 h-8 flex justify-center items-center text-lg text-gray-700 cursor-pointer"
+                                onclick="decrement()">-</div>
+                            <!--INPUT IMPORTANTES-->
+                            <input readonly id="quantity" type="number" name="quantity" value="1" min="1"
+                                class=" pl-[12px] w-12 h-8 text-center border border-gray-400 rounded mx-2">
+                            <input type="hidden" name="subtotal" value="1" min="1">
+
+                            <!--Boton 2-->
+                            <div class="bg-gray-200 border border-gray-400 rounded-full w-8 h-8 flex justify-center items-center text-lg text-gray-700 cursor-pointer"
+                                onclick="increment()">+</div>
+                        </div>
+                        <!--SUMATORIA-->
+
+
+                    </div>
+
+                    <!--ESTRELLAS
+                <div class="flex items-center mb-4">
+                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
+                    <span class="text-lg text-gray-800">5.0</span>
                 </div>
-            </div>
+            -->
 
-            <!-- Precio -->
-            <div class="mb-6">
-                <h2 class="text-xl font-semibold text-gray-800">Precio</h2>
-                <p class="text-2xl font-bold text-gray-900">${{ $product->price }}</p>
-            </div>
+                    <p class="text-gray-600 mb-4 text-lg">
+                        {{ $product->description }}
+                    </p>
+                    <hr class="my-4">
 
-            <!-- Botón Agregar al carrito -->
-            <form action="{{ route('usuarios.addcarrito', $product) }}" method="POST">
-                @csrf
-                <input type="hidden" name="quantity" id="quantity-form" value="1">
-                <button type="submit"
-                    class="w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white font-bold py-3 rounded-xl shadow-lg hover:scale-105 transition transform">
-                    Agregar al carrito
-                </button>
-            </form>
-        </div>
-    </section>
+                    <div class="mb-6">
+                        <h3 class="font-bold text-xl lg:text-2xl text-gray-800">Precio</h3>
+                        <p class="text-xl lg:text-2xl text-gray-900">${{ $product->price }}</p>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-gray-800 text-white text-lg font-bold py-3 rounded-lg hover:bg-gray-700 flex items-center justify-center">Agregar
+                        al carrito
+                    </button>
 
-    <!-- Productos Recomendados -->
-    <section class="max-w-7xl mx-auto mt-20 px-4 fadeInUp">
-        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 gradient-text">Productos Recomendados</h2>
+    </form>
+    </div>
+    </div>
+
+
+    <!-- Recommended Products Section -->
+    <div class="mt-16">
+        <h2 class="text-2xl lg:text-3xl font-bold text-gray-800 mb-8">Productos Recomendados</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach ($products as $product)
-            <a href="{{ route('usuarios.producto', $product->id) }}"
-                class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover transform transition duration-300">
-                <img class="w-full h-64 object-cover rounded-t-2xl" src="{{ asset('imgs/' . $product->imagen_referencia) }}"
-                    alt="{{ $product->name }}">
-                <div class="p-5">
-                    <h3 class="text-lg font-bold text-gray-800">{{ $product->name }}</h3>
-                    <p class="text-gray-600 mb-2">{{ $product->vendedor->nombre_del_local }}</p>
-                    <p class="text-indigo-600 font-semibold">${{ $product->price }}</p>
-                </div>
+            <!-- Product Card 1 -->
+            <a href="{{ route('usuarios.producto', $product->id) }}" class="bg-white p-6 rounded-lg shadow-lg">
+                <img class="rounded-lg w-full mb-4" src="{{ asset('imgs/' . $product->imagen_referencia) }}"
+                    alt="Producto 1">
+                <h3 class="font-bold text-lg text-gray-800">{{ $product->name }}</h3>
+                <p class="text-gray-600 mb-4">{{ $product->vendedor->nombre_del_local }}. Precio:
+                    ${{ $product->price }}</p>
             </a>
             @endforeach
+            <!-- Product Card 2 -->
+
+            <!-- Product Card 3 -->
+
         </div>
-    </section>
-
-    <!-- Scripts para cantidad -->
-    <script>
-        const inputQty = document.getElementById('quantity');
-        const formQty = document.getElementById('quantity-form');
-
-        function decrement() {
-            let value = parseInt(inputQty.value);
-            if (value > 1) value--;
-            inputQty.value = value;
-            formQty.value = value;
-        }
-
-        function increment() {
-            let value = parseInt(inputQty.value);
-            value++;
-            inputQty.value = value;
-            formQty.value = value;
-        }
-    </script>
-
+    </div>
+    </div>
 </body>
+<script>
+    function decrement() {
+        const input = document.getElementById('quantity');
+        let value = parseInt(input.value);
+        if (value > 1) {
+            value--;
+            input.value = value;
+        }
+    }
+
+    function increment() {
+        const input = document.getElementById('quantity');
+        let value = parseInt(input.value);
+        value++;
+        input.value = value;
+    }
+</script>
 
 </html>

@@ -4,149 +4,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
-    <title>Mi Carrito - Tienda Kelly</title>
+    <title>Mi Carrito</title>
     <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
-    <style>
-        .fadeInUp {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .btn-hover:hover {
-            transform: translateY(-3px) scale(1.05);
-            transition: all 0.3s ease;
-        }
-
-        .gradient-text {
-            background: linear-gradient(90deg, #2563eb, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
-        }
-    </style>
 </head>
 
-<body class="bg-gradient-to-b from-indigo-50 via-blue-50 to-white flex flex-col min-h-screen">
-
-    <!-- Navbar -->
-    @include('components.navbar')
-
-    <!-- Contenido principal -->
-    <main class="flex-1 max-w-7xl mx-auto p-4 mt-10 fadeInUp">
-        <h1 class="text-3xl md:text-5xl font-extrabold text-center mb-12 gradient-text">Mi Carrito</h1>
-
-        @if (session('success'))
-        <div class="bg-emerald-600 w-full md:w-1/2 mx-auto text-white font-semibold p-4 rounded mb-6 text-center">
-            {{ session('success') }}
+<body class="bg-gray-100">
+    <!-- Desktop Navbar -->
+    <div class="hidden md:flex p-4 bg-white items-center justify-between shadow-md">
+        <a href="{{ route('usuarios.index') }}">
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-semibold">
+                Tienda <span class="text-blue-600"><b>Kelly</b></span>
+            </h1>
+        </a>
+        <div class="flex gap-8">
+            <a href="{{ route('usuarios.index') }}"
+                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Hogar</a>
+            <a href="{{ route('usuarios.carrito') }}"
+                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Carrito</a>
+            <a href="{{ route('usuarios.reservas') }}"
+                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Reservas</a>
+            <a href="{{ route('usuarios.historial') }}"
+                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Historial</a>
+            <a
+                href="{{ route('UserProfileVista') }}" class="font-semibold uppercase text-sm lg:text-base hover:text-white hover:bg-black border border-black px-2 py-1 rounded-md">
+                Perfil
+            </a>
         </div>
-        @endif
-
-        @if ($cartItems->isEmpty())
-        <div class="text-center text-gray-500 text-xl md:text-3xl mt-32">
-            Tu carrito está vacío 😔
+    </div>
+    <!-- Mobile Navbar -->
+    <div class="bottom-bar fixed bottom-[2%] left-0 right-0 md:hidden flex justify-center">
+        <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
+            <div class="flex items-center">
+                <a href="{{ route('usuarios.index') }}" class="bg-white rounded-full p-1">
+                    <img class="w-6" src="{{ asset('imgs/HomeSelectedIcon.png') }}" alt="Home Icon" />
+                </a>
+            </div>
+            <div class="flex items-center">
+                <a href="{{ route('usuarios.carrito') }}">
+                    <img class="w-6" src="{{ asset('imgs/CarritoIcon.png') }}" alt="Cart Icon" />
+                </a>
+            </div>
+            <div class="flex items-center">
+                <a href="{{ route('usuarios.reservas') }}">
+                    <img class="w-6" src="{{ asset('imgs/FavIcon.png') }}" alt="Favorites Icon" />
+                </a>
+            </div>
+            <div class="flex items-center">
+                <a href="{{ route('UserProfileVista') }}">
+                    <img class="w-6" src="{{ asset('imgs/UserIcon.png') }}" alt="Profile Icon" />
+                </a>
+            </div>
         </div>
-        @else
-        <div class="grid md:grid-cols-3 gap-8">
-            <!-- Columna izquierda: productos -->
-            <div class="md:col-span-2 space-y-6">
+    </div>
+    <!-- Fin del Mobile Navbar -->
+    <main class="p-4 ">
+        <div class="w-full bg-white p-8  ">
+            <div class="text-center md:font-bold text-[2rem] md:text-[4rem] ">
+                Mi Carrito
+            </div>
+            @if (session('success'))
+            <div
+                class="bg-emerald-600  w-[40%] md:px-[1rem] md:py-[0.5rem] md:text-[1.25rem]  md:uppercase font-semibold rounded text-white mb-[1.5rem]">
+                <span class="md:ml-[1rem]">{{ session('success') }}</span>
+            </div>
+            @endif
+
+
+            <div class="space-y-4">
+
+                @if ($cartItems->isEmpty())
+                <span class="text-center justify-center flex text-[1.75rem] text-gray-600 my-[7rem]">No hay
+                    Productos</span>
+                @else
                 @foreach ($cartItems as $cartItem)
+                <!--INICIO DE LA CARTA-->
                 <div
-                    class="bg-gradient-to-br from-white to-blue-50 shadow-lg rounded-3xl p-6 flex flex-col md:flex-row items-center gap-6 card-hover fadeInUp">
-                    <img src="{{ asset('imgs/' . $cartItem->product->imagen_referencia) }}"
-                        alt="{{ $cartItem->product->name }}"
-                        class="w-full md:w-44 h-44 object-cover rounded-2xl shadow-md">
+                    class="p-4  border-gray-200 rounded-lg flex flex-col justify-between gap-2 md:flex-row md:items-center transition duration-300 hover:bg-gray-50 ">
+                    <div class="flex items-center">
+                        <!--INFO DEL PRODCUT-->
+                        <img src="{{ asset('imgs/' . $cartItem->product->imagen_referencia) }}"
+                            alt="Imagen del producto"
+                            class="object-cover w-16 h-16 md:w-[10rem] md:h-[10rem] rounded-md mr-4">
+                        <div>
+                            <h2 class=" text-lg md:text-[2rem] font-bold text-gray-800 mb-[12px]">
+                                {{ $cartItem->product->name }}
+                            </h2>
+                            <p class="text-sm md:text-[1.5rem] text-gray-600 font-semibold mb-[8px]">Precio:
+                                ${{ $cartItem->product->price }} c/u</p>
 
-                    <div class="flex-1">
-                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">{{ $cartItem->product->name }}</h2>
-                        <p class="text-gray-600 text-lg mb-1">Precio: ${{ $cartItem->product->price }} c/u</p>
-                        <p class="text-gray-700 text-lg font-semibold">Cantidad: {{ $cartItem->quantity }}</p>
-                        <p class="text-gray-800 font-bold mt-2">Subtotal: ${{ $cartItem->product->price * $cartItem->quantity }}</p>
+                            <p class="text-sm md:text-[1.5rem] text-gray-600 font-bold">Cantidad:
+                                {{ $cartItem->quantity }} - Subtotal:
+                                ${{ $cartItem->product->price * $cartItem->quantity }}
+                            </p>
+                        </div>
                     </div>
-
-                    <div>
+                    <!--BOTNOES-->
+                    <div class="flex">
                         <form action="{{ route('usuarios.eliminarcarrito', $cartItem->fk_product) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit"
-                                class="bg-red-500 hover:bg-red-600 text-white font-semibold px-8 py-3 rounded-2xl transition transform btn-hover">
-                                Eliminar
-                            </button>
-                        </form>
+
+                            <button
+                                class="md:px-[2rem] md:py-[1rem] md:text-[1rem] px-4 py-3 text-sm font-medium text-white bg-red-500 rounded-md ml-2 hover:bg-red-600"
+                                type="submit">Cancelar</button>
                     </div>
                 </div>
+                </form>
                 @endforeach
+                @endif
+                <!--FIN DE LA CARTA-->
+                <h2 class=" text-lg md:text-[2rem] font-bold text-gray-800 mb-[12px]">Total: ${{ $total }}</h2>
+                <form action="{{ route('usuarios.reservar') }}" method="POST">
+                    @csrf
+                    @if ($cartItems->isEmpty())
+                    <button
+                        class="md:px-[2rem] md:py-[1rem] md:text-[1.5rem] px-4 py-3 text-sm font-medium text-white bg-gray-500 rounded-md ml-2 hover:bg-gray-600"
+                        type="button">Guardar Reserva</button>
+                    @elseif ($total < 5)
+                        <p class="text-xl text-justify w-60">El Pedido minimo para una reserva es de <b>$5.00</b>. Usted
+                        le faltan <b>${{ $restante = '5' - $total }}</b></p>
+
+                        <button
+                            class="md:px-[2rem] md:py-[1rem] md:text-[1.5rem] px-4 py-3 text-sm font-medium text-white bg-gray-500 rounded-md ml-2 hover:bg-gray-600"
+                            type="button">Guardar Reserva</button>
+                        @else
+                        <button
+                            class="md:px-[2rem] md:py-[1rem] md:text-[1.5rem] px-4 py-3 text-sm font-medium text-white bg-emerald-300 rounded-md ml-2 hover:bg-emerald-500"
+                            type="submit">Guardar Reserva</button>
+                        @endif
+                </form>
             </div>
 
-            <!-- Columna derecha: total y reserva con mini-resumen -->
-            <div class="space-y-6">
-                <div
-                    class="bg-gradient-to-br from-white to-blue-50 shadow-2xl rounded-3xl p-6 flex flex-col items-center card-hover">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Total: ${{ $total }}</h2>
+        </div>
 
-                    <!-- Mini resumen de productos -->
-                    <div class="flex flex-col gap-3 w-full mb-6">
-                        @foreach ($cartItems as $cartItem)
-                        <div class="flex items-center justify-between bg-white rounded-xl p-2 shadow">
-                            <img src="{{ asset('imgs/' . $cartItem->product->imagen_referencia) }}"
-                                alt="{{ $cartItem->product->name }}"
-                                class="w-12 h-12 object-cover rounded-md">
-                            <div class="flex-1 mx-2">
-                                <p class="text-gray-800 font-semibold text-sm">{{ $cartItem->product->name }}</p>
-                                <p class="text-gray-600 text-xs">x{{ $cartItem->quantity }}</p>
-                            </div>
-                            <p class="text-gray-800 font-bold text-sm">${{ $cartItem->product->price * $cartItem->quantity }}</p>
-                        </div>
-                        @endforeach
+
+    </main>
+    <footer class="bg-[#292526] pb-16">
+        <div class="flex flex-col gap-6 md:gap-0 md:grid grid-cols-3 text-white  p-12">
+            <div>
+                <b>
+                    <h2>Contact Us</h2>
+                </b>
+                <p>Whatsapp: wa.me/50369565421</p>
+                <p>Correo Electronico: contacto@TiendaKelly.sv</p>
+                <p>Dirección: San Rafael cedros, cuscatlan</p>
+            </div>
+            <div>
+                <b>
+                    <b>
+                        <h2>Sobre nosotros</h2>
+                    </b>
+                </b>
+                <p>Somos un equipo de desarrollo web dedicado a apoyar a los vendedores locales y municipales, brindando soluciones tecnológicas para fortalecer los mercados
+                    locales.</p>
+            </div>
+            <div class="md:self-end md:justify-self-end pb-4">
+                <p class="font-black text-5xl mb-4">Tienda <span class="text-blue-600">Kelly</span></p>
+                <div class="flex gap-2">
+                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
+                        <img width="18" class="invert" src="{{ asset('imgs/facebook.png') }}" alt="">
+                    </div>
+                    <div class="w-8 aspect-square  flex justify-center items-center bg-white rounded-full">
+                        <img width="18" class="invert" src="{{ asset('imgs/google.png') }}" alt="">
+                    </div>
+                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
+                        <img width="18" class="invert" src="{{ asset('imgs/linkedin.png') }}" alt="">
+                    </div>
+                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
+                        <img width="18" class="invert" src="{{ asset('imgs/twitter.png') }}" alt="">
+                    </div>
+                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
+                        <img width="18" src="{{ asset('imgs/youtube.png') }}" alt="">
                     </div>
 
-                    <!-- Botón de reserva -->
-                    <form action="{{ route('usuarios.reservar') }}" method="POST" class="w-full text-center">
-                        @csrf
-                        @if ($cartItems->isEmpty() || $total < 5)
-                        <button type="button"
-                            class="bg-gray-400 text-white font-semibold px-8 py-3 rounded-2xl cursor-not-allowed">
-                            Guardar Reserva
-                        </button>
-                        @if ($total < 5)
-                        <p class="mt-4 text-gray-600 text-center">
-                            Pedido mínimo $5. Faltan ${{ 5 - $total }} para reservar.
-                        </p>
-                        @endif
-                        @else
-                        <button type="submit"
-                            class="bg-gradient-to-r from-green-400 to-emerald-500 hover:from-emerald-500 hover:to-green-400 text-white font-semibold px-8 py-3 rounded-2xl transition transform btn-hover">
-                            Guardar Reserva
-                        </button>
-                        @endif
-                    </form>
                 </div>
             </div>
         </div>
-        @endif
-    </main>
-
-    <!-- Footer -->
-    <footer class="mt-auto">
-        @include('components.footer')
+        <div class="w-full h-[2px] bg-white"></div>
     </footer>
-
 </body>
-
 
 </html>
