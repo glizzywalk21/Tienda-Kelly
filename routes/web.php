@@ -113,6 +113,8 @@ Route::get('/usuarios/producto/{id}', [UsuariosController::class, 'producto'])->
 Route::post('/usuarios/addcarrito/{product}', [UsuariosController::class, 'addcarrito'])->name('usuarios.addcarrito')->middleware('check.user.session');
 //RESERVAR y RESERVAS
 Route::post('/usuarios/reservar', [UsuariosController::class, 'reservar'])->name('usuarios.reservar')->middleware('check.user.session');
+// Ruta de chakout
+route::post('/usuarios/checkout', [UsuariosController::class, 'checkout'])->name('usuarios.checkout')->middleware('check.user.session');
 // Ruta para ver el carrito
 Route::get('/usuarios/carrito', [UsuariosController::class, 'carrito'])->name('usuarios.carrito')->middleware('check.user.session');
 // Ruta para ver las reservas del usuario
