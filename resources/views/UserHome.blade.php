@@ -88,8 +88,7 @@
   </header>
 
   <!-- Imagen principal -->
-  <section class="mt-6 h-[60vh] bg-no-repeat bg-cover bg-center rounded-xl shadow-inner mx-4 transition-transform hover:scale-105 duration-500" style="background-image: url({{ asset('imgs/bkg.jpeg') }});">
-  </section>
+  <section class="mt-6 h-[60vh] bg-no-repeat bg-cover bg-center rounded-xl shadow-inner mx-4 transition-transform hover:scale-105 duration-500" style="background-image: url({{ asset('imgs/ElSalvador.jpg') }});"></section>
 
   <!-- Botones Nosotros/Vision/Mision -->
   <section class="flex my-8 justify-center gap-6 flex-wrap">
@@ -117,12 +116,11 @@
       <div class="p-8 space-y-5">
         <h2 class="font-extrabold text-3xl text-center">{{ $mercadoLocal->nombre }}</h2>
         <p class="text-sm leading-relaxed">
-          {{ $mercadoLocal->descripcion }}. Horario: <b>{{ $mercadoLocal->horaentrada }}</b> - <b>{{ $mercadoLocal->horasalida }}</b>.
-          Ubicación: <b>{{ $mercadoLocal->ubicacion }}</b>, {{ $mercadoLocal->municipio }}.
+          {{ $mercadoLocal->descripcion }}. 
         </p>
         <a href="{{ route('usuarios.mercado', $mercadoLocal->id) }}">
-          <button class="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold shadow-lg hover:scale-105 transition">
-            Ver Mercado
+          <button class="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold shadow-lg hover:scale-105 transition mt-4">
+            Entrar al área
           </button>
         </a>
       </div>
