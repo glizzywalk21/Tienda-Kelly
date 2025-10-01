@@ -37,24 +37,37 @@
                 <input type="email" name="usuario" placeholder="Correo Electrónico"
                     class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
                     value="{{ old('usuario') }}" required>
-                @if ($errors->has('usuario'))
-                    <span class="text-red-500 text-xs">{{ $errors->first('usuario') }}</span>
-                @endif
+                @error('usuario')
+                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                @enderror
 
                 <!-- Nombre y Apellido -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <input type="text" name="nombre" placeholder="Nombres"
-                        class="border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
-                        value="{{ old('nombre') }}" required>
-                    <input type="text" name="apellido" placeholder="Apellidos"
-                        class="border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
-                        value="{{ old('apellido') }}" required>
+                    <div class="flex flex-col">
+                        <input type="text" name="nombre" placeholder="Nombres"
+                            class="border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
+                            value="{{ old('nombre') }}" required>
+                        @error('nombre')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="flex flex-col">
+                        <input type="text" name="apellido" placeholder="Apellidos"
+                            class="border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
+                            value="{{ old('apellido') }}" required>
+                        @error('apellido')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
 
                 <!-- Teléfono -->
                 <input type="text" name="telefono" maxlength="8" placeholder="Número de Teléfono"
                     class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
                     value="{{ old('telefono') }}" required>
+                @error('telefono')
+                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                @enderror
 
                 <!-- Género -->
                 <select name="sexo"
@@ -64,15 +77,29 @@
                     <option value="Masc" {{ old('sexo') == 'Masc' ? 'selected' : '' }}>Masculino</option>
                     <option value="Fem" {{ old('sexo') == 'Fem' ? 'selected' : '' }}>Femenino</option>
                 </select>
+                @error('sexo')
+                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                @enderror
 
-                <!-- Password -->
-                <input type="password" name="password" id="password" placeholder="Contraseña"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
-                    required>
+                <!-- Contraseña -->
+                <div class="flex flex-col">
+                    <input type="password" name="password" id="password" placeholder="Contraseña"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
+                        required>
+                    @error('password')
+                        <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirmar Contraseña"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
-                    required>
+                <!-- Confirmar Contraseña -->
+                <div class="flex flex-col">
+                    <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirmar Contraseña"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
+                        required>
+                    @error('password_confirmation')
+                        <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
                 <!-- Mostrar contraseña -->
                 <div class="flex items-center">
