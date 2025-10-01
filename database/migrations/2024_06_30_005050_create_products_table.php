@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('name');
             $table->text('description')->nullable();
             $table->decimal('price', 8, 2);
+            $table->enum('talla', ['35', '36', '37', '38', '39', '40', '41', '42', '43', '44'])->nullable();
             $table->string('imagen_referencia')->nullable();
             $table->string('estado')->default('Disponible');
             $table->unsignedBigInteger('fk_vendedors');
@@ -31,6 +32,7 @@ return new class extends Migration {
                 'name' => 'Lasagna',
                 'description' => 'Almuerzo de Lasagna con acompañamientos',
                 'price' => 2.75,
+                'talla' => null,
                 'imagen_referencia' => 'lasagna.png',
                 'estado' => 'Disponible',
                 'fk_vendedors' => 1,
@@ -39,6 +41,7 @@ return new class extends Migration {
                 'name' => 'Pollo en Salsa',
                 'description' => 'Pollo en salsa con acompañamientos',
                 'price' => 2.75,
+                'talla' => null,
                 'imagen_referencia' => 'polloensalsa.png',
                 'estado' => 'Disponible',
                 'fk_vendedors' => 1,
@@ -47,6 +50,7 @@ return new class extends Migration {
                 'name' => 'Carne Guisada',
                 'description' => 'Carne guisada con acompañamientos',
                 'price' => 3.00,
+                'talla' => null,
                 'imagen_referencia' => 'carneguisada.png',
                 'estado' => 'Disponible',
                 'fk_vendedors' => 1,
@@ -59,6 +63,7 @@ return new class extends Migration {
                 'name' => 'Televisor LED 40"',
                 'description' => 'Televisor LED de 40 pulgadas, resolución Full HD.',
                 'price' => 280.00,
+                'talla' => null,
                 'imagen_referencia' => 'tv40.jpg',
                 'estado' => 'Disponible',
                 'fk_vendedors' => 2,
@@ -67,6 +72,7 @@ return new class extends Migration {
                 'name' => 'Refrigeradora 12 pies',
                 'description' => 'Refrigeradora con congelador, capacidad de 12 pies cúbicos.',
                 'price' => 450.00,
+                'talla' => null,
                 'imagen_referencia' => 'refrigeradora.jpg',
                 'estado' => 'Disponible',
                 'fk_vendedors' => 2,
@@ -75,6 +81,7 @@ return new class extends Migration {
                 'name' => 'Microondas',
                 'description' => 'Microondas de 800W con funciones de descongelado.',
                 'price' => 120.00,
+                'talla' => null,
                 'imagen_referencia' => 'micro.jpg',
                 'estado' => 'Disponible',
                 'fk_vendedors' => 2,
@@ -88,6 +95,7 @@ return new class extends Migration {
                 'name' => 'Muñeca de Trapo',
                 'description' => 'Muñeca de trapo hecha a mano',
                 'price' => 10.00,
+                'talla' => null,
                 'imagen_referencia' => 'muneca.jpg',
                 'estado' => 'Disponible',
                 'fk_vendedors' => 3,
@@ -96,6 +104,7 @@ return new class extends Migration {
                 'name' => 'Carro de Juguete',
                 'description' => 'Carro de juguete del rayo Mquenn metálico',
                 'price' => 8.00,
+                'talla' => null,
                 'imagen_referencia' => 'mcqueen.jpg',
                 'estado' => 'Disponible',
                 'fk_vendedors' => 3,
@@ -104,6 +113,7 @@ return new class extends Migration {
                 'name' => 'Rompecabezas 500 piezas',
                 'description' => 'Rompecabezas de 500 piezas',
                 'price' => 15.00,
+                'talla' => null,
                 'imagen_referencia' => 'rompecabezas.jpg',
                 'estado' => 'Disponible',
                 'fk_vendedors' => 3,
@@ -116,6 +126,7 @@ return new class extends Migration {
                 'name' => 'Zapatos de vestir',
                 'description' => 'Zapatos de vestir',
                 'price' => 35.00,
+                'talla' => null,
                 'imagen_referencia' => 'zapatos_negros.png',
                 'estado' => 'Disponible',
                 'fk_vendedors' => 4,
@@ -124,6 +135,7 @@ return new class extends Migration {
                 'name' => 'Botas de Cuero',
                 'description' => 'Botas de cuero resistentes',
                 'price' => 55.00,
+                'talla' => null,
                 'imagen_referencia' => 'botas.jpg',
                 'estado' => 'Disponible',
                 'fk_vendedors' => 4,
@@ -132,6 +144,7 @@ return new class extends Migration {
                 'name' => 'Sandalias',
                 'description' => 'Sandalias de verano talla 40',
                 'price' => 20.00,
+                'talla' => null,
                 'imagen_referencia' => 'sandalias_verano.png',
                 'estado' => 'Disponible',
                 'fk_vendedors' => 4,
