@@ -28,11 +28,7 @@
             transition: all 0.3s ease;
         }
 
-        .gradient-text {
-            background: linear-gradient(90deg, #2563eb, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        
 
         .card-hover:hover {
             transform: translateY(-5px);
@@ -49,7 +45,7 @@
 
     <!-- Contenido principal -->
     <main class="flex-1 max-w-7xl mx-auto p-4 mt-10 fadeInUp">
-        <h1 class="text-3xl md:text-5xl font-extrabold text-center mb-12 gradient-text">Mi Carrito</h1>
+         <h1 class="text-3xl md:text-5xl font-extrabold text-center mb-12 gradient-text">Mi Carrito</h1>
 
         @if (session('success'))
         <div class="bg-emerald-600 w-full md:w-1/2 mx-auto text-white font-semibold p-4 rounded mb-6 text-center">

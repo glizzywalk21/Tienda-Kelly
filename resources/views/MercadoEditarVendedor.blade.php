@@ -1,238 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
-    <title>EDITAR VENDEDOR</title>
-        <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+    <title>Editar Vendedor</title>
+    <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
 </head>
 
-<body>
+<body class="bg-gradient-to-br from-pink-50 to-red-50 min-h-screen">
 
-    <section>
-        <div class="bottom-bar fixed bottom-[2%] left-0 right-0 md:hidden flex justify-center">
-            <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
-                <div class="flex items-center">
-                    <a href="{{ route('mercados.index') }}">
-                        <img class="w-6" src="{{ asset('imgs/mercado.home.nav.png') }}" alt="Home Icon" />
-                    </a>
-                </div>
-                <div class="flex items-center">
-                    <a href="{{ route('mercados.listavendedores') }}">
-                        <img class="w-6" src="{{ asset('imgs/mercado.vendedores.nav.png') }}" alt="Cart Icon" />
-                    </a>
-                </div>
-                <div class="flex items-center">
-                    <a href="{{ route('mercados.reservas') }}">
-                        <img class="w-6" src="{{ asset('imgs/mercado.reservas.nav.png') }}" alt="Favorites Icon" />
-                    </a>
-                </div>
-                <div class="flex items-center">
-                    <a href="{{ route('mercados.historial') }}">
-                        <img class="w-6" src="{{ asset('imgs/mercado.historial.nav.png') }}"
-                            alt="Favorites Icon" />
-                    </a>
-                </div>
-                <div class="flex items-center">
-                    <a href="{{ route('mercados.perfil') }}">
-                        <img class="w-6" src="{{ asset('imgs/mercado.perfil.nav.png') }}" alt="Profile Icon" />
-                    </a>
-                </div>
-            </div>
-        </div>
+    {{-- Navbar --}}
+    @include('components.navbar-mercado')
 
-        <div class="w-72 h-auto mx-auto">
-            <div class="text-center pt-[3rem]">
-                <h1 class="text-3xl font-bold text-red-500 uppercase">EDITAR vendedor</h1>
-                <h2 class="text-2xl font-semibold">{{ old('nombre_del_local', $vendedor?->nombre_del_local) }}</h2>
-            </div>
+    <main class="max-w-3xl mx-auto mt-16 p-4">
+        <div class="bg-white rounded-3xl shadow-2xl p-8">
+            <h1 class="text-3xl font-bold text-center text-red-500 uppercase mb-2">Editar Vendedor</h1>
+            <h2 class="text-lg text-center text-gray-700 mb-6">{{ old('nombre_del_local', $vendedor?->nombre_del_local) }}</h2>
 
-            <form method="POST" action="{{ route('mercados.actualizarvendedor', ['id' => $vendedor->id]) }}" role="form" enctype="multipart/form-data">
-                <div class="pb-[7rem] mt-10 space-y-4">
-                    <input type="hidden" name="id" value="{{ $vendedor->id }}">
-                    @csrf
+            <form method="POST" action="{{ route('mercados.actualizarvendedor', ['id' => $vendedor->id]) }}" enctype="multipart/form-data" class="space-y-6">
+                @csrf
+                <input type="hidden" name="id" value="{{ $vendedor->id }}">
 
-                    @if ($errors->any())
-                        <div class="bg-red-500 text-white p-2 rounded mt-1 text-sm sm:text-sm text-center">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                @if ($errors->any())
+                    <div class="bg-red-500 text-white p-2 rounded text-center text-sm">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-                    <!--INICIO DE INPUT DE LA FOTO-->
-                <div class="flex justify-between">
-                    <label for="imagen_de_referencia" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 flex items-center relative cursor-pointer">
-                        <span id="file-name" class="text-gray-400 text-xs">Imagen de <b>Usted</b> o de <b>Su Puesto</b>
-                        </span>
-                        <input required type="file" accept=".png, .jpg, .jpeg" name="imagen_de_referencia" class="hidden" id="imagen_de_referencia">
-                        {!! $errors->first('imagen_de_referencia', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                        <span class="rounded-lg w-5 h-5 absolute right-2 top-2 bg-cover" style="background-image: url('{{ asset('imgs/files2.svg') }}');"></span>
+                {{-- Imagen --}}
+                <div class="flex justify-center">
+                    <label for="imagen_de_referencia" class="w-full md:w-80 bg-red-100 border border-red-300 rounded-xl p-3 flex justify-between items-center cursor-pointer hover:bg-red-200 transition">
+                        <span class="text-gray-500 text-sm">Imagen de <b>Usted</b> o <b>Su Puesto</b></span>
+                        <img class="w-5 h-5" src="{{ asset('imgs/files2.svg') }}" alt="">
+                        <input type="file" name="imagen_de_referencia" id="imagen_de_referencia" class="hidden" accept=".png,.jpg,.jpeg">
                     </label>
                 </div>
-                <!--FIN DEL INPUT DE LA IMG-->
-                 <!--INICIO DE LA PREVIEW-->
-                 @if ($vendedor?->imagen_de_referencia)
-    <div class="mt-4">
-        <p class="text-gray-400 text-xs text-center">Imagen actual:</p>
-        <img id="img-preview" class="max-w max-h-xs rounded-md border" src="{{ asset('imgs/' . $vendedor?->imagen_de_referencia) }}" alt="Imagen del Vendedor">
-    </div>
-@else
-    <div class="mt-4">
-        <p class="text-gray-400 text-xs text-center">No hay imagen actual.</p>
-    </div>
-@endif
 
-                <!---FIN DE LA PREVIEW-->
-
-                    <div class="flex justify-center">
-                        <input required type="email" name="usuario"
-                            class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('usuario') is-invalid @enderror"
-                            value="{{ old('usuario', $vendedor?->usuario) }}" id="usuario"
-                            placeholder="Escriba el correo electrónico">
-                        {!! $errors->first('usuario', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                    </div>
-
-                    <div class="flex justify-center">
-                        <input type="password" maxlength="8" name="password"
-                            class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('password') is-invalid @enderror"
-                            value="{{ old('password') }}" id="password"
-                            placeholder="Escriba su Contraseña">
-                        {!! $errors->first('password', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                    </div>
-
-                    <div class="flex justify-center">
-                        <input type="password" maxlength="8" required name="password_confirmation"
-                            class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('password_confirmation') is-invalid @enderror"
-                            value="{{ old('password_confirmation') }}" id="password_confirmation"
-                            placeholder="Confirme su Contraseña">
-                        {!! $errors->first('password_confirmation', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                    </div>
-
-                    <div class="flex justify-center mt-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" id="show-passwords" class="mr-2">
-                            <span class="text-xs text-gray-600">Mostrar Contraseñas</span>
-                        </label>
-                    </div>
-
-                    <div class="flex justify-center">
-                        <input required type="text" name="nombre"
-                            class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('nombre') is-invalid @enderror"
-                            value="{{ old('nombre', $vendedor?->nombre) }}" id="nombre"
-                            placeholder="Escriba el Nombre del Vendedor">
-                        {!! $errors->first('nombre', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                    </div>
-
-                    <div class="flex justify-center">
-                        <input required type="text" name="apellidos"
-                            class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('apellidos') is-invalid @enderror"
-                            value="{{ old('apellidos', $vendedor?->apellidos) }}" id="apellidos"
-                            placeholder="Escriba los Apellidos del Vendedor">
-                        {!! $errors->first('apellidos', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                    </div>
-
-                    <div class="flex justify-center">
-
-                        <input type="text" name="nombre_del_local"
-                            class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('nombre_del_local') is-invalid @enderror"
-                            value="{{ old('nombre_del_local', $vendedor?->nombre_del_local) }}" id="nombre_del_local"
-                            placeholder="Digite el Nombre de su Local (Será Público)">
-                        {!! $errors->first('nombre_del_local', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                    </div>
-
-                    <div class="flex justify-center">
-                        <input type="text" name="telefono"
-                            class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('telefono') is-invalid @enderror"
-                            value="{{ old('telefono', $vendedor?->telefono) }}" id="telefono"
-                            placeholder="Digite el Teléfono del Vendedor">
-                        {!! $errors->first('telefono', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                    </div>
-
-                    <div class="flex justify-center">
-                        <input required type="text" name="numero_puesto"
-                            class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('numero_puesto') is-invalid @enderror"
-                            value="{{ old('numero_puesto', $vendedor?->numero_puesto) }}" id="numero_puesto"
-                            placeholder="Escriba el Número del Puesto">
-                        {!! $errors->first('numero_puesto', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                    </div>
-
-                    <div class="flex justify-center">
-                        <select name="fk_mercado"
-                            class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('fk_mercado') is-invalid @enderror"
-                            id="fk_mercado">
-                            @foreach($mercados as $mercado)
-                                <option class="font-bold text-xl text-gray-800" value="{{ $mercado->id }}" {{ old('fk_mercado', $vendedor?->fk_mercado) == $mercado->id ? 'selected' : '' }}>{{ $mercado->nombre }}</option>
-                            @endforeach
-                        </select>
-                        {!! $errors->first('fk_mercado', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                    </div>
-
-                    <select name="clasificacion" id="clasificacion" class="border bg-gray-100 rounded border-gray-400 w-full h-9 pl-5 text-xs mt-2 text-gray-400" required>
-                        <option class="font-bold text-xs text-white" value="null">Escoge su Clasificación</option>
-                        <option class="font-bold text-xl text-gray-800" value="comedor" {{ old('clasificacion', $vendedor?->clasificacion) == 'comedor' ? 'selected' : '' }}>Comedor</option>
-                        <option class="font-bold text-xl text-gray-800" value="venta de abarrotes" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de abarrotes' ? 'selected' : '' }}>Venta de Abarrotes</option>
-                        <option class="font-bold text-xl text-gray-800" value="venta de ropa" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de ropa' ? 'selected' : '' }}>Venta de Ropa</option>
-                        <option class="font-bold text-xl text-gray-800" value="venta de calzado" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de calzado' ? 'selected' : '' }}>Venta de Calzado</option>
-                        <option class="font-bold text-xl text-gray-800" value="venta de herramientas" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de herramientas' ? 'selected' : '' }}>Venta de Herramientas</option>
-                        <option class="font-bold text-xl text-gray-800" value="venta de verduras" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de verduras' ? 'selected' : '' }}>Venta de Verduras</option>
-                        <option class="font-bold text-xl text-gray-800" value="venta de juguetes" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de juguetes' ? 'selected' : '' }}>Venta de Juguetes</option>
-                        <option class="font-bold text-xl text-gray-800" value="venta de frutas" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de frutas' ? 'selected' : '' }}>Venta de Frutas</option>
-                        <option class="font-bold text-xl text-gray-800" value="venta de flores" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de flores' ? 'selected' : '' }}>Venta de Flores</option>
-                        <option class="font-bold text-xl text-gray-800" value="venta de carne" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de carne' ? 'selected' : '' }}>Venta de Carne</option>
-                        <option class="font-bold text-xl text-gray-800" value="venta de pescado" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de pescado' ? 'selected' : '' }}>Venta de Pescado</option>
-                        <option class="font-bold text-xl text-gray-800" value="venta de pollo" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de pollo' ? 'selected' : '' }}>Venta de Pollo</option>
-                    </select>
-                    {!! $errors->first('clasificacion', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-
-                    <div class="flex justify-center">
-                        <div class="flex justify-center mt-8">
-
-                            <button class="btn btn-primary bg-red-600 w-72 h-12 text-white font-bold rounded-md">Actualizar Vendedor</button>
-                        </div>
-                    </form>
-
-                    </div>
-                    <div class="flex justify-center mt-4">
-
-                        <a href="{{ route('mercados.listavendedores')}}"  class=" bg-gray-600  text-white font-bold rounded-md  py-[0.75rem] px-[3.5rem]">Cancelar Actualizacion</a>
-                    </a>
-                    </div>
+                {{-- Preview --}}
+                <div class="text-center mt-3">
+                    @if ($vendedor?->imagen_de_referencia)
+                        <img id="img-preview" class="mx-auto max-h-40 rounded-xl shadow-lg" src="{{ asset('imgs/' . $vendedor?->imagen_de_referencia) }}" alt="Imagen del Vendedor">
+                    @else
+                        <img id="img-preview" class="hidden" alt="Preview">
+                    @endif
                 </div>
 
+                {{-- Inputs en Grid --}}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="text" name="nombre" value="{{ old('nombre', $vendedor?->nombre) }}" placeholder="Nombre" required
+                        class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+
+                    <input type="text" name="apellidos" value="{{ old('apellidos', $vendedor?->apellidos) }}" placeholder="Apellidos" required
+                        class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+
+                    <input type="text" name="telefono" value="{{ old('telefono', $vendedor?->telefono) }}" placeholder="Teléfono" required
+                        class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+
+                    <input type="text" name="numero_puesto" value="{{ old('numero_puesto', $vendedor?->numero_puesto) }}" placeholder="Número de Puesto" required
+                        class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+
+                    <input type="text" name="nombre_del_local" value="{{ old('nombre_del_local', $vendedor?->nombre_del_local) }}" placeholder="Nombre del Local" required
+                        class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+
+                    <select name="fk_mercado" class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+                        @foreach($mercados as $mercado)
+                            <option value="{{ $mercado->id }}" {{ old('fk_mercado', $vendedor?->fk_mercado) == $mercado->id ? 'selected' : '' }}>{{ $mercado->nombre }}</option>
+                        @endforeach
+                    </select>
+
+                    <select name="clasificacion" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+                        <option value="" disabled>Escoge su Clasificación</option>
+                        <option value="comedor" {{ old('clasificacion', $vendedor?->clasificacion) == 'comedor' ? 'selected' : '' }}>Comedor</option>
+                        <option value="venta de abarrotes" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de abarrotes' ? 'selected' : '' }}>Venta de Abarrotes</option>
+                        <option value="venta de ropa" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de ropa' ? 'selected' : '' }}>Venta de Ropa</option>
+                        <option value="venta de calzado" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de calzado' ? 'selected' : '' }}>Venta de Calzado</option>
+                    </select>
+
+                    <input type="email" name="usuario" value="{{ old('usuario', $vendedor?->usuario) }}" placeholder="Correo electrónico" required
+                        class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+
+                    <input type="password" name="password" maxlength="8" placeholder="Contraseña"
+                        class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+
+                    <input type="password" name="password_confirmation" maxlength="8" placeholder="Confirmar Contraseña" required
+                        class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+
+                    <label class="flex items-center text-gray-600 text-sm col-span-2">
+                        <input type="checkbox" id="show-passwords" class="mr-2"> Mostrar Contraseñas
+                    </label>
+                </div>
+
+                {{-- Botones --}}
+                <div class="flex flex-col gap-4 mt-6">
+                    <button class="w-full py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-xl hover:shadow-lg transition">Actualizar Vendedor</button>
+                    <a href="{{ route('mercados.listavendedores') }}" class="w-full py-3 bg-gray-500 text-white font-bold rounded-xl text-center hover:bg-gray-600 transition">Cancelar Actualización</a>
+                </div>
+            </form>
         </div>
-    </section>
+    </main>
+
+    {{-- Footer --}}
+    @include('components.footer')
 
     <script>
+        // Preview de imagen
         document.getElementById('imagen_de_referencia').addEventListener('change', function (e) {
             const preview = document.getElementById('img-preview');
             const file = e.target.files[0];
-
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function () {
-                    preview.src = reader.result;
-                    preview.classList.remove('hidden');
-                };
+                reader.onload = () => { preview.src = reader.result; preview.classList.remove('hidden'); };
                 reader.readAsDataURL(file);
             } else {
-                preview.src = '';
-                preview.classList.add('hidden');
+                preview.src = ''; preview.classList.add('hidden');
             }
         });
 
+        // Mostrar contraseñas
         document.getElementById('show-passwords').addEventListener('change', function () {
-            const passwords = document.querySelectorAll('#password, #password_confirmation');
-            passwords.forEach(password => {
-                password.type = this.checked ? 'text' : 'password';
-            });
+            document.querySelectorAll('#password, #password_confirmation').forEach(p => p.type = this.checked ? 'text' : 'password');
         });
     </script>
 
 </body>
-
 </html>

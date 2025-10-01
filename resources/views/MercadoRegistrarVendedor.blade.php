@@ -1,220 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Registrar Vendedor</title>
-        <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
 </head>
-<body>
-    <section>
-        <div class="bottom-bar fixed bottom-[2%] left-0 right-0 md:hidden flex justify-center">
-            <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
-                <div class="flex items-center">
-                    <a href="{{ route('mercados.index') }}">
-                        <img class="w-6" src="{{ asset('imgs/mercado.home.nav.png') }}" alt="Home Icon" />
-                    </a>
-                </div>
-                <div class="flex items-center">
-                    <a href="{{ route('mercados.listavendedores') }}">
-                        <img class="w-6" src="{{ asset('imgs/mercado.vendedores.nav.png') }}" alt="Cart Icon" />
-                    </a>
-                </div>
-                <div class="flex items-center">
-                    <a href="{{ route('mercados.reservas') }}">
-                        <img class="w-6" src="{{ asset('imgs/mercado.reservas.nav.png') }}" alt="Favorites Icon" />
-                    </a>
-                </div>
-                <div class="flex items-center">
-                    <a href="{{ route('mercados.historial') }}">
-                        <img class="w-6" src="{{ asset('imgs/mercado.historial.nav.png') }}"
-                            alt="Favorites Icon" />
-                    </a>
-                </div>
-                <div class="flex items-center">
-                    <a href="{{ route('mercados.perfil') }}">
-                        <img class="w-6" src="{{ asset('imgs/mercado.perfil.nav.png') }}" alt="Profile Icon" />
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="w-72 h-auto mx-auto">
-            <div class="text-center">
-                <h1 class="text-3xl font-bold text-red-500">Registrar vendedor</h1>
-            </div>
 
+<body class="bg-gradient-to-br from-pink-50 to-red-50 min-h-screen">
 
-            <form method="POST" action="{{ route('mercados.guardarvendedor') }}" role="form" enctype="multipart/form-data">
+    {{-- Navbar Mercado --}}
+    @include('components.navbar-mercado')
+
+    <main class="max-w-3xl mx-auto mt-16 p-4">
+        <div class="bg-white rounded-3xl shadow-2xl p-8">
+            <h1 class="text-3xl font-bold text-center text-red-500 uppercase mb-2">Registrar Vendedor</h1>
+            <h2 class="text-lg text-center text-gray-700 mb-6">{{ old('nombre_del_local') }}</h2>
+
+            <form method="POST" action="{{ route('mercados.guardarvendedor') }}" enctype="multipart/form-data" class="space-y-6">
                 @csrf
+                <input type="hidden" name="fk_mercado" value="{{ $mercado->id }}">
 
-                <input type="hidden" value="{{ $mercado->id }}" name="fk_mercado">
-                <div class="pb-[7rem] mt-10 space-y-4">
-                    <!-- Mensajes de Error Generales -->
-                    @if ($errors->any())
-                        <div class="bg-red-500 text-white p-2 rounded mt-1 text-sm sm:text-sm text-center">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    <!-- INICIO DE INPUT DE LA FOTO -->
-                    <div class="flex flex-col items-center">
-                        <label for="imagen_de_referencia" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 flex items-center relative cursor-pointer">
-                            <span id="file-name" class="text-gray-400 text-xs">Imagen des <b>Usted</b> o de <b>Su Puesto</b></span>
-                            <input required type="file" accept=".png, .jpg, .jpeg" name="imagen_de_referencia" class="hidden" id="imagen_de_referencia">
-                            {!! $errors->first('imagen_de_referencia', '<div class="text-red-500 text-xs mt-1">:message</div>') !!}
-                            <span class="rounded-lg w-5 h-5 absolute right-2 top-2 bg-cover" style="background-image: url('{{ asset('imgs/files2.svg') }}');"></span>
-                        </label>
+                {{-- Mensajes de error --}}
+                @if ($errors->any())
+                    <div class="bg-red-500 text-white p-2 rounded text-center text-sm">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
-                    <!-- FIN DEL INPUT DE LA IMG -->
+                @endif
 
-                    <!-- INICIO DE LA PREVIEW -->
-                    <section class="flex flex-col items-center">
-                        <div>
-                            <p class="text-gray-400 text-xs text-center">Su foto se vería así:</p>
-                        </div>
-                        <div class="mt-4">
-                            <img id="img-preview" class="max-w max-h-xs hidden rounded-md border object-center" src="#" alt="Vista Previa de Imagen">
-                        </div>
-                    </section>
-                    <!-- FIN DE LA PREVIEW -->
+                {{-- Imagen del vendedor --}}
+                <div class="flex justify-center">
+                    <label for="imagen_de_referencia" class="w-full md:w-80 bg-red-100 border border-red-300 rounded-xl p-3 flex justify-between items-center cursor-pointer hover:bg-red-200 transition">
+                        <span class="text-gray-500 text-sm">Imagen de <b>usted</b> o de <b>su puesto</b></span>
+                        <img class="w-5 h-5" src="{{ asset('imgs/files2.svg') }}" alt="">
+                        <input type="file" name="imagen_de_referencia" id="imagen_de_referencia" class="hidden" accept=".png,.jpg,.jpeg" required>
+                    </label>
+                </div>
 
-                    <!-- Campo de Correo Electrónico -->
-                    <div class="flex flex-col items-center">
-                        <input required type="email" name="usuario" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 @error('usuario') border-red-500 @enderror" value="{{ old('usuario') }}" id="usuario" placeholder="Escriba el correo electrónico">
-                        @error('usuario')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
-                        @enderror
-                    </div>
+                {{-- Preview --}}
+                <div class="text-center mt-3">
+                    <img id="img-preview" class="hidden mx-auto max-h-40 rounded-xl shadow-lg" alt="Vista Previa">
+                </div>
 
+                {{-- Inputs en Grid --}}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="text" name="nombre" value="{{ old('nombre') }}" placeholder="Nombre" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+                    <input type="text" name="apellidos" value="{{ old('apellidos') }}" placeholder="Apellidos" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+                    <input type="text" name="telefono" value="{{ old('telefono') }}" placeholder="Teléfono" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+                    <input type="text" name="numero_puesto" value="{{ old('numero_puesto') }}" placeholder="Número de Puesto" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+                    <input type="text" name="nombre_del_local" value="{{ old('nombre_del_local') }}" placeholder="Nombre del Local" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
 
+                    <select name="clasificacion" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+                        <option value="" disabled selected>Escoge su Clasificación</option>
+                        <option value="comedor" {{ old('clasificacion')=='comedor'?'selected':'' }}>Comedor</option>
+                        <option value="ropa" {{ old('clasificacion')=='ropa'?'selected':'' }}>Ropa</option>
+                        <option value="granosbasicos" {{ old('clasificacion')=='granosbasicos'?'selected':'' }}>Granos Básicos</option>
+                        <option value="artesanias" {{ old('clasificacion')=='artesanias'?'selected':'' }}>Artesanías</option>
+                        <option value="mariscos" {{ old('clasificacion')=='mariscos'?'selected':'' }}>Mariscos</option>
+                        <option value="carnes" {{ old('clasificacion')=='carnes'?'selected':'' }}>Carnes</option>
+                        <option value="lacteos" {{ old('clasificacion')=='lacteos'?'selected':'' }}>Lácteos</option>
+                        <option value="aves" {{ old('clasificacion')=='aves'?'selected':'' }}>Aves</option>
+                        <option value="plasticos" {{ old('clasificacion')=='plasticos'?'selected':'' }}>Plásticos</option>
+                        <option value="frutasyverduras" {{ old('clasificacion')=='frutasyverduras'?'selected':'' }}>Frutas y Verduras</option>
+                        <option value="emprendimiento" {{ old('clasificacion')=='emprendimiento'?'selected':'' }}>Emprendimiento</option>
+                        <option value="otros" {{ old('clasificacion')=='otros'?'selected':'' }}>Otros</option>
+                    </select>
 
-                    <!-- Campo de Nombre -->
-                    <div class="flex flex-col items-center">
-                        <input required type="text" name="nombre" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 @error('nombre') border-red-500 @enderror" value="{{ old('nombre') }}" id="nombre" placeholder="Escriba el Nombre del Vendedor">
-                        @error('nombre')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <input type="email" name="usuario" value="{{ old('usuario') }}" placeholder="Correo electrónico" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
 
-                    <!-- Campo de Apellidos -->
-                    <div class="flex flex-col items-center">
-                        <input required type="text" name="apellidos" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 @error('apellidos') border-red-500 @enderror" value="{{ old('apellidos') }}" id="apellidos" placeholder="Escriba los Apellidos del Vendedor">
-                        @error('apellidos')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <input type="password" name="password" id="password" placeholder="Contraseña" maxlength="8" class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+                    <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirmar Contraseña" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
 
-                    <!-- Campo de Nombre del Local -->
-                    <div class="flex flex-col items-center">
-                        <input type="text" name="nombre_del_local" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 @error('nombre_del_local') border-red-500 @enderror" value="{{ old('nombre_del_local') }}" id="nombre_del_local" placeholder="Digite el Nombre de su Local (Será Público)">
-                        @error('nombre_del_local')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <label class="flex items-center text-gray-600 text-sm col-span-2">
+                        <input type="checkbox" id="show-passwords" class="mr-2"> Mostrar Contraseñas
+                    </label>
+                </div>
 
-                    <!-- Campo de Teléfono -->
-                    <div class="flex flex-col items-center">
-                        <input type="text" name="telefono" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 @error('telefono') border-red-500 @enderror" value="{{ old('telefono') }}" id="telefono" placeholder="Digite el Teléfono del Vendedor">
-                        @error('telefono')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Campo de Número de Puesto -->
-                    <div class="flex flex-col items-center">
-                        <input required type="text" name="numero_puesto" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 @error('numero_puesto') border-red-500 @enderror" value="{{ old('numero_puesto') }}" id="numero_puesto" placeholder="Escriba el Número Puesto">
-                        @error('numero_puesto')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Campo de Clasificación -->
-                    <div class="flex flex-col items-center">
-                        <select name="clasificacion" id="clasificacion" class="border bg-gray-100 rounded border-gray-400 w-80 h-9 pl-5 text-xs mt-2 text-gray-400" required>
-                        <option class="font-bold text-xs text-white" value="null">Escoga su Clasificacion</option>
-                        <option class="font-bold text-xl text-gray-800" value="comedor" {{ old('clasificacion') == 'comedor' ? 'selected' : '' }}>Comedor</option>
-                        <option class="font-bold text-xl text-gray-800" value="ropa" {{ old('clasificacion') == 'ropa' ? 'selected' : '' }}>Ropa</option>
-                        <option class="font-bold text-xl text-gray-800" value="granosbasicos" {{ old('clasificacion') == 'granosbasicos' ? 'selected' : '' }}>Granos Basicos</option>
-                        <option class="font-bold text-xl text-gray-800" value="artesanias" {{ old('clasificacion') == 'artesanias' ? 'selected' : '' }}>Artesanias</option>
-                        <option class="font-bold text-xl text-gray-800" value="mariscos" {{ old('clasificacion') == 'mariscos' ? 'selected' : '' }}>Mariscos</option>
-                        <option class="font-bold text-xl text-gray-800" value="carnes" {{ old('clasificacion') == 'carnes' ? 'selected' : '' }}>Carnes</option>
-                        <option class="font-bold text-xl text-gray-800" value="lacteos" {{ old('clasificacion') == 'lacteos' ? 'selected' : '' }}>Lacteos</option>
-                        <option class="font-bold text-xl text-gray-800" value="aves" {{ old('clasificacion') == 'aves' ? 'selected' : '' }}>Aves</option>
-                        <option class="font-bold text-xl text-gray-800" value="plasticos" {{ old('clasificacion') == 'plasticos' ? 'selected' : '' }}>Plasticos</option>
-                        <option class="font-bold text-xl text-gray-800" value="frutasyverduras" {{ old('clasificacion') == 'frutasyverduras' ? 'selected' : '' }}>Frutas Y Verduras</option>
-                        <option class="font-bold text-xl text-gray-800" value="emprendimiento" {{ old('clasificacion') == 'emprendimiento' ? 'selected' : '' }}>Emprendimiento</option>
-                        <option class="font-bold text-xl text-gray-800" value="otros" {{ old('clasificacion') == 'otros' ? 'selected' : '' }}>Otros</option>
-                        </select>
-                        @error('clasificacion')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <!-- Campo de Contraseña -->
-                    <div class="flex flex-col items-center">
-                        <input type="password" maxlength="8" name="password" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('password') is-invalid @enderror" value="{{ old('password') }}" id="password" placeholder="Escriba su Contraseña">
-                        @error('password')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Campo de Confirmación de Contraseña -->
-                    <div class="flex flex-col items-center">
-                        <input required type="password" name="password_confirmation" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 @error('password_confirmation') border-red-500 @enderror" id="password_confirmation" placeholder="Confirme su Contraseña">
-                        @error('password_confirmation')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Mostrar Contraseñas -->
-                    <div class="flex items-center justify-center mt-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" id="show-passwords" class="mr-2">
-                            <span class="text-xs text-gray-600">Mostrar Contraseñas</span>
-                        </label>
-                    </div>
-
-                    <!-- Botón para Registrarse -->
-                    <div class="flex flex-col items-center">
-                        <button type="submit" class="w-80 bg-red-600 text-white text-center text-sm py-2 px-4 rounded-md shadow-md hover:bg-red-700 mt-5">Registrarse</button>
-                    </div>
+                {{-- Botones --}}
+                <div class="flex flex-col gap-4 mt-6">
+                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-xl hover:shadow-lg transition">Registrar Vendedor</button>
+                    <a href="{{ route('mercados.listavendedores') }}" class="w-full py-3 bg-gray-500 text-white font-bold rounded-xl text-center hover:bg-gray-600 transition">Cancelar</a>
                 </div>
             </form>
         </div>
-    </section>
+    </main>
+
+    {{-- Footer --}}
+    @include('components.footer')
 
     <script>
-        const inputImage = document.getElementById('imagen_de_referencia');
-        const imgPreview = document.getElementById('img-preview');
-        const fileNameSpan = document.getElementById('file-name');
-
-        inputImage.addEventListener('change', function(event) {
-            const file = event.target.files[0];
+        // Preview de imagen
+        document.getElementById('imagen_de_referencia').addEventListener('change', function (e) {
+            const preview = document.getElementById('img-preview');
+            const file = e.target.files[0];
             if (file) {
-                fileNameSpan.textContent = file.name;
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    imgPreview.src = e.target.result;
-                    imgPreview.classList.remove('hidden');
-                    imgPreview.classList.add('block');
-                };
+                reader.onload = () => { preview.src = reader.result; preview.classList.remove('hidden'); };
                 reader.readAsDataURL(file);
+            } else {
+                preview.src = ''; preview.classList.add('hidden');
             }
         });
 
-        const showPasswordsCheckbox = document.getElementById('show-passwords');
-        const passwordInput = document.getElementById('password');
-        const passwordConfirmationInput = document.getElementById('password_confirmation');
-
-        showPasswordsCheckbox.addEventListener('change', function() {
-            const type = this.checked ? 'text' : 'password';
-            passwordInput.type = type;
-            passwordConfirmationInput.type = type;
+        // Mostrar contraseñas
+        document.getElementById('show-passwords').addEventListener('change', function () {
+            document.querySelectorAll('#password, #password_confirmation').forEach(p => p.type = this.checked ? 'text' : 'password');
         });
     </script>
+
 </body>
 </html>
