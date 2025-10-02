@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
@@ -256,6 +257,78 @@ class UsuariosController extends Controller
 
         return redirect()->route('usuarios.carrito')->with('success', 'Producto agregado al carrito correctamente.');
     }
+    //Funcion de pago del carrito de compras
+
+    public function checkout(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login')->with('error','Debe iniciar sesión para completar el pago');
+        }
+
+        DB::beginTransaction();
+        try {
+            //Obtencion de articulos del carrito
+            $cartItems = Cart::where('fk_user',Auth::id())->with('product.vendedor')->get();
+
+            if ($cartItems->isEmpty()) {
+                DB::rollBack();
+                return redirect()->route('usuarios.carrito')->with('error','Su carrito está vacío. Agregue productos antes de pagar.');
+            }
+            //Creacion de una nueva reserva (estado inicial: "en_espera o similar a "pendiente")
+            $reservation = reservation::create([
+                'fk_user' => Auth::id(),
+                'total' => 0,
+                'estado' => 'en_espera'
+            ]);
+            $total = 0;
+
+            //Mover los items del carrito a ReservationItem
+            foreach ($cartItems as $item) {
+                //validacion del stock
+                if ($item->product->stock < $item->quantity) {
+                    DB::rollBack();
+                    return redirect()->route('usuarios.carrito')->with('error','El producto' . $item->product->nombre .'No tiene suficiente stock disponible');
+                }
+
+                //Crea elementos de reserva
+                ReservationItem::create([
+                    'fk_reservation' => $reservation->id,
+                    'fk_product' => $item->fk_product,
+                    'quantity' => $item->quantity,
+                    'nombre' => $item->product->nombre,
+                    'subtotal' => $item->subtotal,
+                    'fk_vendedors' => $item->product->vendedor->id, 
+                    'fk_mercados' => $item->product->vendedor->fk_mercado,
+                    'precio' => $item->product->price,
+                    'estado' => 'en_espera'
+                ]);
+                //descontar stock del producto
+                $item->product->decrement('stock', $item->quantity);
+
+                //calcular el total
+                $total += $item->subtotal;
+            }
+
+            //Actualizar el total de la reserva
+            $reservation->total =$total;
+            $reservation->save();
+
+            //vaciar el carrito de compras
+            cart::where('fk_user',Auth::id())->delete();
+            DB::commit();
+            //la alerta de éxito
+            return redirect()->route('usuarios.reservas')->with('success', '¡El pago ha sido procesado con éxito! Su pedido se ha generado. Por favor, revise su sección de reservas.');
+       
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Fallo de checkout:',[
+                'user_id' => Auth::id(),
+                'error_message' => $e->getMessage(),
+                'stack_trace' => $e->getTraceAsString(),
+            ]);
+        }
+    }
 
     /**
      * IMPRIMIR RECIBO
@@ -266,11 +339,11 @@ class UsuariosController extends Controller
         $reservation = Reservation::with('items.product.vendedor.mercadoLocal')->findOrFail($id);
 
         // Obtener los mercados únicos relacionados con la reserva
-        $mercados = $reservation->items->map(function ($item) {
+       $mercados = collect($reservation->items)->map(function ($item) {
             return $item->product->vendedor->mercadoLocal;
         })->unique('id');
 
-        $vendedor = $reservation->items->map(function ($item) {
+        $vendedor = collect($reservation->items)->map(function ($item) {
             return $item->product->vendedor;
         })->unique('id');
 
@@ -297,14 +370,15 @@ class UsuariosController extends Controller
         $reservation = Reservation::with('items.product.vendedor.mercadoLocal')->findOrFail($id);
 
         // Obtener los mercados únicos relacionados con la reserva
-        $mercados = $reservation->items->map(function ($item) {
+        $mercados = collect($reservation->items)->map(function ($item) {
             return $item->product->vendedor->mercadoLocal;
         })->unique('id');
 
         // Obtener los vendedores únicos
-        $vendedor = $reservation->items->map(function ($item) {
+        $vendedor = collect($reservation->items)->map(function ($item) {
             return $item->product->vendedor;
         })->unique('id');
+
 
         // Generar el PDF
         $pdf = Pdf::loadView('receipt', [
@@ -328,7 +402,7 @@ class UsuariosController extends Controller
             $total = $cartItems->reduce(fn($carry, $item) => $carry + ($item->product->price * $item->quantity), 0);
             return view('UserCarritoGeneral', compact('cartItems', 'total', 'userid'));
         } catch (\Exception $e) {
-            \Log::error('Error en carrito: ' . $e->getMessage());
+            Log::error('Error en carrito: ' . $e->getMessage());
             return response()->json(['error' => 'Ocurrió un error interno del servidor'], 500);
         }
     }
@@ -574,4 +648,3 @@ class UsuariosController extends Controller
 
 
 }
-
