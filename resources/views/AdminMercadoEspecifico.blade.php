@@ -11,25 +11,25 @@
 
 <body>
     <!-- Desktop Navbar -->
-    <div class="hidden md:flex p-4 bg-white items-center justify-between shadow-md">
+    <nav class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
         <a href="{{ route('admin.index') }}">
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-semibold">
-                Tienda <span class="text-purple-600"><b>Admin</b></span>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+                TiendaKelly <span class="text-indigo-600"><b>Admin</b></span>
             </h1>
         </a>
         <div class="flex gap-8">
             <a href="{{ route('admin.index') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mercados</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Areas</a>
             <a href="{{ route('admin.vendedores') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Vendedores</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Vendedores</a>
             <a href="{{ route('admin.clientes') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Clientes</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Clientes</a>
             <a href="{{ route('AdminProfileVista')}}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-white hover:bg-black border border-black px-2 py-1 rounded-md">
+                class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
                 Perfil
             </a>
         </div>
-    </div>
+    </nav>
 
 
 
@@ -65,9 +65,6 @@
                 <div class=" lg:text-[60px] font-semibold">
                     {{ $mercadoLocal->nombre }}
                 </div>
-                <div class=" lg:text-[40px]">
-                    Ubicado en {{ $mercadoLocal->ubicacion }}
-                </div>
             </div>
         </div>
 
@@ -86,15 +83,6 @@
                 <h3 class="font-bold mt-5">{{ $vendedor->nombre_del_local}}</h3>
                 <h3 class="mb-2">Propietario: {{ $vendedor->nombre}} {{$vendedor->apellidos }}</h3>
                 <div class="flex justify-between">
-                    <h3>
-                        @if ($vendedor->clasificacion == 'frutasyverduras')
-                        Frutas y Verduras
-                        @elseif ( $vendedor->clasificacion == 'comedor')
-                        Comedor
-                        @else
-                        {{ $vendedor->clasificacion }}
-                        @endif
-                    </h3>
                     <div class="flex items-center">
                         <h3 class="mr-2">4.2</h3>
                         <img class="w-5 " src="{{ asset('imgs/estrella.png') }}" alt="User Icon">
@@ -105,10 +93,6 @@
             @endforeach
             @endif
             <!--FIN DE CARTA-->
-
-
-
-
 
         </div>
     </div>
