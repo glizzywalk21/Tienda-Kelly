@@ -48,10 +48,10 @@ return new class extends Migration {
             ],
             [
                 'name' => 'Carne Guisada',
-                'description' => 'Carne guisada con acompañamientos',
+                'description' => 'Carne guisada con papas',
                 'price' => 3.00,
                 'talla' => null,
-                'imagen_referencia' => 'carneguisada.png',
+                'imagen_referencia' => 'Carne.jpg',
                 'estado' => 'Disponible',
                 'fk_vendedors' => 1,
             ],

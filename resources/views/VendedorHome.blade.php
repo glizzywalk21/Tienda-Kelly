@@ -109,9 +109,6 @@
                 Correo Electronico: <span>{{ $vendedor->usuario }}</span>
             </div>
 
-            <div class="text-[1rem] lg:font-semibold  lg:text-[1.3rem] mt-2">
-                Clasificacion: <b class=" text-rose-400">{{ $vendedor->clasificacion }}</b>
-            </div>
             <div class="mt-4 md:mt-[2rem] xl:mt-[3rem]">
                 <a href="{{ route('vendedores.editar', $vendedor->id) }}"
                     class="lg:px-[2rem] lg:py-[1rem] lg:text-[1rem] px-4 py-3 text-sm font-medium text-white bg-rose-400 rounded-md mt-2 hover:bg-rose-500"

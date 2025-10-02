@@ -16,19 +16,21 @@
             <div class="max-w-lg">
                 <!-- Logo / Título -->
                 <h1 class="font-extrabold text-6xl text-center tracking-tight">
-                    <span class="text-indigo-600">Tienda</span> 
+                    <span class="text-indigo-600">Tienda</span>
                     <span class="text-blue-500">Kelly</span>
                 </h1>
 
                 <!-- Descripción -->
-                <p class="hidden md:block text-gray-700 mt-6 text-lg text-justify leading-relaxed">
-                    En <span class="font-semibold text-indigo-600">Tienda Kelly</span> puedes encontrar tus 
-                    <span class="font-semibold">Mercados Municipales</span> favoritos, locales, vendedores, 
-                    comedores, tiendas de mayoreo y reservar productos para retirarlos en tu Mercado más cercano.
+                <p class="hidden md:block text-gray-700 mt-6 text-lg leading-relaxed">
+                    En <span class="font-semibold text-indigo-600">Tienda Kelly</span> encuentras
+                    <span class="font-semibold">múltiples áreas</span>: abarrotes, frutas y verduras,
+                    carnes y embutidos, lácteos, bebidas, limpieza, cuidado personal, hogar y más.
+                    Explora catálogos, reserva productos y recógelos cuando te convenga.
                 </p>
 
-                <p class="md:hidden mt-4 text-center text-gray-700 text-sm">
-                    Los mejores productos en el mejor <br><span class="font-semibold text-indigo-600">lugar</span>.
+                <p class="mt-4 text-center text-gray-700 text-sm md:text-base">
+                    Los mejores productos para cada área, en un solo <span
+                        class="font-semibold text-indigo-600">lugar</span>.
                 </p>
 
                 <!-- Botones -->
@@ -69,8 +71,10 @@
         </div>
 
         <!-- Imagen -->
-        <div class="hidden md:flex justify-center items-center md:w-1/2 bg-gradient-to-tr from-indigo-100 via-blue-50 to-white">
-            <img class="w-[80%] drop-shadow-2xl animate-fade-in" src="{{ asset('imgs/imagenindex.png') }}" alt="Imagen principal">
+        <div
+            class="hidden md:flex justify-center items-center md:w-1/2 bg-gradient-to-tr from-indigo-100 via-blue-50 to-white">
+            <img class="w-[80%] drop-shadow-2xl animate-fade-in" src="{{ asset('imgs/imagenindex.png') }}"
+                alt="Imagen principal">
         </div>
     </div>
 </body>
