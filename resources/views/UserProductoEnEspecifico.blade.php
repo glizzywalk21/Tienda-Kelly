@@ -92,6 +92,26 @@
 
                     </div>
 
+                    <!--Tallas-->
+                        @if ($product->fk_vendedors == '4')
+                        <div flex justify-between items-center mb-6>
+                            <h2 class="font-bold text-2xl lg:text-3xl text-gray-800">Talla</h2>
+                            <div class="grid grid-cols-6 gap-2">
+                                @foreach ([34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45] as $talla)
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="talla" value="{{ $talla }}" class="hidden peer"
+                                        required>
+                                    <div
+                                        class="px-4 py-2 border rounded-lg text-center peer-checked:bg-gray-300 peer-checked:text-black hover:bg-gray-200">
+                                        {{ $talla }}
+                                    </div>
+                                </label>
+                                @endforeach
+                            </div>
+                        @endif
+                        </div>
+                    <!--Tallas-->
+
                     <!--ESTRELLAS
                 <div class="flex items-center mb-4">
                     <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">

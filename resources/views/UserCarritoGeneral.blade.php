@@ -138,8 +138,6 @@
             </div>
 
         </div>
-
-
     </main>
     <footer class="bg-[#292526] pb-16">
         <div class="flex flex-col gap-6 md:gap-0 md:grid grid-cols-3 text-white  p-12">
