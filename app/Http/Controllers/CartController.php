@@ -14,6 +14,7 @@ class Cart extends Model
         'fk_user',
         'subtotal', // Añadimos fk_user a los campos fillable
         'quantity',
+        'talla', // Se agrega talla para el campo de zapateria
     ];
 
     public function product()

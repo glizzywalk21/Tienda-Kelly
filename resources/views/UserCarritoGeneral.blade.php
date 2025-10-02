@@ -71,6 +71,11 @@
                         <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">{{ $cartItem->product->name }}</h2>
                         <p class="text-gray-600 text-lg mb-1">Precio: ${{ $cartItem->product->price }} c/u</p>
                         <p class="text-gray-700 text-lg font-semibold">Cantidad: {{ $cartItem->quantity }}</p>
+                        @if ($cartItem->talla >= 34 || $cartItem->talla  == 45)
+                            <p class="text-gray-800 font-bold mt-2">Talla:
+                                {{ $cartItem->talla}}
+                            </p>
+                        @endif
                         <p class="text-gray-800 font-bold mt-2">Subtotal: ${{ $cartItem->product->price * $cartItem->quantity }}</p>
                     </div>
 
@@ -87,45 +92,6 @@
                 </div>
                 @endforeach
             </div>
-        </div>
-    </main>
-    <footer class="bg-[#292526] pb-16">
-        <div class="flex flex-col gap-6 md:gap-0 md:grid grid-cols-3 text-white  p-12">
-            <div>
-                <b>
-                    <h2>Contact Us</h2>
-                </b>
-                <p>Whatsapp: wa.me/50369565421</p>
-                <p>Correo Electronico: contacto@TiendaKelly.sv</p>
-                <p>Dirección: San Rafael cedros, cuscatlan</p>
-            </div>
-            <div>
-                <b>
-                    <b>
-                        <h2>Sobre nosotros</h2>
-                    </b>
-                </b>
-                <p>Somos un equipo de desarrollo web dedicado a apoyar a los vendedores locales y municipales, brindando soluciones tecnológicas para fortalecer los mercados
-                    locales.</p>
-            </div>
-            <div class="md:self-end md:justify-self-end pb-4">
-                <p class="font-black text-5xl mb-4">Tienda <span class="text-blue-600">Kelly</span></p>
-                <div class="flex gap-2">
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/facebook.png') }}" alt="">
-                    </div>
-                    <div class="w-8 aspect-square  flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/google.png') }}" alt="">
-                    </div>
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/linkedin.png') }}" alt="">
-                    </div>
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/twitter.png') }}" alt="">
-                    </div>
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" src="{{ asset('imgs/youtube.png') }}" alt="">
-
             <!-- Columna derecha: total y reserva con mini-resumen -->
             <div class="space-y-6">
                 <div
@@ -171,13 +137,48 @@
                 </div>
             </div>
         </div>
+    </main>
+    <footer class="bg-[#292526] pb-16">
+        <div class="flex flex-col gap-6 md:gap-0 md:grid grid-cols-3 text-white  p-12">
+            <div>
+                <b>
+                    <h2>Contact Us</h2>
+                </b>
+                <p>Whatsapp: wa.me/50369565421</p>
+                <p>Correo Electronico: contacto@TiendaKelly.sv</p>
+                <p>Dirección: San Rafael cedros, cuscatlan</p>
+            </div>
+            <div>
+                <b>
+                    <b>
+                        <h2>Sobre nosotros</h2>
+                    </b>
+                </b>
+                <p>Somos un equipo de desarrollo web dedicado a apoyar a los vendedores locales y municipales, brindando soluciones tecnológicas para fortalecer los mercados
+                    locales.</p>
+            </div>
+            <div class="md:self-end md:justify-self-end pb-4">
+                <p class="font-black text-5xl mb-4">Tienda <span class="text-blue-600">Kelly</span></p>
+                <div class="flex gap-2">
+                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
+                        <img width="18" class="invert" src="{{ asset('imgs/facebook.png') }}" alt="">
+                    </div>
+                    <div class="w-8 aspect-square  flex justify-center items-center bg-white rounded-full">
+                        <img width="18" class="invert" src="{{ asset('imgs/google.png') }}" alt="">
+                    </div>
+                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
+                        <img width="18" class="invert" src="{{ asset('imgs/linkedin.png') }}" alt="">
+                    </div>
+                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
+                        <img width="18" class="invert" src="{{ asset('imgs/twitter.png') }}" alt="">
+                    </div>
+                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
+                        <img width="18" src="{{ asset('imgs/youtube.png') }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
         @endif
     </main>
-
-    <!-- Footer -->
-    <footer class="mt-auto">
-        @include('components.footer')
-    </footer>
-
 </body>
 </html>
