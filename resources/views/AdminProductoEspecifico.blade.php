@@ -10,27 +10,27 @@
     <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
 </head>
 
-<body>
+<body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white text-gray-800">
     <!-- Desktop Navbar -->
-    <div class="hidden md:flex p-4 bg-white items-center justify-between shadow-md">
-
+    <nav class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
         <a href="{{ route('admin.index') }}">
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-black">
-                Admin <span class="text-purple-600"><b>Tienda</b></span>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+                TiendaKelly <span class="text-indigo-600"><b>Admin</b></span>
             </h1>
         </a>
-
         <div class="flex gap-8">
             <a href="{{ route('admin.index') }}"
-                class="font-bold uppercase text-sm lg:text-base hover:text-gray-300">Mercados</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Areas</a>
             <a href="{{ route('admin.vendedores') }}"
-                class="font-bold uppercase text-sm lg:text-base hover:text-gray-300">Vendedores</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Vendedores</a>
             <a href="{{ route('admin.clientes') }}"
-                class="font-bold uppercase text-sm lg:text-base hover:text-gray-300">Clientes</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Clientes</a>
             <a href="{{ route('AdminProfileVista')}}"
-                class="font-bold uppercase text-sm lg:text-base hover:text-gray-300">Perfil</a>
+                class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
+                Perfil
+            </a>
         </div>
-    </div>
+    </nav>
 
 
 
