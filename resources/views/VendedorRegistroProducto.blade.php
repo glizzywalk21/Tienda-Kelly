@@ -11,23 +11,23 @@
 
 <body>
     <!-- Desktop Navbar -->
-    <div class="hidden md:flex p-4 bg-white items-center justify-between shadow-md">
+    <div class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
         <a href="{{ route('vendedores.index') }}">
-            <h1 class="text-3xl md:text-4xl lg:text- font-bold">
-                Tienda Kelly <span class="text-rose-400 font-bold">Vendedores</span>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+                Tienda Kelly <span class="text-indigo-400 font-bold">Vendedores</span>
             </h1>
         </a>
         <div class="flex gap-8">
             <a href="{{ route('vendedores.index') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mi Puesto</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Puesto</a>
             <a href="{{ route('vendedores.productos') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mis Productos</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mis Productos</a>
             <a href="{{ route('vendedores.reservas') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mi Reservas</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Reservas</a>
             <a href="{{ route('vendedores.historial') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mis Historial</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mis Historial</a>
             <a href="{{ route('vendedor.perfil') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-white hover:bg-black border border-black px-2 py-1 rounded-md">
+                class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
                 Perfil
             </a>
         </div>
@@ -65,109 +65,93 @@
     </div>
     <!-- fin del Mobile Navbar -->
 
-    <form method="POST" action="{{ route('vendedores.guardarproducto') }}" enctype="multipart/form-data"
-        onsubmit="calculatePrice()">
+    <form method="POST" action="{{ route('vendedores.guardarproducto') }}" enctype="multipart/form-data" onsubmit="calculatePrice()">
         @csrf
         <input type="hidden" name="fk_vendedors" value="{{ $vendedor->id }}">
 
-        <section>
-            <div class="w-72 h-auto mx-auto mt-16">
-                <div class="text-center">
-                    <h1 class="text-[1.8rem] font-bold text-rose-400">Registrar Producto</h1>
-                    <h3 class=" text-[1.5rem]">Puesto de: <span class="">{{ $vendedor->nombre_del_local }}</span>
-                    </h3>
+        <section class="max-w-md mx-auto mt-16 bg-white p-6 rounded-xl shadow-lg">
+            <!-- Título -->
+            <div class="text-center mb-6">
+                <h1 class="text-2xl font-bold text-indigo-500">Registrar Producto</h1>
+                <h3 class="text-lg text-gray-700">Puesto de: <span class="font-semibold">{{ $vendedor->nombre_del_local }}</span></h3>
+            </div>
+
+            <div class="space-y-5">
+                <!-- Imagen del Producto -->
+                <label for="file-input" class="flex items-center justify-between px-4 py-2 border border-gray-300 rounded-md shadow-sm cursor-pointer hover:bg-gray-50 transition">
+                    <span class="text-sm text-gray-600">Imagen del Producto</span>
+                    <input id="file-input" type="file" name="imagen_referencia" class="hidden" onchange="previewImage(event)">
+                    <span class="w-5 h-5 bg-cover" style="background-image: url('{{ asset('imgs/files2.svg') }}');"></span>
+                </label>
+                @error('imagen_referencia')
+                <p class="text-rose-500 text-xs">{{ $message }}</p>
+                @enderror
+
+                <!-- Vista previa -->
+                <div id="preview-container" class="text-center">
+                    <img id="image-preview" src="#" alt="Vista previa de la imagen" class="hidden w-48 h-48 object-cover rounded-lg mx-auto mt-4 shadow-md">
                 </div>
 
-                <div class="mt-5 space-y-4">
-                    <!-- Imagen del Producto -->
-                    <div class="flex justify-between">
-                        <label for="file-input"
-                            class="border-1 rounded border w-80 h-9 pl-5 text-xs shadow-md border-gray-400 flex items-center relative">
-                            <span class="text-gray-600">Imagen del Producto</span>
-                            <input id="file-input" type="file" name="imagen_referencia" class="hidden"
-                                onchange="previewImage(event)">
-                            <span class="rounded-lg w-5 h-5 absolute right-2 top-2 bg-cover" style="background-image: url('{{ asset('imgs/files2.svg') }}');"></span>
-                        </label>
-                    </div>
-                    @error('imagen_referencia')
-                    <p class="text-rose-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
+                <!-- Nombre del Producto -->
+                <input type="text" name="name" placeholder="Nombre del Producto"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    value="{{ old('name') }}">
+                @error('name')
+                <p class="text-red-500 text-xs">{{ $message }}</p>
+                @enderror
 
-                    <!-- Contenedor de la vista previa -->
-                    <div id="preview-container" class="mt-4">
-                        <img id="image-preview" src="#" alt="Vista previa de la imagen"
-                            class="hidden w-[200px] h-[200px] object-cover rounded-[15px] mx-auto">
-                    </div>
+                <!-- Descripción del Producto -->
+                <textarea maxlength="200" name="description" placeholder="Descripción del Producto"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm resize-none focus:outline-none focus:ring-2 focus:ring-indigo-400">{{ old('description') }}</textarea>
+                @error('description')
+                <p class="text-rose-500 text-xs">{{ $message }}</p>
+                @enderror
 
-                    <!-- Nombre del Producto -->
-                    <div class="flex justify-center mt-4">
-                        <input class="border-1 rounded border w-80 h-9 pl-5 text-xs  shadow-md border-gray-400"
-                            type="text" name="name" placeholder="Nombre del Producto"
-                            value="{{ old('name') }}">
-                    </div>
-                    @error('name')
-                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
+                <!-- Tipo de Precio -->
+                <select id="price-type" name="price_type"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    onchange="togglePriceFields()">
+                    <option value="fixed" {{ old('price_type') == 'fixed' ? 'selected' : '' }}>Precio Definido</option>
+                    <option value="per_dollar" {{ old('price_type') == 'per_dollar' ? 'selected' : '' }}>Cantidad por Dólar</option>
+                </select>
+                @error('price_type')
+                <p class="text-rose-500 text-xs">{{ $message }}</p>
+                @enderror
 
-                    <!-- Descripción del Producto -->
-                    <div class="flex justify-center">
-                        <textarea maxlength="200" class="border-1 rounded border w-80 h-16 pl-5 text-xs shadow-md border-gray-400"
-                            name="description" placeholder="Descripción del Producto">{{ old('description') }}</textarea>
-                    </div>
-                    @error('description')
-                    <p class="text-rose-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
-
-                    <!-- Tipo de Precio -->
-                    <div class="flex justify-center">
-                        <select id="price-type" name="price_type"
-                            class="border-1 rounded border w-80 h-9 pl-5 text-xs text-gray-400 shadow-md border-gray-400"
-                            onchange="togglePriceFields()">
-                            <option value="fixed" {{ old('price_type') == 'fixed' ? 'selected' : '' }}>Precio Definido
-                            </option>
-                            <option value="per_dollar" {{ old('price_type') == 'per_dollar' ? 'selected' : '' }}>
-                                Cantidad por Dólar</option>
-                        </select>
-                    </div>
-                    @error('price_type')
-                    <p class="text-rose-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
-
-                    <!-- Precio del Producto (Definido) -->
-                    <div id="fixed-price-field" class="flex justify-center mt-4">
-                        <input class="border-1 rounded border w-80 h-9 pl-5 text-xs  shadow-md border-gray-400"
-                            type="number" name="price" step="0.01" placeholder="Precio del Producto"
-                            value="{{ old('price') }}">
-                    </div>
+                <!-- Precio del Producto -->
+                <div id="fixed-price-field">
+                    <input type="number" name="price" step="0.01" placeholder="Precio del Producto"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                        value="{{ old('price') }}">
                     @error('price')
-                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    <p class="text-red-500 text-xs">{{ $message }}</p>
                     @enderror
-
-                    <!-- Cantidad por Dólar -->
-                    <div id="per-dollar-field" class=" justify-center mt-4 hidden">
-                        <input
-                            class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400"
-                            type="number" id="quantity" name="quantity" step="1"
-                            placeholder="Cantidad por Dólar" value="{{ old('quantity') }}">
-                    </div>
-                    @error('quantity')
-                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
-
-                    <!-- Estado del Producto -->
-                    <div class="flex justify-center">
-                        <input type="hidden" name="estado" value="Disponible">
-                    </div>
                 </div>
 
-                <!-- Botón para Guardar -->
-                <div class="flex justify-center mt-16">
-                    <button
-                        class="bg-rose-400 hover:bg-rose-50 w-72 h-10 text-white font-bold rounded-md">Guardar</button>
+                <!-- Cantidad por Dólar -->
+                <div id="per-dollar-field" class="hidden">
+                    <input type="number" id="quantity" name="quantity" step="1" placeholder="Cantidad por Dólar"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                        value="{{ old('quantity') }}">
+                    @error('quantity')
+                    <p class="text-red-500 text-xs">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Estado del Producto -->
+                <input type="hidden" name="estado" value="Disponible">
+
+                <!-- Botón Guardar -->
+                <div class="text-center mt-8">
+                    <button type="submit"
+                        class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-md transition duration-300">
+                        Guardar
+                    </button>
                 </div>
             </div>
         </section>
     </form>
+
 
     <script>
         function togglePriceFields() {

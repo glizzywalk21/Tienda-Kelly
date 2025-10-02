@@ -19,7 +19,7 @@
         </a>
         <div class="flex gap-8">
             <a href="{{ route('admin.index') }}"
-                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Areas</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Area</a>
             <a href="{{ route('admin.vendedores') }}"
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Vendedores</a>
             <a href="{{ route('admin.clientes') }}"
@@ -53,104 +53,47 @@
         <!--FIN DE NAVBAR MOBIL-->
     </div>
 
+    <div class="mt-14 w-full max-w-6xl mx-auto px-4">
 
-
-
-    <div class="mt-14  w-[90%] mx-auto ">
-
-        <div class="flex justify-between  w-[90%] mx-auto "> <!--Contenedor Principal-->
-            <div>
-                <div class=" lg:text-[60px]">
-                    Puesto #{{ $vendedor->numero_puesto}} {{ $vendedor->nombre_del_local }}
-                </div>
-            </div>
-
-            <div>
-                <img class="w-[200px] h-[200px] object-cover rounded-full" src="{{ asset('imgs/'.$vendedor->imagen_de_referencia) }}" alt="User Icon">
-            </div>
-
+        <!-- Encabezado del puesto -->
+        <div class="flex flex-col lg:flex-row justify-between items-center mb-10">
+            <h1 class="text-3xl lg:text-5xl font-extrabold text-gray-800 mb-4 lg:mb-0">
+                Puesto #{{ $vendedor->numero_puesto }} - {{ $vendedor->nombre_del_local }}
+            </h1>
+            <img class="w-32 h-32 lg:w-48 lg:h-48 object-cover rounded-full border-4 border-indigo-500 shadow-lg"
+                src="{{ asset('imgs/'.$vendedor->imagen_de_referencia) }}" alt="User Icon">
         </div>
 
-        <!--Comienzo de las cartas -->
-
-        <div class="flex flex-wrap justify-center mt-5 text-sm gap-[10px]  lg:gap-[40px]">
-            <!-- INICIO DE CARTA-->
+        <!-- Cartas de productos -->
+        <div class="flex flex-wrap justify-center mt-5 gap-6">
             @if ($products->isEmpty())
-            <span class="text-center justify-center flex text-[1.75rem] text-gray-600 my-[7rem]">No hay Vendedores Inscritos</span>
+            <div class="w-full text-center text-xl text-gray-500 py-20">
+                🛒 No hay productos disponibles en este momento. ¡Vuelve pronto!
+            </div>
             @else
             @foreach ($products as $product)
-            <div class="w-[48%] mb-8 p-2">
-                <img class="w-full h-[250px] rounded-md overflow-hidden object-cover"
+            <div class="w-full sm:w-[48%] lg:w-[30%] bg-white rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl p-4 mb-6">
+                <img class="w-full h-[250px] rounded-md object-cover mb-4"
                     src="{{ asset('imgs/'.$product->imagen_referencia) }}" alt="{{ $product->imagen_referencia }}">
-                <h3 class="font-bold mt-5">{{ $product->name }}</h3>
-                <h3 class="mb-2">{{ $product->vendedor->nombre_del_local }}</h3>
-                <div class="flex justify-between">
-                    <h3>{{ $product->clasificacion }}</h3>
-                    <div class="flex items-center">
-                        <h3 class="mr-2">4.2</h3>
-                        <img class="w-5 " src="{{ asset('imgs/estrella.png') }}" alt="User Icon">
+                <h3 class="font-bold text-lg text-gray-800">{{ $product->name }}</h3>
+                <p class="text-sm text-gray-600 mb-2">{{ $product->vendedor->nombre_del_local }}</p>
+                <div class="flex justify-between items-center mt-2">
+                    <span class="text-yellow-500 font-semibold">{{ $product->clasificacion }}</span>
+                    <div class="flex items-center space-x-1">
+                        <span class="text-gray-700 font-medium">4.2</span>
+                        <img class="w-5 h-5" src="{{ asset('imgs/estrella.png') }}" alt="Estrella">
                     </div>
                 </div>
-
             </div>
             @endforeach
             @endif
-            <!--FIN DE CARTA-->
-
-
-
-
-
         </div>
     </div>
-    </div>
-    </div>
-    <footer class="bg-[#292526] pb-16">
-        <div class="flex flex-col gap-6 md:gap-0 md:grid grid-cols-3 text-white  p-12">
-            <div>
-                <b><b>
-                        <h2>Contact Us</h2>
-                    </b></b>
 
-                <p>Whatsapp: wa.me/50369565421</p>
-                <p>Correo Electronico: contacto@TiendaKelly.sv</p>
-                <p>Dirección: San Rafael cedros, cuscatlan</p>
 
-            </div>
-            <div>
-                <b>
-                    <h2>Sobre nosotros</h2>
-                </b>
-                <p>Somos un equipo de desarrollo web dedicado a apoyar a los vendedores locales y municipales, brindando soluciones tecnológicas para fortalecer los mercados
-                    locales.</p>
-            </div>
-            <div class="md:self-end md:justify-self-end pb-4">
-                <p class="font-black text-5xl mb-4">Tienda <span class="text-blue-600">Kelly</span></p>
-                <div class="flex gap-2">
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/facebook.png') }}"
-                            alt="">
-                    </div>
-                    <div class="w-8 aspect-square  flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/google.png') }}" alt="">
-                    </div>
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/linkedin.png') }}"
-                            alt="">
-                    </div>
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/twitter.png') }}"
-                            alt="">
-                    </div>
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" src="{{ asset('imgs/youtube.png') }}" alt="">
-                    </div>
 
-                </div>
-            </div>
-        </div>
-        <div class="w-full h-[2px] bg-white"></div>
-    </footer>
+    <!--Incluyendo el footer desde componentes-->
+    @include('components.footer')
 
 
 </body>

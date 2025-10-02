@@ -12,23 +12,23 @@
 
 <body>
     <!-- Desktop Navbar -->
-    <div class="hidden md:flex p-4 bg-white items-center justify-between shadow-md">
+    <div class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
         <a href="{{ route('vendedores.index') }}">
-            <h1 class="text-3xl md:text-4xl lg:text- font-bold">
-                Tienda Kelly <span class="text-rose-400 font-bold">Vendedores</span>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+                Tienda Kelly <span class="text-indigo-400 font-bold">Vendedores</span>
             </h1>
         </a>
         <div class="flex gap-8">
             <a href="{{ route('vendedores.index') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mi Puesto</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Puesto</a>
             <a href="{{ route('vendedores.productos') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mis Productos</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mis Productos</a>
             <a href="{{ route('vendedores.reservas') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mi Reservas</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Reservas</a>
             <a href="{{ route('vendedores.historial') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mis Historial</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mis Historial</a>
             <a href="{{ route('vendedor.perfil') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-white hover:bg-black border border-black px-2 py-1 rounded-md">
+                class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
                 Perfil
             </a>
         </div>

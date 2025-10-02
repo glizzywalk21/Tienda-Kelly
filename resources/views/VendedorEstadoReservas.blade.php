@@ -13,23 +13,23 @@
 
 
     <!-- Desktop Navbar -->
-    <div class="hidden md:flex p-4 bg-white items-center justify-between shadow-md">
+    <div class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
         <a href="{{ route('vendedores.index') }}">
-            <h1 class="text-3xl md:text-4xl lg:text- font-bold">
-                Tienda Kelly: <span class="text-rose-400 font-bold">Vendedores</span>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+                Tienda Kelly <span class="text-indigo-400 font-bold">Vendedores</span>
             </h1>
         </a>
         <div class="flex gap-8">
             <a href="{{ route('vendedores.index') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mi Puesto</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Puesto</a>
             <a href="{{ route('vendedores.productos') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mis Productos</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mis Productos</a>
             <a href="{{ route('vendedores.reservas') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mi Reservas</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Reservas</a>
             <a href="{{ route('vendedores.historial') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mis Historial</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mis Historial</a>
             <a href="{{ route('vendedor.perfil') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-white hover:bg-black border border-black px-2 py-1 rounded-md">
+                class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
                 Perfil
             </a>
         </div>
@@ -74,7 +74,7 @@
                 <div class="ml-[2%]">
                     <h1 class="md:text-[1.5rem] text-[1rem]">{{ $vendedor->nombre_del_local }} en <span
                             class="font-semibold"> {{ $vendedor->mercadoLocal->nombre }}</span></h1>
-                    <h3 class="text-rose-400 font-bold text-[1rem]">{{ $vendedor->nombre }} {{ $vendedor->apellidos }}
+                    <h3 class="text-indigo-400 font-bold text-[1rem]">{{ $vendedor->nombre }} {{ $vendedor->apellidos }}
                     </h3>
                 </div>
                 <div class="md:hidden mr-[5%] mt-4 rounded-full w-[8rem] h-[8rem] ">
@@ -310,42 +310,9 @@
         </div>
 
     </main>
-    <footer class="bg-[#292526] pb-16">
-        <div class="flex flex-col gap-6 md:gap-0 md:grid grid-cols-3 text-white p-[3rem]">
-            <div class="hidden md:block">
-                <h2 class="font-bold">Contact Us</h2>
-                <p>Whatsapp: wa.me/50369565421</p>
-                <p>Correo Electronico: contacto@TiendaKelly.sv</p>
-                <p>Dirección: San Rafael cedros, cuscatlan</p>
-            </div>
-            <div class="hidden md:block">
-                <h2 class="font-bold">Sobre nosotros</h2>
-                <p>Somos un equipo de desarrollo web dedicado a apoyar a los vendedores locales y municipales, brindando soluciones tecnológicas para fortalecer los mercados
-                    locales.</p>
-            </div>
-            <div class="md:self-end md:justify-self-end pb-4">
-                <p class="font-black text-5xl mb-4">Tienda <span class="text-blue-600">Kelly</span></p>
-                <div class="flex gap-2">
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/facebook.png') }}" alt="">
-                    </div>
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/google.png') }}" alt="">
-                    </div>
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/linkedin.png') }}" alt="">
-                    </div>
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/twitter.png') }}" alt="">
-                    </div>
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" src="{{ asset('imgs/youtube.png') }}" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="w-full h-[2px] bg-white"></div>
-    </footer>
+
+    <!--Incluyendo el footer desde componentes-->
+    @include('components.footer')
 </body>
 
 
