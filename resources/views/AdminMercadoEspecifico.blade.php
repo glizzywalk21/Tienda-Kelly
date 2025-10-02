@@ -65,9 +65,6 @@
                 <div class=" lg:text-[60px] font-semibold">
                     {{ $mercadoLocal->nombre }}
                 </div>
-                <div class=" lg:text-[40px]">
-                    Ubicado en {{ $mercadoLocal->ubicacion }}
-                </div>
             </div>
         </div>
 
@@ -86,15 +83,6 @@
                 <h3 class="font-bold mt-5">{{ $vendedor->nombre_del_local}}</h3>
                 <h3 class="mb-2">Propietario: {{ $vendedor->nombre}} {{$vendedor->apellidos }}</h3>
                 <div class="flex justify-between">
-                    <h3>
-                        @if ($vendedor->clasificacion == 'frutasyverduras')
-                        Frutas y Verduras
-                        @elseif ( $vendedor->clasificacion == 'comedor')
-                        Comedor
-                        @else
-                        {{ $vendedor->clasificacion }}
-                        @endif
-                    </h3>
                     <div class="flex items-center">
                         <h3 class="mr-2">4.2</h3>
                         <img class="w-5 " src="{{ asset('imgs/estrella.png') }}" alt="User Icon">
@@ -105,10 +93,6 @@
             @endforeach
             @endif
             <!--FIN DE CARTA-->
-
-
-
-
 
         </div>
     </div>

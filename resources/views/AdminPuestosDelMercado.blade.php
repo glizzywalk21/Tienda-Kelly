@@ -63,9 +63,6 @@
                 <div class=" lg:text-[60px]">
                     Puesto #{{ $vendedor->numero_puesto}} {{ $vendedor->nombre_del_local }}
                 </div>
-                <div class="font-bold lg:text-[40px]">
-                    Ubicado en {{ $mercadoLocal->nombre }}
-                </div>
             </div>
 
             <div>
