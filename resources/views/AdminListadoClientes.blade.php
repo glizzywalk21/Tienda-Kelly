@@ -10,33 +10,31 @@
     <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
 </head>
 
-<body>
+<body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white text-gray-800">
 
     <!-- Desktop Navbar -->
-    <div class="hidden md:flex p-4 bg-white items-center justify-between shadow-md">
+    <nav class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
         <a href="{{ route('admin.index') }}">
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-semibold">
-                Tienda <span class="text-purple-600"><b>Admin</b></span>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+                TiendaKelly <span class="text-indigo-600"><b>Admin</b></span>
             </h1>
         </a>
         <div class="flex gap-8">
             <a href="{{ route('admin.index') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mercados</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Areas</a>
             <a href="{{ route('admin.vendedores') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Vendedores</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Vendedores</a>
             <a href="{{ route('admin.clientes') }}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Clientes</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Clientes</a>
             <a href="{{ route('AdminProfileVista')}}"
-                class="font-semibold uppercase text-sm lg:text-base hover:text-white hover:bg-black border border-black px-2 py-1 rounded-md">
+                class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
                 Perfil
             </a>
         </div>
-    </div>
+    </nav>
 
 
-
-
-    <div class="mx-auto max-w-lg mt-10"> <!-- Añadido un margen inferior -->
+    <div class="mx-auto max-w-lg mt-10 mb-60"> <!-- Añadido un margen inferior -->
         <!--INICIO DE NAVBAR MOBIL-->
         <div class="bottom-bar fixed bottom-[1%] left-0 right-0 z-[100] flex justify-center md:hidden">
             <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around ">
@@ -56,7 +54,7 @@
             </div>
             <!--FIN DE NAVBAR MOBIL-->
         </div>
-        <h2 class="text-center text-[3.5rem]"><b>Listado de Clientes</b></h2>
+        <h2 class="text-center text-[3.5rem] text-indigo-500"><b>Listado de Clientes</b></h2>
 
 
         <div>
@@ -77,61 +75,12 @@
                 </div>
             </div>
             @endforeach
-
-
-
-
-
-
-
         </div>
     </div>
-    <footer class="bg-[#292526] pb-16 mt-8">
-        <div class="flex flex-col gap-6 md:gap-0 md:grid grid-cols-3 text-white  p-12">
-            <div>
-                <b><b>
-                        <h2>Contact Us</h2>
-                    </b></b>
 
-                <p>Whatsapp: wa.me/50369565421</p>
-                <p>Correo Electronico: contacto@TiendaKelly.sv</p>
-                <p>Dirección: San Rafael cedros, cuscatlan</p>
+    <!--Incluyendo el footer desde los componetes-->
+    @include('components.footer')
 
-            </div>
-            <div>
-                <b>
-                    <h2>Sobre nosotros</h2>
-                </b>
-                <p>Somos un equipo de desarrollo web dedicado a apoyar a los vendedores locales y municipales, brindando soluciones tecnológicas para fortalecer los mercados
-                    locales.</p>
-            </div>
-            <div class="md:self-end md:justify-self-end pb-4">
-                <p class="font-black text-5xl mb-4">Tienda <span class="text-blue-600">Kelly</span></p>
-                <div class="flex gap-2">
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/facebook.png') }}"
-                            alt="">
-                    </div>
-                    <div class="w-8 aspect-square  flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/google.png') }}" alt="">
-                    </div>
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/linkedin.png') }}"
-                            alt="">
-                    </div>
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/twitter.png') }}"
-                            alt="">
-                    </div>
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" src="{{ asset('imgs/youtube.png') }}" alt="">
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="w-full h-[2px] bg-white"></div>
-    </footer>
 </body>
 
 </html>

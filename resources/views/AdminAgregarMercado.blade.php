@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,119 +8,85 @@
     <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
     <title>Agregar Mercado Local</title>
 </head>
-<body>
+
+<body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white text-gray-800">
 
 
     <section>
-
         <div class="bottom-bar fixed bottom-[1%] left-0 right-0 z-[100] flex justify-center md:hidden">
             <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around ">
                 <div class="flex items-center  ">
-                    <a href="{{ route('admin.index') }}" ><img class="w-6" src="{{ asset('imgs/admin.home.nav.png') }}" alt="User Icon"></a>
+                    <a href="{{ route('admin.index') }}"><img class="w-6" src="{{ asset('imgs/admin.home.nav.png') }}" alt="User Icon"></a>
                 </div>
                 <div class="flex items-center">
                     <a href="{{ route('admin.vendedores') }}"><img class="w-6" src="{{ asset('imgs/admin.sellers.nav.png') }}" alt="User Icon"></a>
                 </div>
                 <div class="flex items-center">
-                    <a href="{{ route('admin.clientes') }}" ><img class="w-6" src="{{ asset('imgs/admin.users.nav.png') }}" alt="User Icon"></a>
+                    <a href="{{ route('admin.clientes') }}"><img class="w-6" src="{{ asset('imgs/admin.users.nav.png') }}" alt="User Icon"></a>
                 </div>
                 <div class="flex items-center">
 
-                    <a href="{{ route('AdminProfileVista')}}"  ><img class="w-6" src="{{ asset('imgs/UserIcon.png') }}" alt="User Icon"></a>
+                    <a href="{{ route('AdminProfileVista')}}"><img class="w-6" src="{{ asset('imgs/UserIcon.png') }}" alt="User Icon"></a>
                 </div>
             </div>
             <!--FIN DE NAVBAR MOBIL-->
         </div>
-        <div class="w-72 mx-auto mt-16 ">
 
-
-
-
-            <div class="text-center">
-                <h1 class="text-3xl font-bold text-purple-600">Agregar Mercado</h1>
-                <h3 class="mt- "><b>LOCAL</b></h3>
+        <div class="max-w-xl mx-auto px-4 mt-32 ">
+            <!-- Título -->
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-extrabold text-indigo-600">Agregar Area</h1>
+                <h2 class="text-sm text-gray-500 mt-2 tracking-wide">LOCAL</h2>
             </div>
-            <form method="POST" action="{{ route('admin.guardarmercados') }}"  role="form" enctype="multipart/form-data">
+
+            <!-- Formulario -->
+            <form method="POST" action="{{ route('admin.guardarmercados') }}" enctype="multipart/form-data">
                 @csrf
+                <div class="space-y-6">
 
+                    <!-- Imagen del mercado -->
+                    <div>
+                        <label for="imagen_referencia" class="block text-sm font-medium text-gray-700 mb-1">Imagen del area</label>
+                        <input required type="file" accept=".png, .jpg, .jpeg" name="imagen_referencia" id="imagen_referencia"
+                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                        {!! $errors->first('imagen_referencia', '<div class="text-red-500 text-xs mt-1"><strong>:message</strong></div>') !!}
+                    </div>
 
-            <div class="mt-20 space-y-4">
+                    <!-- Vista previa -->
+                    <div>
+                        <p class="text-gray-400 text-xs text-center">Su foto se vería así:</p>
+                        <img id="img-preview" class="mt-4 hidden w-full max-h-64 object-cover rounded-md border" src="#" alt="Vista Previa de Imagen">
+                    </div>
 
-                <!--INICIO DE INPUT DE LA FOTO-->
-                <div class="flex justify-between">
-                    <label for="imagen_referencia" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 flex items-center relative cursor-pointer">
-                        <span id="file-name" class="text-gray-400 text-xs">Imagen del mercado</span>
-                        <input required type="file" accept=".png, .jpg, .jpeg" name="imagen_referencia" class="hidden" id="imagen_referencia">
-                        {!! $errors->first('imagen_referencia', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                        <span class="rounded-lg w-5 h-5 absolute right-2 top-2 bg-cover" style="background-image: url('{{ asset('imgs/files2.svg') }}');"></span>
-                    </label>
+                    <!-- Nombre del mercado -->
+                    <div>
+                        <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre Registrado del area</label>
+                        <input required type="text" name="nombre" id="nombre" value="{{ old('nombre', $mercadoLocal?->nombre) }}"
+                            placeholder="Ej. area central"
+                            class="w-full border rounded-md px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                        {!! $errors->first('nombre', '<div class="text-red-500 text-xs mt-1"><strong>:message</strong></div>') !!}
+                    </div>
+
+                    <!-- Descripción -->
+                    <div>
+                        <label for="descripcion" class="block text-sm font-medium text-gray-700 mb-1">Descripción del area</label>
+                        <textarea maxlength="200" required name="descripcion" id="descripcion" rows="4"
+                            class="w-full border rounded-md px-4 py-2 text-sm shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                            placeholder="Describe brevemente de el area">{{ old('descripcion', $mercadoLocal?->descripcion) }}</textarea>
+                        {!! $errors->first('descripcion', '<div class="text-red-500 text-xs mt-1"><strong>:message</strong></div>') !!}
+                    </div>
+
+                    <!-- Botón -->
+                    <div>
+                        <button type="submit"
+                            class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200">
+                            Guardar
+                        </button>
+                    </div>
                 </div>
-                <!--FIN DEL INPUT DE LA IMG-->
-
-                <!--INICIO DE LA PREVIEW-->
-                <div>
-                    <p class="text-gray-400 text-xs text-center">Su foto se veria asi: </p>
-                </div>
-                <div class="mt-4">
-                    <img id="img-preview" class="max-w max-h-xs hidden rounded-md border" src="#" alt="Vista Previa de Imagen">
-                </div>
-
-                <!---FIN DE LA PREVIEW-->
-
-
-
-                <div class="flex justify-center">
-
-                    <input required type="text" name="nombre" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('nombre') is-invalid @enderror" value="{{ old('nombre', $mercadoLocal?->nombre) }}" id="nombre" placeholder="Nombre Registrado del Mercado">
-                    {!! $errors->first('nombre', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                </div>
-
-
-                <div class="flex justify-center">
-
-                    <input required type="text" name="municipio" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('municipio') is-invalid @enderror" value="{{ old('municipio', $mercadoLocal?->municipio) }}" id="municipio" placeholder="Municipio Ubicado">
-                    {!! $errors->first('municipio', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                </div>
-                <div class="flex justify-center">
-
-                    <input required type="text" name="ubicacion" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('ubicacion') is-invalid @enderror" value="{{ old('ubicacion', $mercadoLocal?->ubicacion) }}" id="ubicacion" placeholder="Ubicacion Especifica del Mercado">
-                    {!! $errors->first('ubicacion', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                </div>
-                <div class="flex justify-center">
-                    <span class="text-xs text-gray-400 px-6">Hora de Entrada</span>
-                    <span class="px-6 text-xs text-gray-400">Hora de Salida</span>
-                </div>
-                <div class="flex justify-center">
-
-                    <input required type="time" name="horaentrada" class=" border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('horaentrada') is-invalid @enderror" value="{{ old('horaentrada', $mercadoLocal?->horaentrada) }}" id="horaentrada" placeholder="Horaentrada">
-                    {!! $errors->first('horaentrada', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-
-                    <input required type="time" name="horasalida" class=" border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('horasalida') is-invalid @enderror" value="{{ old('horasalida', $mercadoLocal?->horasalida) }}" id="horasalida" placeholder="Horasalida">
-                    {!! $errors->first('horasalida', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                </div>
-                <div class="flex justify-center">
-                    <span class="text-xs text-gray-400 px-6">Descripcion del Mercado</span>
-
-                </div>
-                <div class="flex justify-center">
-                    <textarea maxlength="200" required name="descripcion" class="border-1 rounded border w-80 h-24 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('descripcion') is-invalid @enderror"  id="descripcion" >{{ old('descripcion', $mercadoLocal?->descripcion) }}</textarea>
-                    {!! $errors->first('descripcion', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                </div>
-
-
-
-
-
-
-            <div class="flex justify-center ">
-                <button class="btn btn-primary bg-purple-500 w-72 h-10 flex items-center mt-10 mb-20 justify-center gap-x-2 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-purple-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-opacity-50">Guardar</button>
-            </div>
-
-
-
-
+            </form>
         </div>
-    </form>
+
 
     </section>
     <script>
@@ -148,6 +114,5 @@
     </script>
 
 </body>
+
 </html>
-
-
