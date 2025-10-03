@@ -154,42 +154,6 @@
                     <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                     @enderror
 
-                    <!-- Categoría del Producto -->
-                    <div class="flex justify-center">
-                        <select name="clasificacion" id="clasificacion"
-                            class="border  rounded border-gray-400 w-full h-9 pl-5 text-xs mt-2 text-gray-400">
-                            <option class=" text-[1rem] text-black" value="">Escoga su Clasificacion</option>
-                            <option class="text-[1rem] text-black" value="comida"
-                                {{ old('clasificacion') == 'comida' ? 'selected' : '' }}>Comida</option>
-                            <option class="text-[1rem] text-black" value="ropa"
-                                {{ old('clasificacion') == 'ropa' ? 'selected' : '' }}>Ropa</option>
-                            <option class="text-[1rem] text-black" value="granosbasicos"
-                                {{ old('clasificacion') == 'granosbasicos' ? 'selected' : '' }}>Granos Basicos</option>
-                            <option class="text-[1rem] text-black" value="artesanias"
-                                {{ old('clasificacion') == 'artesanias' ? 'selected' : '' }}>Artesanias</option>
-                            <option class="text-[1rem] text-black" value="mariscos"
-                                {{ old('clasificacion') == 'mariscos' ? 'selected' : '' }}>Mariscos</option>
-                            <option class="text-[1rem] text-black" value="carnes"
-                                {{ old('clasificacion') == 'carnes' ? 'selected' : '' }}>Carnes</option>
-                            <option class="text-[1rem] text-black" value="lacteos"
-                                {{ old('clasificacion') == 'lacteos' ? 'selected' : '' }}>Lacteos</option>
-                            <option class="text-[1rem] text-black" value="aves"
-                                {{ old('clasificacion') == 'aves' ? 'selected' : '' }}>Aves</option>
-                            <option class="text-[1rem] text-black" value="plasticos"
-                                {{ old('clasificacion') == 'plasticos' ? 'selected' : '' }}>Plasticos</option>
-                            <option class="text-[1rem] text-black" value="frutasyverduras"
-                                {{ old('clasificacion') == 'frutasyverduras' ? 'selected' : '' }}>Frutas Y Verduras
-                            </option>
-                            <option class="text-[1rem] text-black" value="emprendimiento"
-                                {{ old('clasificacion') == 'emprendimiento' ? 'selected' : '' }}>Emprendimiento</option>
-                            <option class="text-[1rem] text-black" value="otros"
-                                {{ old('clasificacion') == 'otros' ? 'selected' : '' }}>Otros</option>
-                        </select>
-                    </div>
-                    @error('clasificacion')
-                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
-
                     <!-- Estado del Producto -->
                     <div class="flex justify-center">
                         <input type="hidden" name="estado" value="Disponible">

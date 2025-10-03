@@ -1,164 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Editar Mercado</title>
-        <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
 </head>
 
-<body>
-    <section><div class="bottom-bar fixed bottom-[2%] left-0 right-0 md:hidden flex justify-center">
-        <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
-            <div class="flex items-center">
-                <a href="{{ route('mercados.index') }}">
-                    <img class="w-6" src="{{ asset('imgs/mercado.home.nav.png') }}" alt="Home Icon" />
-                </a>
-            </div>
-            <div class="flex items-center">
-                <a href="{{ route('mercados.listavendedores') }}">
-                    <img class="w-6" src="{{ asset('imgs/mercado.vendedores.nav.png') }}" alt="Cart Icon" />
-                </a>
-            </div>
-            <div class="flex items-center">
-                <a href="{{ route('mercados.reservas') }}">
-                    <img class="w-6" src="{{ asset('imgs/mercado.reservas.nav.png') }}" alt="Favorites Icon" />
-                </a>
-            </div>
-            <div class="flex items-center">
-                <a href="{{ route('mercados.historial') }}">
-                    <img class="w-6" src="{{ asset('imgs/mercado.historial.nav.png') }}"
-                        alt="Favorites Icon" />
-                </a>
-            </div>
-            <div class="flex items-center">
-                <a href="{{ route('mercados.perfil') }}">
-                    <img class="w-6" src="{{ asset('imgs/mercado.perfil.nav.png') }}" alt="Profile Icon" />
-                </a>
-            </div>
-        </div>
-    </div>
-        <div class="w-72 h-auto mx-auto mt-16 pb-[3rem]">
+<body class="bg-gradient-to-br from-pink-50 to-red-50 min-h-screen">
 
-            <div class="text-center">
-                <h1 class="text-3xl font-bold text-red-700">Editor de Mercado Local</h1>
-                <h3 class="text-sm mt-2">{{ old('nombre', $mercadoLocal?->nombre) }} <span class="font-bold">ID:
-                        #{{ old('ROL', $mercadoLocal?->id) }}</span></h3>
-            </div>
+    {{-- Navbar Mercado --}}
+    @include('components.navbar-mercado')
 
-            <form method="POST" action="{{ route('mercados.actualizar', $mercadoLocal->id) }}" role="form" enctype="multipart/form-data">
-                {{ method_field('PATCH') }}
+    <main class="max-w-3xl mx-auto mt-16 p-4">
+        <div class="bg-white rounded-3xl shadow-2xl p-8">
+            <h1 class="text-3xl font-bold text-center text-red-500 uppercase mb-2">Editor de Mercado Local</h1>
+            <h2 class="text-lg text-center text-gray-700 mb-6">
+                {{ old('nombre', $mercadoLocal?->nombre) }} <span class="font-bold">ID: #{{ old('ROL', $mercadoLocal?->id) }}</span>
+            </h2>
+
+            <form method="POST" action="{{ route('mercados.actualizar', $mercadoLocal->id) }}" enctype="multipart/form-data" class="space-y-6" onsubmit="handleFormSubmit(event)">
                 @csrf
-                @method('PATCH'
+                @method('PATCH')
 
-                )
+                {{-- Imagen --}}
+                <div class="flex flex-col items-center">
+                    <label for="imagen_referencia" class="w-full md:w-80 bg-red-100 border border-red-300 rounded-xl p-3 flex justify-between items-center cursor-pointer hover:bg-red-200 transition">
+                        <span class="text-gray-500 text-sm">Imagen del Mercado</span>
+                        <img class="w-5 h-5" src="{{ asset('imgs/files2.svg') }}" alt="">
+                        <input type="file" accept=".png,.jpg,.jpeg" name="imagen_referencia" class="hidden" id="imagen_referencia">
+                    </label>
 
-                <div class="mt-20 space-y-4">
-                    <input type="hidden" id="fallbackInput" value="{{ $mercadoLocal->imagen_referencia }}" name="imagen_referencia">
-
-                    <!-- INICIO DE INPUT DE LA FOTO -->
-                    <div class="flex justify-between">
-                        <label for="imagen_referencia" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 flex items-center relative cursor-pointer">
-                            <span id="file-name" class="text-gray-400 text-xs">Imagen del mercado</span>
-                            <input type="file" accept=".png, .jpg, .jpeg" name="imagen_referencia" class="hidden" id="imagen_referencia">
-                            {!! $errors->first('imagen_referencia', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                            <span class="rounded-lg w-5 h-5 absolute right-2 top-2 bg-cover" style="background-image: url('{{ asset('imgs/files2.svg') }}');"></span>
-                        </label>
-                    </div>
-                    <!-- FIN DEL INPUT DE LA IMG -->
-
-                    <!-- INICIO DE LA PREVIEW -->
-                    @if ($mercadoLocal?->imagen_referencia)
-                    <div class="mt-4">
-                        <p class="text-gray-400 text-xs text-center">Imagen actual:</p>
-                        <img id="img-preview" class="max-w max-h-xs rounded-md border" src="{{ asset('imgs/' . $mercadoLocal->imagen_referencia) }}" alt="Imagen del Mercado">
-                    </div>
-                @else
-                    <div class="mt-4">
-                        <p class="text-gray-400 text-xs text-center">No hay imagen actual.</p>
-                    </div>
-                @endif
-                    <!-- FIN DE LA PREVIEW -->
-
-                    <div class="flex justify-center">
-                        <input required type="text" name="nombre" class="border-1 rounded-lg border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('nombre') is-invalid @enderror" value="{{ old('nombre', $mercadoLocal?->nombre) }}" id="nombre" placeholder="Nombre Registrado del Mercado">
-                        {!! $errors->first('nombre', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                    </div>
-
-                    <div class="flex justify-center">
-                        <input required type="text" name="municipio" class="border-1 rounded-lg border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('municipio') is-invalid @enderror" value="{{ old('municipio', $mercadoLocal?->municipio) }}" id="municipio" placeholder="Municipio Ubicado">
-                        {!! $errors->first('municipio', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                    </div>
-                    <div class="flex justify-center">
-                        <input required type="text" name="ubicacion" class="border-1 rounded-lg border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('ubicacion') is-invalid @enderror" value="{{ old('ubicacion', $mercadoLocal?->ubicacion) }}" id="ubicacion" placeholder="Ubicación Específica del Mercado">
-                        {!! $errors->first('ubicacion', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                    </div>
-                    <div class="flex justify-center">
-                        <span class="text-xs text-gray-400 px-6">Hora de Entrada</span>
-                        <span class="px-6 text-xs text-gray-400">Hora de Salida</span>
-                    </div>
-                    <div class="flex justify-center">
-                        <input required type="time" name="horaentrada" class="border-1 rounded-lg border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('horaentrada') is-invalid @enderror" value="{{ old('horaentrada', $mercadoLocal?->horaentrada) }}" id="horaentrada" placeholder="Hora de Entrada">
-                        {!! $errors->first('horaentrada', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-
-                        <input required type="time" name="horasalida" class="border-1 rounded-lg border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('horasalida') is-invalid @enderror" value="{{ old('horasalida', $mercadoLocal?->horasalida) }}" id="horasalida"  placeholder="Hora de Salida">
-                        {!! $errors->first('horasalida', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                    </div>
-                    <div class="flex justify-center">
-                        <span class="text-xs text-gray-400 px-6">Descripción del Mercado</span>
-                    </div>
-                    <div class="flex justify-center">
-                        <textarea maxlength="200" required name="descripcion" class="border-1 rounded-lg border w-80 h-24 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('descripcion') is-invalid @enderror" id="descripcion">{{ old('descripcion', $mercadoLocal?->descripcion) }}</textarea>
-                        {!! $errors->first('descripcion', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+                    {{-- Preview --}}
+                    <div class="text-center mt-3">
+                        @if ($mercadoLocal?->imagen_referencia)
+                            <img id="img-preview" class="mx-auto max-h-40 rounded-xl shadow-lg" src="{{ asset('imgs/' . $mercadoLocal->imagen_referencia) }}" alt="Imagen del Mercado">
+                        @else
+                            <img id="img-preview" class="hidden" alt="Preview">
+                        @endif
                     </div>
                 </div>
 
-                <div class="pt-[2rem] flex justify-center mt-2 mb-4">
-                    <button class="btn btn-primary bg-red-600 w-72 h-12 text-white font-bold rounded-md" type="submit">{{ __('Actualizar') }}</button>
-                </div>
-                <div class="flex justify-center m">
+                {{-- Inputs --}}
+                <input required type="text" name="nombre" placeholder="Nombre Registrado del Mercado"
+                    value="{{ old('nombre', $mercadoLocal?->nombre) }}"
+                    class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
 
-                    <a href="{{ route('mercados.index')}}"  class=" bg-gray-600  text-white font-bold rounded-md  py-[0.75rem] px-[3.5rem]">Cancelar Actualizacion</a>
-                </a>
+                <input required type="text" name="municipio" placeholder="Municipio Ubicado"
+                    value="{{ old('municipio', $mercadoLocal?->municipio) }}"
+                    class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+
+                <input required type="text" name="ubicacion" placeholder="Ubicación Específica del Mercado"
+                    value="{{ old('ubicacion', $mercadoLocal?->ubicacion) }}"
+                    class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input required type="time" name="horaentrada"
+                        value="{{ old('horaentrada', $mercadoLocal?->horaentrada) }}"
+                        class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+
+                    <input required type="time" name="horasalida"
+                        value="{{ old('horasalida', $mercadoLocal?->horasalida) }}"
+                        class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+                </div>
+
+                <textarea maxlength="200" required name="descripcion" placeholder="Descripción del Mercado"
+                    class="w-full h-28 p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">{{ old('descripcion', $mercadoLocal?->descripcion) }}</textarea>
+
+                {{-- Botones --}}
+                <div class="flex flex-col gap-4 mt-6">
+                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-xl hover:shadow-lg transition">
+                        Actualizar Mercado
+                    </button>
+                    <a href="{{ route('mercados.index') }}" class="w-full py-3 bg-gray-500 text-white font-bold rounded-xl text-center hover:bg-gray-600 transition">
+                        Cancelar
+                    </a>
                 </div>
             </form>
-
-
         </div>
-    </section>
+    </main>
 
     <script>
         document.getElementById('imagen_referencia').addEventListener('change', function(event) {
-            const input = event.target;
             const preview = document.getElementById('img-preview');
-            const fileNameSpan = document.getElementById('file-name');
-
-            if (input.files && input.files[0]) {
+            const file = event.target.files[0];
+            if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.classList.remove('hidden');
-                };
-                reader.readAsDataURL(input.files[0]);
-
-                // Mostrar el nombre del archivo seleccionado
-                fileNameSpan.textContent = input.files[0].name;
+                reader.onload = () => { preview.src = reader.result; preview.classList.remove('hidden'); };
+                reader.readAsDataURL(file);
             } else {
-                preview.src = '#';
-                preview.classList.add('hidden');
-                fileNameSpan.textContent = 'Imagen del mercado';
+                preview.src = ''; preview.classList.add('hidden');
             }
         });
-    </script>
-    <script>
+
         function handleFormSubmit(event) {
             const fileInput = document.getElementById('imagen_referencia');
             const fallbackInput = document.getElementById('fallbackInput');
-
-            if (!fileInput.value) {
-                // No file selected, replace the file input with the fallback value
+            if (!fileInput.value && fallbackInput) {
                 const newInput = document.createElement('input');
                 newInput.type = 'text';
                 newInput.name = 'imagen_referencia';
@@ -168,5 +108,5 @@
         }
     </script>
 
-
+</body>
 </html>

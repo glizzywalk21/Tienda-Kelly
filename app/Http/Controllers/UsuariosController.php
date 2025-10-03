@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Barryvdh\DomPDF\Facade\Pdf;
 
+
 /**
  * Class UsuariosController
  * @package App/Http/Controllers
@@ -249,12 +250,15 @@ class UsuariosController extends Controller
     {
         $request->validate([
             'quantity' => 'required|integer|min:1',
+            'talla' => 'string|max:10',
         ]);
 
         $quantity = $request->input('quantity');
+        $talla = $request->input('talla');
 
         $cartItem = Cart::where('fk_product', $product->id)
             ->where('fk_user', Auth::id())
+            ->where('talla', $talla)
             ->first();
 
         if ($cartItem) {
@@ -266,6 +270,7 @@ class UsuariosController extends Controller
                 'fk_product' => $product->id,
                 'fk_user' => Auth::id(),
                 'quantity' => $quantity,
+                'talla' => $talla,
                 'subtotal' => $quantity * $product->price
             ]);
         }

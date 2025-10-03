@@ -1,137 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Registrar Vendedor</title>
-        <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
 </head>
-<body>
+
+<body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white text-gray-800">
     <section>
         <div class="bottom-bar fixed bottom-[1%] left-0 right-0 z-[100] flex justify-center md:hidden">
             <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around ">
                 <div class="flex items-center  ">
-                    <a href="{{ route('admin.index') }}" ><img class="w-6" src="{{ asset('imgs/admin.home.nav.png') }}" alt="User Icon"></a>
+                    <a href="{{ route('admin.index') }}"><img class="w-6" src="{{ asset('imgs/admin.home.nav.png') }}" alt="User Icon"></a>
                 </div>
                 <div class="flex items-center">
                     <a href="{{ route('admin.vendedores') }}"><img class="w-6" src="{{ asset('imgs/admin.sellers.nav.png') }}" alt="User Icon"></a>
                 </div>
                 <div class="flex items-center">
-                    <a href="{{ route('admin.clientes') }}" ><img class="w-6" src="{{ asset('imgs/admin.users.nav.png') }}" alt="User Icon"></a>
+                    <a href="{{ route('admin.clientes') }}"><img class="w-6" src="{{ asset('imgs/admin.users.nav.png') }}" alt="User Icon"></a>
                 </div>
                 <div class="flex items-center">
 
-                    <a href="{{ route('AdminProfileVista')}}"  ><img class="w-6" src="{{ asset('imgs/UserIcon.png') }}" alt="User Icon"></a>
+                    <a href="{{ route('AdminProfileVista')}}"><img class="w-6" src="{{ asset('imgs/UserIcon.png') }}" alt="User Icon"></a>
                 </div>
             </div>
             <!--FIN DE NAVBAR MOBIL-->
         </div>
-        <div class="w-72 h-auto mx-auto">
-            <div class="text-center">
-                <h1 class="text-3xl font-bold text-purple-500">Registrar vendedor</h1>
+
+        <!--Inicio del formulario para registrar a un vendedor-->
+        <div class="max-w-xl mx-auto mt-12 px-4">
+            <!-- Título -->
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-extrabold text-indigo-600">Registrar Vendedor</h1>
             </div>
-            <form method="POST" action="{{ route('admin.guardarvendedores') }}" role="form" enctype="multipart/form-data">
+
+            <!-- Formulario -->
+            <form method="POST" action="{{ route('admin.guardarvendedores') }}" enctype="multipart/form-data">
                 @csrf
-                <div class="pb-[7rem] mt-10 space-y-4">
-                @if ($errors->any())
-                    <div class="bg-purple-500 text-white p-2 rounded mt-1 text-sm sm:text-sm text-center">
+                <div class="space-y-6 pb-20">
+
+                    <!-- Errores -->
+                    @if ($errors->any())
+                    <div class="bg-purple-500 text-white p-3 rounded text-sm text-center">
                         <ul>
                             @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+                            <li>{{ $error }}</li>
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                    @endif
 
-                <!--INICIO DE INPUT DE LA FOTO-->
-                <div class="flex justify-between">
-                    <label for="imagen_de_referencia" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 flex items-center relative cursor-pointer">
-                        <span id="file-name" class="text-gray-400 text-xs">Imagen de <b>Usted</b> o de <b>Su Puesto</b>
-                        </span>
-                        <input type="file" required accept=".png, .jpg, .jpeg" name="imagen_de_referencia" class="hidden" id="imagen_de_referencia">
-                        {!! $errors->first('imagen_de_referencia', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-                        <span class="rounded-lg w-5 h-5 absolute right-2 top-2 bg-cover" style="background-image: url('{{ asset('imgs/files2.svg') }}');"></span>
-                    </label>
-                </div>
-                <!--FIN DEL INPUT DE LA IMG-->
-                 <!--INICIO DE LA PREVIEW-->
-                 <section>
+                    <!-- Imagen -->
+                    <div>
+                        <label for="imagen_de_referencia" class="block text-sm font-medium text-gray-700 mb-1">Imagen de el vendedor o de su area</label>
+                        <input type="file" required accept=".png, .jpg, .jpeg" name="imagen_de_referencia" id="imagen_de_referencia"
+                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                        {!! $errors->first('imagen_de_referencia', '<div class="text-red-500 text-xs mt-1"><strong>:message</strong></div>') !!}
+                    </div>
 
+                    <!-- Vista previa -->
+                    <div>
+                        <p class="text-gray-400 text-xs text-center">Su foto se vería así:</p>
+                        <img id="img-preview" class="mt-4 hidden w-full max-h-64 object-cover rounded-md border" src="#" alt="Vista Previa de Imagen">
+                    </div>
 
-                 <div>
-                    <p class="text-gray-400 text-xs text-center">Su foto se veria asi: </p>
-                </div>
-                <div class="mt-4">
-                    <img id="img-preview" class="max-w max-h-xs hidden rounded-md border object-center" src="#" alt="Vista Previa de Imagen">
-                </div>
-            </section>
+                    <!-- Correo -->
+                    <div>
+                        <label for="usuario" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                        <input required type="email" name="usuario" id="usuario" value="{{ old('usuario') }}"
+                            placeholder="Ej. vendedor@email.com"
+                            class="w-full border rounded-md px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                    </div>
 
-                <!---FIN DE LA PREVIEW-->
+                    <!-- Contraseña -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                            <input type="password" required maxlength="8" name="password" id="password"
+                                placeholder="Máx. 8 caracteres"
+                                class="w-full border rounded-md px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                        </div>
+                        <div>
+                            <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Confirmar Contraseña</label>
+                            <input type="password" required maxlength="8" name="password_confirmation" id="password_confirmation"
+                                placeholder="Repita la contraseña"
+                                class="w-full border rounded-md px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                        </div>
+                    </div>
 
-                    <div class="flex justify-center">
-                        <input required type="email" name="usuario" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('usuario') is-invalid @enderror" value="{{ old('usuario') }}" id="usuario" placeholder="Escriba el correo electrónico">
+                    <!-- Mostrar contraseña -->
+                    <div class="flex items-center">
+                        <input type="checkbox" id="show-passwords" class="mr-2">
+                        <label for="show-passwords" class="text-sm text-gray-600">Mostrar Contraseñas</label>
                     </div>
-                    <div class="flex justify-center">
-                        <input type="password" required  maxlength="8" name="password" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('password') is-invalid @enderror"  id="password" placeholder="Escriba su Contraseña">
 
+                    <!-- Nombre -->
+                    <div>
+                        <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre del Vendedor</label>
+                        <input required type="text" name="nombre" id="nombre" value="{{ old('nombre') }}"
+                            placeholder="Ej. Juan"
+                            class="w-full border rounded-md px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
                     </div>
-                    <div class="flex justify-center">
-                        <input type="password" required  maxlength="8"  name="password_confirmation" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" placeholder="Confirme su Contraseña">
 
+                    <!-- Apellidos -->
+                    <div>
+                        <label for="apellidos" class="block text-sm font-medium text-gray-700 mb-1">Apellidos del Vendedor</label>
+                        <input required type="text" name="apellidos" id="apellidos" value="{{ old('apellidos') }}"
+                            placeholder="Ej. Pérez Gómez"
+                            class="w-full border rounded-md px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
                     </div>
-                    <div class="flex justify-center mt-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" id="show-passwords" class="mr-2">
-                            <span class="text-xs text-gray-600">Mostrar Contraseñas</span>
-                        </label>
-                    </div>
-                    <div class="flex justify-center">
-                        <input required type="text" name="nombre" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('nombre') is-invalid @enderror" value="{{ old('nombre') }}" id="nombre" placeholder="Escriba el Nombre del Vendedor">
-                    </div>
-                    <div class="flex justify-center">
-                        <input required type="text" name="apellidos" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('apellidos') is-invalid @enderror" value="{{ old('apellidos') }}" id="apellidos" placeholder="Escriba los Apellidos del Vendedor">
-                    </div>
-                    <div class="flex justify-center">
-                        <input type="text" name="nombre_del_local" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('nombre_del_local') is-invalid @enderror" value="{{ old('nombre_del_local') }}" id="nombre_del_local" placeholder="Digite el Nombre de su Local (Sera Publico)">
-                    </div>
-                    <div class="flex justify-center">
-                        <input type="text" name="telefono" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono') }}" id="telefono" placeholder="Digite el Teléfono del Vendedor">
-                    </div>
-                    <div class="flex justify-center">
-                        <input required type="text" name="numero_puesto" class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 form-control @error('numero_puesto') is-invalid @enderror" value="{{ old('numero_puesto') }}" id="numero_puesto" placeholder="Escriba el Número Puesto">
-                    </div>                   
 
-                    <div class="flex justify-center">
-                        <select 
-                            name="fk_mercado" 
-                            id="fk_mercado"
-                            class="border-1 rounded border w-80 h-9 pl-5 text-xs bg-gray-100 shadow-md border-gray-400 mt-2 text-gray-400 form-control @error('fk_mercado') is-invalid @enderror"
-                    >
+                    <!-- Nombre del Local -->
+                    <div>
+                        <label for="nombre_del_local" class="block text-sm font-medium text-gray-700 mb-1">Nombre del area (Público)</label>
+                        <input type="text" name="nombre_del_local" id="nombre_del_local" value="{{ old('nombre_del_local') }}"
+                            placeholder="Ej. Pupusería La Bendición"
+                            class="w-full border rounded-md px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                    </div>
+
+                    <!-- Teléfono -->
+                    <div>
+                        <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1">Teléfono del Vendedor</label>
+                        <input type="text" name="telefono" id="telefono" value="{{ old('telefono') }}"
+                            placeholder="Ej. 7777-8888"
+                            class="w-full border rounded-md px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                    </div>
+
+                    <!-- Número de Puesto -->
+                    <div>
+                        <label for="numero_puesto" class="block text-sm font-medium text-gray-700 mb-1">Número de Puesto</label>
+                        <input required type="text" name="numero_puesto" id="numero_puesto" value="{{ old('numero_puesto') }}"
+                            placeholder="Ej. 12-B"
+                            class="w-full border rounded-md px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                    </div>
+
+                    <!-- Mercado -->
+                    <div>
+                        <label for="fk_mercado" class="block text-sm font-medium text-gray-700 mb-1">Categoria del area</label>
+                        <select name="fk_mercado" id="fk_mercado"
+                            class="w-full border rounded-md px-4 py-2 text-sm text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
                             <option value="" disabled selected>Seleccione un área</option>
                             @foreach($mercados as $mercado)
-                                <option 
-                                    class="font-bold text-xl text-gray-800"
-                                    value="{{ $mercado->id }}" {{ old('fk_mercado') == $mercado->id ? 'selected' : '' }}
-                            >
+                            <option value="{{ $mercado->id }}" {{ old('fk_mercado') == $mercado->id ? 'selected' : '' }}>
                                 {{ $mercado->nombre }}
                             </option>
                             @endforeach
                         </select>
-
                         @error('fk_mercado')
-                            <div class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </div>
+                        <div class="text-red-500 text-xs mt-1"><strong>{{ $message }}</strong></div>
                         @enderror
                     </div>
 
-                    <div class="flex justify-center mt-16">
-                        <button class="btn btn-primary bg-purple-600 w-72 h-10 text-white font-bold rounded-md">Registrar Vendedor</button>
+                    <!-- Botón -->
+                    <div>
+                        <button type="submit"
+                            class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200">
+                            Registrar Vendedor
+                        </button>
                     </div>
                 </div>
             </form>
         </div>
+
+        <!--Final del formulario para registrar al vendedor-->
+
     </section>
     <script>
         document.getElementById('imagen_de_referencia').addEventListener('change', function(event) {
@@ -168,4 +203,5 @@
     </script>
 
 </body>
+
 </html>

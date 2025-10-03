@@ -10,21 +10,27 @@
     <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
 </head>
 
-<body>
+<body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white text-gray-800">
     <!-- Desktop Navbar -->
-    <div class="hidden md:flex p-4 bg-white items-center justify-between shadow-md">
+    <nav class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
         <a href="{{ route('admin.index') }}">
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-semibold">
-                Tienda <span class="text-purple-600"><b>Admin</b></span>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+                TiendaKelly <span class="text-indigo-600"><b>Admin</b></span>
             </h1>
         </a>
         <div class="flex gap-8">
-            <a href="{{ route('admin.index') }}" class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Mercados</a>
-            <a href="{{ route('admin.vendedores') }}" class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Vendedores</a>
-            <a href="{{ route('admin.clientes') }}" class="font-semibold uppercase text-sm lg:text-base hover:text-gray-300 px-2 py-1">Clientes</a>
-            <a href="{{ route('AdminProfileVista') }}" class="font-semibold uppercase text-sm lg:text-base hover:text-white hover:bg-black border border-black px-2 py-1 rounded-md">Perfil</a>
+            <a href="{{ route('admin.index') }}"
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Areas</a>
+            <a href="{{ route('admin.vendedores') }}"
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Vendedores</a>
+            <a href="{{ route('admin.clientes') }}"
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Clientes</a>
+            <a href="{{ route('AdminProfileVista')}}"
+                class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
+                Perfil
+            </a>
         </div>
-    </div>
+    </nav>
 
     <!-- Mobile Navbar -->
     <div class="bottom-bar fixed bottom-[1%] left-0 right-0 z-[100] flex justify-center md:hidden">
@@ -45,31 +51,55 @@
     </div>
 
     <!-- Main Content -->
-    <main class="p-4 mx-auto ">
-        <div class="w-full bg-white p-8 rounded-lg shadow-lg">
-            <h1 class="text-3xl font-bold mb-6 text-gray-800">Lista de Vendedores</h1>
-            <a class="bg-orange-500 text-white text-xs px-8 py-2 rounded z-[2]" href="{{ route('admin.crearvendedores') }}">Agregar Vendedores</a>
+    <main class="p-6 mx-auto">
+        <div class="w-full bg-white p-8 rounded-xl shadow-lg">
+            <h1 class="text-3xl font-bold mb-6 text-indigo-500 flex items-center justify-center gap-2">
+                Lista de Vendedores
+            </h1>
+
+            <a class="inline-block mb-6 bg-indigo-700 hover:bg-indigo-500 text-white text-sm px-5 py-2 rounded-lg shadow transition"
+                href="{{ route('admin.crearvendedores') }}">
+                Agregar Vendedores
+            </a>
 
             <div class="space-y-4">
                 @foreach ($vendedors as $vendedor)
-                <div class="p-4 border border-gray-200 rounded-lg flex flex-col justify-between gap-2 md:flex-row md:items-center transition duration-300 hover:bg-gray-50">
-                    <div class="flex items-center">
-                        <img src="{{ asset('imgs/'. $vendedor->imagen_de_referencia) }}" alt="Imagen" class="w-40 h-40 rounded-md mr-4 object-cover">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition">
+
+                    <!-- Imagen + Info -->
+                    <div class="flex items-center gap-4">
+                        <img src="{{ asset('imgs/'. $vendedor->imagen_de_referencia) }}"
+                            alt="Imagen"
+                            class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover ring-2 ring-indigo-700 shadow-sm">
+
                         <div>
                             <h2 class="text-lg font-semibold text-gray-800">{{ $vendedor->nombre }} {{ $vendedor->apellidos }}</h2>
-                            <p>Puesto N° {{ $vendedor->numero_puesto }} en el <b>{{ $vendedor->mercadoLocal->nombre }}</b></p>
-                            <h2 class="text-sm text-gray-600"><b>Teléfono:</b> {{ $vendedor->telefono }}</h2>
-                            <p class="text-sm text-gray-600"><b>Correo Electrónico:</b> {{ $vendedor->usuario }}</p>
+                            <p class="text-sm text-gray-600">
+                                <span class="font-semibold text-indigo-500">Puesto N° {{ $vendedor->numero_puesto }}</span>
+                                en <b>{{ $vendedor->mercadoLocal->nombre }}</b>
+                            </p>
+                            <p class="text-sm text-gray-600"> <b>Telefono:</b> {{ $vendedor->telefono }}</p>
+                            <p class="text-sm text-gray-600"> <b>Correo:</b> {{ $vendedor->usuario }}</p>
                         </div>
                     </div>
-                    <div class="flex">
-                        <a class="px-3 py-2 text-sm font-medium text-white bg-orange-500 rounded-md hover:bg-orange-600" href="{{ route('admin.vervendedores', $vendedor->id) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
-                        <a class="px-3 py-2 ml-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600" href="{{ route('admin.editarvendedores', $vendedor->id) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
 
+                    <!-- Botones -->
+                    <div class="flex gap-2 md:gap-3">
+                        <a class="px-4 py-2 text-xs font-medium text-white bg-green-500 rounded-lg shadow hover:bg-green-600 transition flex items-center gap-1"
+                            href="{{ route('admin.vervendedores', $vendedor->id) }}">
+                            Ver
+                        </a>
+                        <a class="px-4 py-2 text-xs font-medium text-white bg-blue-500 rounded-lg shadow hover:bg-blue-600 transition flex items-center gap-1"
+                            href="{{ route('admin.editarvendedores', $vendedor->id) }}">
+                            Editar
+                        </a>
                         <form action="{{ route('admin.eliminarvendedores', $vendedor->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="px-3 py-2 ml-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600"><i class="fa fa-fw fa-trash"></i> Eliminar</button>
+                            <button type="submit"
+                                class="px-4 py-2 text-xs font-medium text-white bg-red-500 rounded-lg shadow hover:bg-red-600 transition flex items-center gap-1">
+                                Eliminar
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -78,32 +108,9 @@
         </div>
     </main>
 
+
     <!-- Footer -->
-    <footer class="bg-[#292526] pb-16">
-        <div class="flex flex-col gap-6 md:gap-0 md:grid grid-cols-3 text-white p-12">
-            <div>
-                <h2>Contact Us</h2>
-                <p>Whatsapp: <a href="https://wa.me/50369565421" class="underline">wa.me/50369565421</a></p>
-                <p>Correo Electrónico: contacto@TiendaKelly.sv</p>
-                <p>Dirección: San Rafael cedros, cuscatlanr</p>
-            </div>
-            <div>
-                <h2>Sobre nosotros</h2>
-                <p>Somos un equipo de desarrollo web dedicado a apoyar a los vendedores locales y municipales en San Salvador, brindando soluciones tecnológicas para fortalecer los mercados locales.</p>
-            </div>
-            <div class="md:self-end md:justify-self-end">
-                <p class="font-black text-5xl mb-4">Tienda <span class="text-blue-600">Kelly</span></p>
-                <div class="flex gap-2">
-                    @foreach(['facebook', 'google', 'linkedin', 'twitter', 'youtube'] as $social)
-                    <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                        <img width="18" class="invert" src="{{ asset('imgs/' . $social . '.png') }}" alt="{{ ucfirst($social) }}">
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-        <div class="w-full h-[2px] bg-white"></div>
-    </footer>
+    @include('components.footer')
 </body>
 
 </html>
