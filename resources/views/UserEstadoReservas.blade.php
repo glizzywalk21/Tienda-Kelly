@@ -293,6 +293,83 @@
             </div>
         </div>
     </footer>
+                <div id="successModal"
+    class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 transition-opacity duration-300 hidden">
+    
+    <!-- Aquí se aplica la clase custom para la animación -->
+    <div class="bg-white rounded-2xl shadow-2xl p-6 w-11/12 max-w-md relative modal-content-animation">
+        
+        <!-- Botón de Cierre -->
+        <button id="closeSuccessModalBtn"
+            class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition duration-150 p-2 rounded-full hover:bg-gray-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                </path>
+            </svg>
+        </button>
+
+        <div class="flex items-center space-x-4 mb-4">
+            <!-- Icono de Éxito (Checkmark) -->
+            <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h2 class="text-2xl font-bold text-gray-800">¡Operación Exitosa!</h2>
+        </div>
+
+        <!-- Contenido del Mensaje -->
+        <p id="modalMessageContent" class="text-gray-600 mb-6 leading-relaxed">
+            <!-- El mensaje de éxito se insertará aquí con JavaScript -->
+        </p>
+
+        <div class="flex justify-end">
+            <button id="okBtn"
+                class="px-6 py-2 bg-green-500 text-white font-medium rounded-xl hover:bg-green-600 transition duration-200 shadow-md">
+                Aceptar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const successModal = document.getElementById('successModal');
+        const modalMessageContent = document.getElementById('modalMessageContent');
+        const closeSuccessModalBtn = document.getElementById('closeSuccessModalBtn');
+        const okBtn = document.getElementById('okBtn');
+        const messageToDisplay = <?php echo json_encode(session('success') ? session('success') : null); ?>;
+        
+        function closeSuccessModal() {
+            if (successModal) {
+                successModal.classList.add('hidden');
+            }
+        }
+        if (closeSuccessModalBtn) {
+            closeSuccessModalBtn.addEventListener('click', closeSuccessModal);
+        }
+        if (okBtn) {
+            okBtn.addEventListener('click', closeSuccessModal);
+        }
+        
+        // Cierra al hacer click fuera del contenido
+        if (successModal) {
+            successModal.addEventListener('click', (event) => {
+                if (event.target === successModal) {
+                    closeSuccessModal();
+                }
+            });
+        }
+        if (messageToDisplay !== null) {
+            if (successModal && modalMessageContent) {
+                modalMessageContent.textContent = messageToDisplay;
+                successModal.classList.remove('hidden'); // Muestra el modal
+            }
+        }
+    });
+</script>
+
 </body>
 
 </html>

@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.modal-content-animation {
+    animation: slide-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.8); 
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+}
+

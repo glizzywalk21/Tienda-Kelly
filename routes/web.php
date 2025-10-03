@@ -110,13 +110,13 @@ Route::get('/usuarios/mercado/{id}', [UsuariosController::class, 'mercado'])->na
 Route::get('/usuarios/vendedor/{id}', [UsuariosController::class, 'vendedor'])->name('usuarios.vendedor')->middleware('check.user.session');
 Route::get('/usuarios/producto/{id}', [UsuariosController::class, 'producto'])->name('usuarios.producto')->middleware('check.user.session');
 //ruta para añadir alc arrito e index
-Route::post('/usuarios/addcarrito/{product}', [UsuariosController::class, 'addcarrito'])->name('usuarios.addcarrito')->middleware('check.user.session');
+Route::post('/usuarios/addcarrito/{product}', [UsuariosController::class, 'addcarrito'])->name('usuarios.addcarrito');
 //RESERVAR y RESERVAS
 Route::post('/usuarios/reservar', [UsuariosController::class, 'reservar'])->name('usuarios.reservar')->middleware('check.user.session');
 // Ruta de chakout
 route::post('/usuarios/checkout', [UsuariosController::class, 'checkout'])->name('usuarios.checkout')->middleware('check.user.session');
 // Ruta para ver el carrito
-Route::get('/usuarios/carrito', [UsuariosController::class, 'carrito'])->name('usuarios.carrito')->middleware('check.user.session');
+Route::get('/usuarios/carrito', [UsuariosController::class, 'carrito'])->name('usuarios.carrito');
 // Ruta para ver las reservas del usuario
 Route::get('/usuarios/reservas', [UsuariosController::class, 'reservas'])->name('usuarios.reservas')->middleware('check.user.session');
 Route::post('/usuarios/publicarestadoreserva/{id}', [UsuariosController::class, 'publicarestadoreserva'])->name('usuarios.publicarestadoreserva')->middleware('check.user.session');
@@ -124,11 +124,11 @@ Route::get('/usuarios/create', [UsuariosController::class, 'create'])->name('usu
 Route::post('/usuarios/store', [UsuariosController::class, 'store'])->name('usuarios.store');
 Route::get('/usuarios/historial', [UsuariosController::class, 'historial'])->name('usuarios.historial');
 Route::get('/usuarios/reservas/pdf/{id}', [UsuariosController::class, 'generateReceipt'])->name('reservas.pdf');
-Route::delete('/usuarios/eliminarcarrito/{product}', [UsuariosController::class, 'eliminarcarrito'])->name('usuarios.eliminarcarrito')->middleware('check.user.session');
+Route::delete('/usuarios/eliminarcarrito/{product}', [UsuariosController::class, 'eliminarcarrito'])->name('usuarios.eliminarcarrito');
 Route::get('/receipt/{id}', [UsuariosController::class, 'viewReceipt'])->name('viewReceipt')->middleware('check.user.session');
 Route::get('/usuarios/editar/{id}', [UsuariosController::class, 'editar'])->name('usuarios.editar')->middleware('check.user.session');
 Route::post('/usuarios/actualizar/{id}', [UsuariosController::class, 'actualizar'])->name('usuarios.actualizar')->middleware('check.user.session');
-
+route::get('/usuarios/checkout', [UsuariosController::class, 'checkout'])->name('usuarios.checkout');
 
 /**
  * RUTAS PARA EL VENDEDOR CONTROLADOR
@@ -210,3 +210,12 @@ Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'e
 Route::put('/reservations/{reservation}', [ReservationController::class, 'update'])->name('reservations.update');
 Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
 
+Route::get('/reservations/{reservation}/pago', [ReservationController::class, 'showPaymentForm'])
+    ->name('checkout.pago')
+    ->middleware('check.user.session');
+
+Route::post('/payment/confirm/{reservation}', [ReservationController::class, 'requestPaymentAsIntermediary'])
+    ->name('payment.callback');
+
+
+Route::post('/test-reservation', [ReservationController::class, 'testFormulario']);

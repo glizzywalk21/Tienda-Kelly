@@ -36,6 +36,22 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class UsuariosController extends Controller
 {
+        private function getCartIdentifier()
+    {
+        // Si el usuario está autenticado, devolvemos su ID (integer)
+        if (Auth::check()) {
+            return Auth::id();
+        }
+
+        // Si es un invitado, usamos un ID de sesión único.
+        if (!Session::has('cart_session_id')) {
+            // Generamos un ID de sesión si no existe y lo guardamos
+            Session::put('cart_session_id', Session::getId());
+        }
+
+        // Devolvemos el ID de sesión (string)
+        return Session::get('cart_session_id');
+    }
 
 
     //VER MERCADOS LOCALES O INDEX
@@ -262,36 +278,39 @@ class UsuariosController extends Controller
     {
         $user = Auth::user();
         if (!$user) {
+            // Restringir el pago a usuarios logueados
             return redirect()->route('login')->with('error','Debe iniciar sesión para completar el pago');
         }
 
         DB::beginTransaction();
         try {
-            //Obtencion de articulos del carrito
+            // Obtencion de articulos del carrito (usando Auth::id() porque el usuario está autenticado)
             $cartItems = Cart::where('fk_user',Auth::id())->with('product.vendedor')->get();
 
             if ($cartItems->isEmpty()) {
                 DB::rollBack();
                 return redirect()->route('usuarios.carrito')->with('error','Su carrito está vacío. Agregue productos antes de pagar.');
             }
-            //Creacion de una nueva reserva (estado inicial: "en_espera o similar a "pendiente")
-            $reservation = reservation::create([
+            
+            // Creacion de una nueva reserva (estado inicial: "en_espera")
+            $reservation = Reservation::create([ // Asumiendo que el modelo se llama Reservation
                 'fk_user' => Auth::id(),
                 'total' => 0,
                 'estado' => 'en_espera'
             ]);
             $total = 0;
 
-            //Mover los items del carrito a ReservationItem
+            // Mover los items del carrito a ReservationItem
             foreach ($cartItems as $item) {
-                //validacion del stock
+                // validacion del stock
                 if ($item->product->stock < $item->quantity) {
                     DB::rollBack();
-                    return redirect()->route('usuarios.carrito')->with('error','El producto' . $item->product->nombre .'No tiene suficiente stock disponible');
+                    // Ajuste de la concatenación del mensaje de error
+                    return redirect()->route('usuarios.carrito')->with('error','El producto ' . $item->product->nombre . ' no tiene suficiente stock disponible');
                 }
 
-                //Crea elementos de reserva
-                ReservationItem::create([
+                // Crea elementos de reserva
+                ReservationItem::create([ // Asumiendo que el modelo se llama ReservationItem
                     'fk_reservation' => $reservation->id,
                     'fk_product' => $item->fk_product,
                     'quantity' => $item->quantity,
@@ -302,23 +321,26 @@ class UsuariosController extends Controller
                     'precio' => $item->product->price,
                     'estado' => 'en_espera'
                 ]);
-                //descontar stock del producto
+                
+                // descontar stock del producto
                 $item->product->decrement('stock', $item->quantity);
 
-                //calcular el total
+                // calcular el total
                 $total += $item->subtotal;
             }
 
-            //Actualizar el total de la reserva
+            // Actualizar el total de la reserva
             $reservation->total =$total;
             $reservation->save();
 
-            //vaciar el carrito de compras
-            cart::where('fk_user',Auth::id())->delete();
+            // vaciar el carrito de compras
+            Cart::where('fk_user',Auth::id())->delete();
+            
             DB::commit();
-            //la alerta de éxito
+            
+            // la alerta de éxito
             return redirect()->route('usuarios.reservas')->with('success', '¡El pago ha sido procesado con éxito! Su pedido se ha generado. Por favor, revise su sección de reservas.');
-       
+        
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Fallo de checkout:',[
@@ -326,6 +348,9 @@ class UsuariosController extends Controller
                 'error_message' => $e->getMessage(),
                 'stack_trace' => $e->getTraceAsString(),
             ]);
+            
+            // Redirigir al carrito con un error genérico
+            return redirect()->route('usuarios.carrito')->with('error', 'Ocurrió un error inesperado al procesar el pago. Por favor, inténtelo de nuevo.');
         }
     }
 
@@ -395,14 +420,19 @@ class UsuariosController extends Controller
     public function carrito()
     {
         try {
-            $userid = Auth::id();
+            $identifier = $this->getCartIdentifier(); // <-- CORRECCIÓN: Usar identificador
+            
+            $cartItems = Cart::with('product')->where('fk_user', $identifier)->get();
+            // Calcula el total sumando los subtotales de cada item
+            $total = $cartItems->sum('subtotal');
+            
+            $isLoggedIn = Auth::check();
 
-            $cartItems = Cart::with('product')->where('fk_user', $userid)->get();
-            $total = $cartItems->reduce(fn($carry, $item) => $carry + ($item->product->price * $item->quantity), 0);
-            return view('UserCarritoGeneral', compact('cartItems', 'total', 'userid'));
+            return view('UserCarritoGeneral', compact('cartItems', 'total', 'identifier', 'isLoggedIn'));
         } catch (\Exception $e) {
             Log::error('Error en carrito: ' . $e->getMessage());
-            return response()->json(['error' => 'Ocurrió un error interno del servidor'], 500);
+            // CORRECCIÓN: Devolver redirect con error, no JSON (lo que causaba el error visible)
+            return redirect()->route('usuarios.index')->with('error', 'No se pudo cargar el carrito. Por favor, intente de nuevo.');
         }
     }
     public function reservar(Request $request)
@@ -448,7 +478,9 @@ class UsuariosController extends Controller
 
             DB::commit();
 
-            return redirect()->route('reservas.pdf', ['id' => $reservation->id]);
+            return redirect()->route('usuarios.reservas')->with([
+                'success' => '¡Reserva creada con éxito! Puedes descargar tu comprobante a continuación.',
+                'last_reservation_id' => $reservation->id]);
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Error al crear la reserva: ' . $e->getMessage());
@@ -644,6 +676,4 @@ class UsuariosController extends Controller
             return redirect()->route('usuarios.carrito')->with('success', 'Producto eliminado del carrito correctamente.');
         }
     }
-
-
 }
