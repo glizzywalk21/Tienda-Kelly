@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <title>TiendaKelly Carrito</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
 </head>
 
 <body>

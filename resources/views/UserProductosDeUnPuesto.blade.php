@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>{{ $vendedor->nombre_del_local }} - Tienda Kelly</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
     <style>
         .btn-hover:hover {
             transform: translateY(-3px) scale(1.05);

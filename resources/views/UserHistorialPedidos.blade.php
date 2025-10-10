@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Historial de Reservas - Tienda Kelly</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
     <style>
         .fadeInUp {
             animation: fadeInUp 0.8s ease forwards;

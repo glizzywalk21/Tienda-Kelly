@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   @vite('resources/css/app.css')
   <title>Inicio</title>
-  <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
   <style>
     /* Animaciones y gradientes */
     @keyframes fadeInUp {
@@ -34,7 +34,7 @@
   </style>
 </head>
 
-<body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white text-gray-800">
+<body class="bg-gradient-to-br from-indigo-100 via-blue-100 to-white text-gray-800">
 
   <!-- Incluir Navbar -->
   @include('components.navbar')
@@ -60,26 +60,9 @@
       <img src="{{ asset('imgs/bkg.jpg') }}" alt="Imagen principal" class="w-full h-full object-cover transition-transform hover:scale-105 duration-500">
   </section>
 
-
-  <!-- Botones Nosotros/Vision/Mision -->
-  <section class="flex my-8 justify-center gap-6 flex-wrap">
-    <button class="flex items-center px-6 py-3 bg-white border shadow-md rounded-xl btn-primary transition">
-      <img class="w-7 mr-3" src="{{ asset('imgs/NosotrosIcon.png') }}" alt="Nosotros">
-      Nosotros
-    </button>
-    <button class="flex items-center px-6 py-3 bg-white border shadow-md rounded-xl btn-primary transition">
-      <img class="w-7 mr-3" src="{{ asset('imgs/VisionIcon.png') }}" alt="Visión">
-      Visión
-    </button>
-    <button class="flex items-center px-6 py-3 bg-white border shadow-md rounded-xl btn-primary transition">
-      <img class="w-7 mr-3" src="{{ asset('imgs/MisionIcon.png') }}" alt="Misión">
-      Misión
-    </button>
-  </section>
-
   <!-- Mercados -->
   @foreach ($mercadoLocals as $mercadoLocal)
-  <section class="my-10">
+  <section class="my-12">
     <div class="flex flex-col md:grid md:grid-cols-2 gap-8 items-center max-w-6xl mx-auto rounded-xl overflow-hidden shadow-lg card-hover {{ $mercadoLocal->id % 2 == 0 ? 'bg-indigo-900 text-white' : 'bg-white' }}">
       @if ($mercadoLocal->id % 2 == 0)
       <img class="w-full h-full object-cover" src="{{ asset('imgs/' . $mercadoLocal->imagen_referencia) }}" alt="">

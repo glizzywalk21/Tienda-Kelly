@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
+    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
     <title>AdminProfileVista</title>
     <style>
         html,
@@ -46,17 +47,21 @@
             <div class="bottom-bar fixed bottom-[1%] left-0 right-0 z-3 flex justify-center md:hidden">
                 <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around ">
                     <div class="flex items-center  ">
-                        <a href="{{ route('admin.index') }}"><img class="w-6" src="{{ asset('imgs/admin.home.nav.png') }}" alt="User Icon"></a>
+                        <a href="{{ route('admin.index') }}"><img class="w-6"
+                                src="{{ asset('imgs/admin.home.nav.png') }}" alt="User Icon"></a>
                     </div>
                     <div class="flex items-center">
-                        <a href="{{ route('admin.vendedores') }}"><img class="w-6" src="{{ asset('imgs/admin.sellers.nav.png') }}" alt="User Icon"></a>
+                        <a href="{{ route('admin.vendedores') }}"><img class="w-6"
+                                src="{{ asset('imgs/admin.sellers.nav.png') }}" alt="User Icon"></a>
                     </div>
                     <div class="flex items-center">
-                        <a href="{{ route('admin.clientes') }}"><img class="w-6" src="{{ asset('imgs/admin.users.nav.png') }}" alt="User Icon"></a>
+                        <a href="{{ route('admin.clientes') }}"><img class="w-6"
+                                src="{{ asset('imgs/admin.users.nav.png') }}" alt="User Icon"></a>
                     </div>
                     <div class="flex items-center">
 
-                        <a href="{{ route('AdminProfileVista')}}"><img class="w-6" src="{{ asset('imgs/UserIcon.png') }}" alt="User Icon"></a>
+                        <a href="{{ route('AdminProfileVista')}}"><img class="w-6"
+                                src="{{ asset('imgs/UserIcon.png') }}" alt="User Icon"></a>
                     </div>
                 </div>
             </div>
@@ -80,28 +85,33 @@
 
         <!--Enlaces/Opciones del admin-->
         <div class="w-11/12 md:w-1/2 mx-auto my-16 space-y-6">
-            <a href="{{ route('admin.crearmercados')}}" class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
+            <a href="{{ route('admin.crearmercados')}}"
+                class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
                 <img class="w-6" src="{{ asset('imgs/admin.agregar.mercados.png') }}" alt="User Icon">
                 <h3 class="flex-grow text-left font-bold ml-3">Agregar Nueva area</h3>
             </a>
 
-            <a href="{{ route('admin.crearvendedores') }}" class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
+            <a href="{{ route('admin.crearvendedores') }}"
+                class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
                 <img class="w-5" src="{{ asset('imgs/admin.agregar.vendedor.png') }}" alt="User Icon">
                 <h3 class="flex-grow text-left font-bold ml-5">Agregar Nuevo Vendedor</h3>
             </a>
 
-            <a href="{{ route('admin.vendedores')}}" class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
+            <a href="{{ route('admin.vendedores')}}"
+                class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
                 <img class="w-5" src="{{ asset('imgs/admin.vendedores.png') }}" alt="User Icon">
                 <h3 class="flex-grow text-left font-bold ml-5">Vendedores</h3>
             </a>
-            <a href="{{ route('admin.clientes')}}" class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
+            <a href="{{ route('admin.clientes')}}"
+                class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
                 <img class="w-5" src="{{ asset('imgs/admin.usuarios.png') }}" alt="User Icon">
                 <h3 class="flex-grow text-left font-bold ml-5">Clientes</h3>
             </a>
 
             <form action="{{ route('logout') }}" method="GET">
                 @csrf
-                <button type="submit" class="flex items-center w-full px-4 py-3 bg-red-500 text-white font-bold rounded-lg shadow hover:bg-red-600 transition btn-hover">
+                <button type="submit"
+                    class="flex items-center w-full px-4 py-3 bg-red-500 text-white font-bold rounded-lg shadow hover:bg-red-600 transition btn-hover">
                     <img class="w-5 mr-3" src="{{ asset('imgs/tuerca.png') }}" alt="User Icon">
                     Cerrar Cuenta
                 </button>

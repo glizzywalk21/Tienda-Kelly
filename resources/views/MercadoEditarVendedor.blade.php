@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Editar Vendedor</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
 </head>
 
 <body class="bg-gradient-to-br from-pink-50 to-red-50 min-h-screen">
@@ -72,14 +72,6 @@
                         @foreach($mercados as $mercado)
                             <option value="{{ $mercado->id }}" {{ old('fk_mercado', $vendedor?->fk_mercado) == $mercado->id ? 'selected' : '' }}>{{ $mercado->nombre }}</option>
                         @endforeach
-                    </select>
-
-                    <select name="clasificacion" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
-                        <option value="" disabled>Escoge su Clasificación</option>
-                        <option value="comedor" {{ old('clasificacion', $vendedor?->clasificacion) == 'comedor' ? 'selected' : '' }}>Comedor</option>
-                        <option value="venta de abarrotes" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de abarrotes' ? 'selected' : '' }}>Venta de Abarrotes</option>
-                        <option value="venta de ropa" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de ropa' ? 'selected' : '' }}>Venta de Ropa</option>
-                        <option value="venta de calzado" {{ old('clasificacion', $vendedor?->clasificacion) == 'venta de calzado' ? 'selected' : '' }}>Venta de Calzado</option>
                     </select>
 
                     <input type="email" name="usuario" value="{{ old('usuario', $vendedor?->usuario) }}" placeholder="Correo electrónico" required

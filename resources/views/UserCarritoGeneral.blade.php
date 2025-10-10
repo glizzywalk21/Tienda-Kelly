@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Mi Carrito - Tienda Kelly</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
     <style>
         .fadeInUp {
             animation: fadeInUp 0.8s ease forwards;
@@ -171,8 +171,7 @@
                         <div id="formulario-pago-total"
                             style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ddd;">
 
-                            <h5 style="font-weight: bold; margin-bottom: 10px; color: #374151;">Datos de la Tarjeta
-                                (Simulación)</h5>
+                            <h5 style="font-weight: bold; margin-bottom: 10px; color: #374151;">Datos de la Tarjeta</h5>
 
                             <form id="form-tarjeta-total" class="pago-form">
                                 @csrf

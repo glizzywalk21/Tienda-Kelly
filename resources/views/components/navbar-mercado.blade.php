@@ -2,7 +2,7 @@
 <div class="hidden md:flex p-4 items-center justify-between shadow-md bg-white">
   <a href="{{ route('mercados.index') }}">
     <h1 class="text-3xl md:text-4xl font-extrabold gradient-text">
-      Tienda Kelly: <span class="text-red-600">Mercado</span>
+      Tienda Kelly: <span class="text-red-600">Área</span>
     </h1>
   </a>
   <div class="flex gap-6">

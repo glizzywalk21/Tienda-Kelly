@@ -85,10 +85,6 @@ public function perfil()
             // Validar y obtener los datos del formulario
             $data = $request->validate([
                 'nombre' => 'required|string|max:255',
-                'municipio' => 'required|string|max:255',
-                'ubicacion' => 'required|string|max:255',
-                'horaentrada' => 'required',
-                'horasalida' => 'required',
                 'descripcion' => 'required|string|max:220',
 
             ]);
@@ -97,8 +93,7 @@ public function perfil()
             if ($request->hasFile('imagen_referencia')) {
                 // Construir el nuevo nombre del archivo
                 $nombre = str_replace(' ', '_', strtolower($request->input('nombre')));
-                $municipio = str_replace(' ', '_', strtolower($request->input('municipio')));
-                $imageName = "{$nombre}_{$municipio}.png";
+                $imageName = "{$nombre}.png";
 
                 // Mover el archivo a la carpeta 'imgs' con el nuevo nombre
                 $request->file('imagen_referencia')->move(public_path('imgs'), $imageName);
@@ -147,7 +142,6 @@ public function perfil()
             'nombre' => 'required|string|max:255',
             'nombre_del_local' => 'required|string|max:255',
             'imagen_de_referencia' => 'required|image|mimes:jpeg,png,jpg,gif,svg ',
-            'clasificacion' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'telefono' => 'required|string|max:255',
             'numero_puesto' => 'required|integer|unique:vendedors,numero_puesto,' . $id,
@@ -159,7 +153,6 @@ public function perfil()
 
         // Actualizar los campos
         $vendedor->usuario = $request->input('usuario');
-        $vendedor->ROL = $request->input('ROL');
 
         // Si la contraseña se envía, actualiza, de lo contrario, deja la existente
         if ($request->filled('password')) {
@@ -168,7 +161,6 @@ public function perfil()
 
         $vendedor->nombre = $request->input('nombre');
         $vendedor->nombre_del_local = $request->input('nombre_del_local');
-        $vendedor->clasificacion = $request->input('clasificacion');
         $vendedor->apellidos = $request->input('apellidos');
         $vendedor->telefono = $request->input('telefono');
         $vendedor->numero_puesto = $request->input('numero_puesto');
@@ -219,8 +211,7 @@ public function perfil()
             'apellidos' => 'required|string|max:255',
             'telefono' => 'required|string|max:20|unique:vendedors',
             'numero_puesto' => 'required|integer',
-            'password' => 'required|string|min:8|confirmed',  // Regla de longitud mínima
-            'clasificacion' => 'required|string|max:255',
+            'password' => 'required|string|min:8|confirmed',
             'fk_mercado' => 'required|exists:mercado_locals,id',
         ], [
             'password.required' => 'La contraseña es obligatoria.',
@@ -261,7 +252,6 @@ public function perfil()
         $vendedor->numero_puesto = $request->numero_puesto;
         $vendedor->fk_mercado = $request->fk_mercado;
         $vendedor->password = Hash::make($request->password); // Encriptar la contraseña
-        $vendedor->clasificacion = $request->clasificacion;
 
         // Manejar la carga de la imagen
         if ($request->hasFile('imagen_de_referencia')) {

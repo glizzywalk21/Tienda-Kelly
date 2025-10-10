@@ -55,28 +55,9 @@
                     <input type="text" name="telefono" value="{{ old('telefono') }}" placeholder="Teléfono" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
                     <input type="text" name="numero_puesto" value="{{ old('numero_puesto') }}" placeholder="Número de Puesto" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
                     <input type="text" name="nombre_del_local" value="{{ old('nombre_del_local') }}" placeholder="Nombre del Local" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
-
-                    <select name="clasificacion" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
-                        <option value="" disabled selected>Escoge su Clasificación</option>
-                        <option value="comedor" {{ old('clasificacion')=='comedor'?'selected':'' }}>Comedor</option>
-                        <option value="ropa" {{ old('clasificacion')=='ropa'?'selected':'' }}>Ropa</option>
-                        <option value="granosbasicos" {{ old('clasificacion')=='granosbasicos'?'selected':'' }}>Granos Básicos</option>
-                        <option value="artesanias" {{ old('clasificacion')=='artesanias'?'selected':'' }}>Artesanías</option>
-                        <option value="mariscos" {{ old('clasificacion')=='mariscos'?'selected':'' }}>Mariscos</option>
-                        <option value="carnes" {{ old('clasificacion')=='carnes'?'selected':'' }}>Carnes</option>
-                        <option value="lacteos" {{ old('clasificacion')=='lacteos'?'selected':'' }}>Lácteos</option>
-                        <option value="aves" {{ old('clasificacion')=='aves'?'selected':'' }}>Aves</option>
-                        <option value="plasticos" {{ old('clasificacion')=='plasticos'?'selected':'' }}>Plásticos</option>
-                        <option value="frutasyverduras" {{ old('clasificacion')=='frutasyverduras'?'selected':'' }}>Frutas y Verduras</option>
-                        <option value="emprendimiento" {{ old('clasificacion')=='emprendimiento'?'selected':'' }}>Emprendimiento</option>
-                        <option value="otros" {{ old('clasificacion')=='otros'?'selected':'' }}>Otros</option>
-                    </select>
-
                     <input type="email" name="usuario" value="{{ old('usuario') }}" placeholder="Correo electrónico" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
-
                     <input type="password" name="password" id="password" placeholder="Contraseña" maxlength="8" class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
                     <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirmar Contraseña" required class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
-
                     <label class="flex items-center text-gray-600 text-sm col-span-2">
                         <input type="checkbox" id="show-passwords" class="mr-2"> Mostrar Contraseñas
                     </label>

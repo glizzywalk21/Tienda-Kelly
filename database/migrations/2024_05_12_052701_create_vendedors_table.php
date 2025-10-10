@@ -35,15 +35,15 @@ return new class extends Migration
         // Seeds iniciales
         // ===================
 
-        // Rosio - Verduras
+        // Rosio - Comedor
         DB::table('vendedors')->insert([
-            'usuario' => 'rosio.martinez@gmail.com',
+            'usuario' => 'rocio.martinez@gmail.com',
             'ROL' => 3,
             'password' => Hash::make('12345678'),
-            'nombre' => 'Rosio',
+            'nombre' => 'Rocio',
             'apellidos' => 'Martinez',
-            'nombre_del_local' => 'Almuerzos Rosio',
-            'imagen_de_referencia' => 'rosiomartinez.png',
+            'nombre_del_local' => 'Comedor Rocio',
+            'imagen_de_referencia' => 'rociomartinez.png',
             'telefono' => '75469651',
             'numero_puesto' => '1',
             'fk_mercado' => 1,

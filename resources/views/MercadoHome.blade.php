@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   @vite('resources/css/app.css')
-  <title>Mercado Home</title>
+  <title>Área Home</title>
   <link rel="shortcut icon" href="{{ asset('imgs/MiCarritoUser.png') }}" type="image/x-icon" />
   <style>
     @keyframes fadeInUp {
@@ -72,7 +72,7 @@
   <div class="flex justify-center mt-8 animate-fadeInUp delay-200">
     <a href="{{ route('mercados.editar') }}"
       class="inline-block px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold rounded-xl shadow btn-primary transition">
-      Editar Mercado
+      Editar Área
     </a>
   </div>
 
@@ -88,14 +88,12 @@
           <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}"
                alt="{{ $vendedor->nombre_del_local }}">
-          <span class="badge-class">{{ $vendedor->clasificacion }}</span>
         </div>
         
         <div class="p-5 space-y-2">
           <h3 class="font-bold text-xl text-orange-600 group-hover:text-red-500 transition">{{ $vendedor->nombre_del_local }}</h3>
           <p class="text-gray-600">Tienda de {{ $vendedor->nombre }} {{ $vendedor->apellidos }}</p>
           <div class="flex justify-between items-center mt-2">
-            <span class="text-orange-500 font-bold text-lg">${{ $vendedor->precio_base ?? 'N/A' }}</span>
             <div class="flex items-center gap-1">
               <span class="text-sm font-semibold">4.2</span>
               <img class="w-4" src="{{ asset('imgs/estrella.png') }}" alt="Estrella">

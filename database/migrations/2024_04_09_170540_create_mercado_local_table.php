@@ -24,9 +24,9 @@ return new class extends Migration {
         });
 
         // =======================
-        // Puesto: Verduras
+        // Puesto: Comedor
         // =======================
-        $password = 'Verduras1';
+        $password = 'Comedor1';
         $hash = Hash::make($password);
 
         DB::insert('insert into mercado_locals (
@@ -41,12 +41,12 @@ return new class extends Migration {
             updated_at
         ) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [
             1,
-            'almuerzo@mercado.sv',
+            'comedor@tiendakelly.sv',
             $hash,
-            'Almuerzos',
+            'Comedor',
             2,
-            'verduras.jpg',
-            'El puesto de Verduras ofrece una gran variedad de productos frescos de temporada, incluyendo hortalizas, tubérculos y hierbas cultivadas localmente.',
+            'comedor.jpg',
+            'El comedor ofrece un espacio acogedor donde se brinda alimentación equilibrada y de calidad. Se preparan diariamente platillos variados elaborados con ingredientes frescos y nutritivos, priorizando productos locales y de temporada. El objetivo principal es ofrecer un servicio que promueva el bienestar y una buena nutrición para todos los comensales.',
             now(),
             now()
         ]);
@@ -97,7 +97,7 @@ return new class extends Migration {
             updated_at
         ) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [
             3,
-            'juguetes@mercado.sv',
+            'juguetes@tiendakelly.sv',
             $hash,
             'Juguetes',
             2,
@@ -125,7 +125,7 @@ return new class extends Migration {
             updated_at
         ) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [
             4,
-            'zapatos@mercado.sv',
+            'zapatos@tiendakelly.sv',
             $hash,
             'Zapatos',
             2,

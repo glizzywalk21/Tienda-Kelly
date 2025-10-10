@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <title>Inicio</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
 </head>
 
 <body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white text-gray-800">
@@ -21,7 +21,7 @@
         </a>
         <div class="flex gap-8">
             <a href="{{ route('admin.index') }}"
-                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Areas</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Áreas</a>
             <a href="{{ route('admin.vendedores') }}"
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Vendedores</a>
             <a href="{{ route('admin.clientes') }}"
@@ -102,12 +102,7 @@
                     <!-- Texto -->
                     <div class="p-4 text-center">
                         <h1 class="text-lg font-bold text-gray-800">{{ $mercadoLocal->nombre }}</h1>
-                        <p class="text-sm text-gray-600 text-justify mt-2">
-                            El {{ $mercadoLocal->nombre }} se encuentra en {{ $mercadoLocal->ubicacion }},
-                            en el municipio de {{ $mercadoLocal->municipio }}.
-                            En el horario siguiente: {{ $mercadoLocal->horaentrada }} - {{ $mercadoLocal->horasalida }}.
-                            {{ $mercadoLocal->descripcion }}
-                        </p>
+                        <p class="text-sm text-gray-600 text-justify mt-2">{{ $mercadoLocal->descripcion }}</p>
                     </div>
 
                     <!-- Botones dentro de la card -->
