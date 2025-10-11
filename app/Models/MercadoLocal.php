@@ -11,10 +11,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property $nombre
  * @property $ROL
  * @property $imagen_referencia
- * @property $municipio
- * @property $ubicacion
- * @property $horaentrada
- * @property $horasalida
  * @property $descripcion
  * @property $created_at
  * @property $updated_at
@@ -36,7 +32,7 @@ class MercadoLocal extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'usuario','password','nombre', 'ROL', 'imagen_referencia', 'municipio', 'ubicacion', 'horaentrada', 'horasalida', 'descripcion'
+        'usuario','password','nombre', 'ROL', 'imagen_referencia', 'descripcion'
     ];
 
     protected $hidden = [
@@ -50,6 +46,4 @@ class MercadoLocal extends Authenticatable
     {
         return $this->hasMany(\App\Models\Vendedor::class, 'fk_mercado', 'id');
     }
-
-
 }
