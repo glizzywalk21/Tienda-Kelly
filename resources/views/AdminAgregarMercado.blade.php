@@ -11,11 +11,10 @@
 
 <body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white text-gray-800">
 
-
     <section>
         <div class="bottom-bar fixed bottom-[1%] left-0 right-0 z-[100] flex justify-center md:hidden">
             <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around ">
-                <div class="flex items-center  ">
+                <div class="flex items-center">
                     <a href="{{ route('admin.index') }}"><img class="w-6" src="{{ asset('imgs/admin.home.nav.png') }}" alt="User Icon"></a>
                 </div>
                 <div class="flex items-center">
@@ -25,7 +24,6 @@
                     <a href="{{ route('admin.clientes') }}"><img class="w-6" src="{{ asset('imgs/admin.users.nav.png') }}" alt="User Icon"></a>
                 </div>
                 <div class="flex items-center">
-
                     <a href="{{ route('AdminProfileVista')}}"><img class="w-6" src="{{ asset('imgs/UserIcon.png') }}" alt="User Icon"></a>
                 </div>
             </div>
@@ -76,6 +74,23 @@
                         {!! $errors->first('descripcion', '<div class="text-red-500 text-xs mt-1"><strong>:message</strong></div>') !!}
                     </div>
 
+                    <!-- Correo -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
+                        <input required type="email" name="email" id="email" value="{{ old('email') }}"
+                            placeholder="Ej. correo@ejemplo.com"
+                            class="w-full border rounded-md px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                        {!! $errors->first('email', '<div class="text-red-500 text-xs mt-1"><strong>:message</strong></div>') !!}
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                        <input required type="password" name="password" id="password" placeholder="Ingrese contraseña"
+                            class="w-full border rounded-md px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                        {!! $errors->first('password', '<div class="text-red-500 text-xs mt-1"><strong>:message</strong></div>') !!}
+                    </div>
+
                     <!-- Botón -->
                     <div>
                         <button type="submit"
@@ -86,9 +101,8 @@
                 </div>
             </form>
         </div>
-
-
     </section>
+
     <script>
         document.getElementById('imagen_referencia').addEventListener('change', function(event) {
             const input = event.target;
@@ -104,11 +118,11 @@
                 reader.readAsDataURL(input.files[0]);
 
                 // Mostrar el nombre del archivo seleccionado
-                fileNameSpan.textContent = input.files[0].name;
+                if(fileNameSpan) fileNameSpan.textContent = input.files[0].name;
             } else {
                 preview.src = '#';
                 preview.classList.add('hidden');
-                fileNameSpan.textContent = 'Imagen del mercado';
+                if(fileNameSpan) fileNameSpan.textContent = 'Imagen del mercado';
             }
         });
     </script>

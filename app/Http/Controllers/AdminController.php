@@ -56,41 +56,43 @@ class AdminController extends Controller
         return view('AdminAgregarMercado', compact('mercadoLocal'));
     }
 
-    public function guardarmercados(MercadoLocalRequest $request)
-    {
-        // Validación sin municipio/ubicación/horas
-        $request->validate([
-            'imagen_referencia' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
-            'nombre'            => 'required|string|max:255',
-            'descripcion'       => 'required|string|max:500',
-        ]);
+    
+public function guardarmercados(Request $request)
+{
+    // Validación completa
+    $request->validate([
+        'imagen_referencia' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // máximo 2MB
+        'nombre'            => 'required|string|max:255',
+        'descripcion'       => 'required|string|max:500',
+        'email'             => 'required|email|unique:mercado_locals,usuario', // correo único
+        'password'          => 'required|string|min:6', // contraseña mínima 6 caracteres
+    ]);
 
-        $nombreLimpio = str_replace(' ', '', $request->nombre);
-        $usuario  = strtolower($nombreLimpio) . '@minishop.sv';
-        $password = '1' . strtolower($nombreLimpio) . '!';
+    // Crear nuevo registro de mercado
+    $mercadolocal = new MercadoLocal();
+    $mercadolocal->nombre       = $request->nombre;
+    $mercadolocal->descripcion  = $request->descripcion;
+    $mercadolocal->usuario      = $request->email;
+    $mercadolocal->password     = Hash::make($request->password);
 
-        $mercadolocal = new MercadoLocal();
-        $mercadolocal->usuario          = $usuario;
-        $mercadolocal->password         = Hash::make($password);
-        $mercadolocal->nombre           = $request->nombre;
-        $mercadolocal->descripcion      = $request->descripcion;
-
-        // Imagen (solo si se adjunta)
-        if ($request->hasFile('imagen_referencia')) {
-            $imageName = str_replace(' ', '_', strtolower($request->nombre)) . '.png';
-            $request->file('imagen_referencia')->move(public_path('imgs'), $imageName);
-            $mercadolocal->imagen_referencia = $imageName;
-        }
-
-        $mercadolocal->save();
-
-        return redirect()->route('admin.index')->with([
-            'usuario'  => $usuario,
-            'password' => $password,
-            'nombre'   => $mercadolocal->nombre,
-        ]);
+    // Subir imagen si existe
+    if ($request->hasFile('imagen_referencia')) {
+        $imageName = str_replace(' ', '_', strtolower($request->nombre)) . '.png';
+        $request->file('imagen_referencia')->move(public_path('imgs'), $imageName);
+        $mercadolocal->imagen_referencia = $imageName;
     }
 
+    // Guardar en la base de datos
+    $mercadolocal->save();
+
+    // Redirigir con mensaje (puedes mostrar email y password al admin si quieres)
+    return redirect()->route('admin.index')->with([
+        'success'  => 'Mercado registrado correctamente',
+        'usuario'  => $request->email,
+        'password' => $request->password,
+        'nombre'   => $mercadolocal->nombre,
+    ]);
+}
     public function vermercados($id, Request $request)
     {
         $mercadoLocal = MercadoLocal::find($id);
