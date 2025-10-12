@@ -11,6 +11,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Reservation;
 use App\Models\ReservationItem;
+use Illuminate\Support\Str;
 
 // Requests
 use Illuminate\Http\Request;
@@ -105,27 +106,43 @@ class AdminController extends Controller
         return view('AdminEditarMercado', compact('mercadoLocal'));
     }
 
-    public function actualizarmercados(MercadoLocalRequest $request, $id)
+    public function actualizarmercados(Request $request, $id)
     {
+        // Buscar el mercado
         $mercadoLocal = MercadoLocal::findOrFail($id);
 
-        $data = $request->validate([
-            'nombre'      => 'required|string|max:255',
-            'descripcion' => 'required|string|max:220',
-            'imagen_referencia' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+        // Validar los datos
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:255',
+            'nueva_imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        if ($request->hasFile('imagen_referencia')) {
-            $imageName = str_replace(' ', '_', strtolower($request->input('nombre'))) . '.png';
-            $request->file('imagen_referencia')->move(public_path('imgs'), $imageName);
-            $data['imagen_referencia'] = $imageName;
+        // Actualizar campos básicos
+        $mercadoLocal->nombre = $validated['nombre'];
+        $mercadoLocal->descripcion = $validated['descripcion'];
+
+        // Manejar imagen
+        if ($request->hasFile('nueva_imagen')) {
+            $image = $request->file('nueva_imagen');
+            $imageName = time() . '_' . str_replace(' ', '_', strtolower($mercadoLocal->nombre)) . '.' . $image->extension();
+            $image->move(public_path('imgs'), $imageName);
+
+            // Eliminar imagen anterior si existe
+            if ($mercadoLocal->imagen_referencia && file_exists(public_path('imgs/' . $mercadoLocal->imagen_referencia))) {
+                @unlink(public_path('imgs/' . $mercadoLocal->imagen_referencia));
+            }
+
+            $mercadoLocal->imagen_referencia = $imageName;
         }
 
-        $mercadoLocal->update($data);
+        // Guardar cambios
+        $mercadoLocal->save();
 
-        return redirect()->route('admin.index')
-            ->with('success', 'Mercado Local actualizado con éxito');
+        // Redirigir con mensaje de éxito
+        return redirect()->route('admin.index') ->with('success', 'Mercado Local actualizado con éxito');
     }
+
 
     public function eliminarmercados($id)
     {
