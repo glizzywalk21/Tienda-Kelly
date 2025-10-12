@@ -43,7 +43,7 @@ return new class extends Migration
             'nombre' => 'Rocio',
             'apellidos' => 'Martinez',
             'nombre_del_local' => 'Comedor Rocio',
-            'imagen_de_referencia' => 'rociomartinez.png',
+            'imagen_de_referencia' => 'rosiomartinez.png',
             'telefono' => '75469651',
             'numero_puesto' => '1',
             'fk_mercado' => 1,
