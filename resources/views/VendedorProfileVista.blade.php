@@ -136,10 +136,10 @@
                 </a>
             </div>
 
-            <form action="{{ route('logout') }}" method="GET" class="mt-8">
+            <form action="{{ route('logout') }}" method="GET" class="m-8 justify-center flex">
                 @csrf
                 <button type="submit"
-                        class="w-full h-12 rounded-2xl bg-rose-600 text-white font-semibold hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-600">
+                        class="w-64 h-12 rounded-2xl bg-rose-600 text-white font-semibold hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-600">
                     Cerrar cuenta
                 </button>
             </form>
