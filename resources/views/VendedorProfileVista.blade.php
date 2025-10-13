@@ -1,129 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @vite('resources/css/app.css')
     <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
-    <title>VendedorProfileVista</title>
+    <title>Perfil del Vendedor</title>
 </head>
 
-<body>
-    <div>
-        <!-- Desktop Navbar -->
-        <div class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
-            <a href="{{ route('vendedores.index') }}">
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
-                    Tienda Kelly <span class="text-indigo-400 font-bold">Vendedores</span>
-                </h1>
-            </a>
-            <div class="flex gap-8">
-                <a href="{{ route('vendedores.index') }}"
-                    class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Puesto</a>
-                <a href="{{ route('vendedores.productos') }}"
-                    class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mis Productos</a>
+<body class="bg-slate-50 text-slate-900">
+
+    <!-- NAV DESKTOP -->
+    <header class="hidden md:block sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="h-16 flex items-center justify-between">
+                <a href="{{ route('vendedores.index') }}" class="group inline-flex items-center gap-3">
+                    <img src="{{ asset('imgs/shop.png') }}" class="w-8 h-8" alt="Logo">
+                    <h1 class="text-2xl font-extrabold tracking-tight">
+                        Tienda Kelly <span class="text-indigo-600 group-hover:text-indigo-700 transition">Vendedores</span>
+                    </h1>
+                </a>
+                <nav class="flex items-center gap-8">
+                    <a class="text-sm font-medium hover:text-indigo-700" href="{{ route('vendedores.index') }}">Mi Puesto</a>
+                    <a class="text-sm font-medium hover:text-indigo-700" href="{{ route('vendedores.productos') }}">Mis Productos</a>
+                    <a class="text-sm font-medium hover:text-indigo-700" href="{{ route('vendedores.reservas') }}">Mis Reservas</a>
+                    <a class="text-sm font-medium hover:text-indigo-700" href="{{ route('vendedores.historial') }}">Mi Historial</a>
+                    <a class="text-sm font-semibold border border-indigo-600 text-indigo-600 px-3 py-1.5 rounded-md hover:bg-indigo-600 hover:text-white transition" href="{{ route('vendedor.perfil') }}">Perfil</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAV MÓVIL -->
+    <div class="md:hidden fixed bottom-5 left-0 right-0 z-50 flex justify-center">
+        <nav class="bg-slate-900 text-white/90 rounded-2xl shadow-2xl w-[300px] h-16 px-3 flex items-center justify-around">
+            <a href="{{ route('vendedores.index') }}"><img class="w-6" src="{{ asset('imgs/vendedor.home.png') }}" alt=""></a>
+            <a href="{{ route('vendedores.productos') }}"><img class="w-6" src="{{ asset('imgs/vendedor.productos.png') }}" alt=""></a>
+            <a href="{{ route('vendedores.reservas') }}"><img class="w-6" src="{{ asset('imgs/vendedor.reservas.png') }}" alt=""></a>
+            <a href="{{ route('vendedores.historial') }}"><img class="w-6" src="{{ asset('imgs/mercado.historial.blancopng.png') }}" alt=""></a>
+            <a href="{{ route('vendedor.perfil') }}"><img class="w-6" src="{{ asset('imgs/vendedor.perfil.png') }}" alt=""></a>
+        </nav>
+    </div>
+
+    <!-- HERO AMPLIO -->
+    <section class="bg-gradient-to-br from-indigo-600 via-indigo-500 to-indigo-400">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="py-12 md:py-16">
+                <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-sm">
+                    Tienda <span class="text-white/90">Kelly</span>
+                </h2>
+                <p class="mt-3 text-white/90 text-lg">Panel del vendedor</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PERFIL + DATOS EN CARD CON ESPACIO -->
+    <main class="max-w-5xl mx-auto px-6">
+        <section class="-mt-10 md:-mt-14">
+            <div class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200/70 p-8 md:p-10">
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+                    <img class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover ring-4 ring-white shadow"
+                         src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="Foto del vendedor">
+
+                    <div class="flex-1 text-center md:text-left space-y-3">
+                        <div class="flex items-center justify-center md:justify-start gap-1 text-amber-500">
+                            @for ($i = 0; $i < 5; $i++)
+                                <img class="w-5 h-5" src="{{ asset('imgs/estrella.png') }}" alt="star">
+                            @endfor
+                            <span class="ml-2 text-sm text-slate-600">5.0</span>
+                        </div>
+
+                        <h3 class="text-2xl md:text-3xl font-bold text-slate-900">
+                            {{ $vendedor->nombre }} {{ $vendedor->apellidos }}
+                        </h3>
+                        <p class="text-slate-600">{{ '@' . $vendedor->usuario }}</p>
+
+                        <div class="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="rounded-xl border border-slate-200 p-4">
+                                <p class="text-xs uppercase tracking-wide text-slate-500">Puesto</p>
+                                <p class="mt-1 text-lg font-semibold">{{ $vendedor->nombre_del_local }}</p>
+                            </div>
+                            @if($vendedor->mercadoLocal)
+                                <div class="rounded-xl border border-slate-200 p-4">
+                                    <p class="text-xs uppercase tracking-wide text-slate-500">Mercado</p>
+                                    <p class="mt-1 text-lg font-semibold text-indigo-700">{{ $vendedor->mercadoLocal->nombre }}</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACCIONES EN GRID CON MÁS RESPIRO -->
+        <section class="mt-10 md:mt-12">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <a href="{{ route('vendedores.agregarproducto', $vendedor->id) }}"
+                   class="group bg-white rounded-2xl p-6 ring-1 ring-slate-200/70 hover:shadow-md transition space-y-2">
+                    <div class="flex items-center gap-3">
+                        <img class="w-6" src="{{ asset('imgs/AddSelectedIcon.png') }}" alt="">
+                        <h4 class="text-lg font-semibold text-slate-900">Agregar productos</h4>
+                        <span class="ml-auto text-indigo-600 group-hover:translate-x-0.5 transition">→</span>
+                    </div>
+                    <p class="text-sm text-slate-600">Crea un nuevo producto para tu catálogo.</p>
+                </a>
+
+                <a href="{{ route('vendedores.editar', $vendedor->id) }}"
+                   class="group bg-white rounded-2xl p-6 ring-1 ring-slate-200/70 hover:shadow-md transition space-y-2">
+                    <div class="flex items-center gap-3">
+                        <img class="w-5" src="{{ asset('imgs/EditSelectedIcon.png') }}" alt="">
+                        <h4 class="text-lg font-semibold text-slate-900">Editar mi puesto</h4>
+                        <span class="ml-auto text-indigo-600 group-hover:translate-x-0.5 transition">→</span>
+                    </div>
+                    <p class="text-sm text-slate-600">Actualiza datos del puesto y tu imagen.</p>
+                </a>
+
                 <a href="{{ route('vendedores.reservas') }}"
-                    class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Reservas</a>
+                   class="group bg-white rounded-2xl p-6 ring-1 ring-slate-200/70 hover:shadow-md transition space-y-2">
+                    <div class="flex items-center gap-3">
+                        <img class="w-5" src="{{ asset('imgs/admin.vendedores.png') }}" alt="">
+                        <h4 class="text-lg font-semibold text-slate-900">Mi buzón</h4>
+                        <span class="ml-auto text-indigo-600 group-hover:translate-x-0.5 transition">→</span>
+                    </div>
+                    <p class="text-sm text-slate-600">Revisa pedidos y su estado.</p>
+                </a>
+
                 <a href="{{ route('vendedores.historial') }}"
-                    class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Historial</a>
-                <a href="{{ route('vendedor.perfil') }}"
-                    class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
-                    Perfil
+                   class="group bg-white rounded-2xl p-6 ring-1 ring-slate-200/70 hover:shadow-md transition space-y-2">
+                    <div class="flex items-center gap-3">
+                        <img class="w-5" src="{{ asset('imgs/mercado.historial.png') }}" alt="">
+                        <h4 class="text-lg font-semibold text-slate-900">Historial</h4>
+                        <span class="ml-auto text-indigo-600 group-hover:translate-x-0.5 transition">→</span>
+                    </div>
+                    <p class="text-sm text-slate-600">Consulta pedidos pasados y registros.</p>
                 </a>
             </div>
-        </div>
-        <!-- Mobile Navbar -->
-        <div class="bottom-bar fixed bottom-[2%] left-0 right-0 md:hidden flex justify-center">
-            <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
-                <div class="flex items-center">
-                    <a href="{{ route('vendedores.index') }}">
-                        <img class="w-6" src="{{ asset('imgs/vendedor.home.png') }}" alt="Home Icon" />
-                    </a>
-                </div>
-                <div class="flex items-center">
-                    <a href="{{ route('vendedores.productos') }}">
-                        <img class="w-6" src="{{ asset('imgs/vendedor.productos.png') }}" alt="Cart Icon" />
-                    </a>
-                </div>
-                <div class="flex items-center">
-                    <a href="{{ route('vendedores.reservas') }}">
-                        <img class="w-6" src="{{ asset('imgs/vendedor.reservas.png') }}" alt="Favorites Icon" />
-                    </a>
-                </div>
-                <div class="flex items-center">
-                    <a href="{{ route('vendedores.historial') }}">
-                        <img class="w-6" src="{{ asset('imgs/mercado.historial.blancopng.png') }}"
-                            alt="Favorites Icon" />
-                    </a>
-                </div>
-                <div class="flex items-center">
-                    <a href="{{ route('vendedor.perfil') }}">
-                        <img class="w-6" src="{{ asset('imgs/vendedor.perfil.png') }}" alt="Profile Icon" />
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!-- fin del Mobile Navbar -->
 
+            <form action="{{ route('logout') }}" method="GET" class="mt-8">
+                @csrf
+                <button type="submit"
+                        class="w-full h-12 rounded-2xl bg-rose-600 text-white font-semibold hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-600">
+                    Cerrar cuenta
+                </button>
+            </form>
+        </section>
+    </main>
 
-        <div class="bg-indigo-500 h-auto pb-[4rem] pt-[2rem] w-full flex items-center justify-center"">
-            <h3 class=" text-[3rem] font-bold lg:text-[5rem]">Tienda<span class="text-white ml-2">Kelly</span></h3>
-        </div>
-        <div class="flex justify-center mt-5">
-            <img class="w-40 h-40 rounded-full shadow-md  "
-                src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="User Icon">
-        </div>
-        <div class="flex justify-center mt-2 ">
-            <img class="w-3 h-3 ml-1" src="{{ asset('imgs/estrella.png') }}" alt="User Icon">
-            <img class="w-3 h-3 ml-1" src="{{ asset('imgs/estrella.png') }}" alt="User Icon">
-            <img class="w-3 h-3 ml-1" src="{{ asset('imgs/estrella.png') }}" alt="User Icon">
-            <img class="w-3 h-3 ml-1" src="{{ asset('imgs/estrella.png') }}" alt="User Icon">
-            <img class="w-3 h-3 ml-1" src="{{ asset('imgs/estrella.png') }}" alt="User Icon">
-            <h3 class="text-[10px]"> <span class="ml-2">5.0</span></h3>
-        </div>
-        <div class="text-center mt-3">
-            <h3 class="text-xs">{{ $vendedor->nombre_del_local }}</h3>
-            <h3 class="font-bold">{{ $vendedor->nombre }} {{ $vendedor->apellidos }}</h3>
-            <h3 class="text-xs">{{ $vendedor->usuario }}</h3>
-        </div>
-
-
-    </div>
-    <!--Enlaces para el vendedor-->
-    <div class="w-11/12 md:w-1/2 mx-auto my-16 space-y-6">
-        <a href="{{ route('vendedores.agregarproducto', $vendedor->id) }}" class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
-            <img class="w-6" src="{{ asset('imgs/AddSelectedIcon.png') }}" alt="User Icon">
-            <h3 class="flex-grow text-left font-bold ml-3">Agregar Productos</h3>
-        </a>
-
-        <a href="{{ route('vendedores.editar', $vendedor->id) }}" class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
-            <img class="w-5" src="{{ asset('imgs/EditSelectedIcon.png') }}" alt="User Icon">
-            <h3 class="flex-grow text-left font-bold ml-5">Editar mi puesto</h3>
-        </a>
-
-        <a href="{{ route('vendedores.reservas') }}" class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
-            <img class="w-5" src="{{ asset('imgs/admin.vendedores.png') }}" alt="User Icon">
-            <h3 class="flex-grow text-left font-bold ml-5">Mi buzon</h3>
-        </a>
-        <a href="{{ route('vendedores.historial') }}" class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
-            <img class="w-5" src="{{ asset('imgs/mercado.historial.png') }}" alt="User Icon">
-            <h3 class="flex-grow text-left font-bold ml-5">Historial</h3>
-        </a>
-
-        <form action="{{ route('logout') }}" method="GET">
-            @csrf
-            <button type="submit" class="flex items-center w-full px-4 py-3 bg-red-500 text-white font-bold rounded-lg shadow hover:bg-red-600 transition btn-hover">
-                <img class="w-5 mr-3" src="{{ asset('imgs/tuerca.png') }}" alt="User Icon">
-                Cerrar Cuenta
-            </button>
-        </form>
-    </div>
-    </div>
-
-    <!--Incluyendo el footer desde componentes-->
     @include('components.footer')
-
 </body>
-
 </html>

@@ -4,160 +4,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
-    <title>Mi Carrito</title>
+    <title>Mis Productos</title>
     <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
 </head>
 
-<body class="">
-    <!-- Desktop Navbar -->
-    <div class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
-        <a href="{{ route('vendedores.index') }}">
-            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
-                Tienda Kelly <span class="text-indigo-400 font-bold">Vendedores</span>
+<body class="bg-gradient-to-b from-slate-50 to-white text-slate-900">
+
+    <!-- ===== Desktop Navbar ===== -->
+    <div class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-sm sticky top-0 z-50 border-b border-slate-100">
+        <a href="{{ route('vendedores.index') }}" class="group inline-flex items-center gap-2">
+            <img src="{{ asset('imgs/shop.png') }}" alt="Logo" class="w-7 h-7">
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">
+                Tienda Kelly <span class="text-indigo-600 group-hover:text-indigo-700 transition-colors">Vendedores</span>
             </h1>
         </a>
-        <div class="flex gap-8">
-            <a href="{{ route('vendedores.index') }}"
-                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Puesto</a>
-            <a href="{{ route('vendedores.productos') }}"
-                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mis Productos</a>
-            <a href="{{ route('vendedores.reservas') }}"
-                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Reservas</a>
-            <a href="{{ route('vendedores.historial') }}"
-                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Historial</a>
-            <a href="{{ route('vendedor.perfil') }}"
-                class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
+        <nav class="flex gap-6">
+            <a href="{{ route('vendedores.index') }}" class="font-medium uppercase text-xs md:text-sm hover:text-indigo-700 transition">Mi Puesto</a>
+            <a href="{{ route('vendedores.productos') }}" class="font-medium uppercase text-xs md:text-sm text-indigo-700">Mis Productos</a>
+            <a href="{{ route('vendedores.reservas') }}" class="font-medium uppercase text-xs md:text-sm hover:text-indigo-700 transition">Mis Reservas</a>
+            <a href="{{ route('vendedores.historial') }}" class="font-medium uppercase text-xs md:text-sm hover:text-indigo-700 transition">Mi Historial</a>
+            <a href="{{ route('vendedor.perfil') }}" class="font-semibold uppercase text-xs md:text-sm border border-indigo-600 text-indigo-600 px-3 py-1.5 rounded-md hover:bg-indigo-600 hover:text-white transition">
                 Perfil
+            </a>
+        </nav>
+    </div>
+
+    <!-- ===== Mobile Bottom Bar ===== -->
+    <div class="fixed bottom-4 left-0 right-0 md:hidden flex justify-center z-50">
+        <div class="bg-slate-900/95 backdrop-blur rounded-2xl w-64 h-14 flex justify-around px-2 shadow-2xl">
+            <a href="{{ route('vendedores.index') }}" class="grid place-items-center w-12" aria-label="Inicio">
+                <img class="w-6" src="{{ asset('imgs/vendedor.home.png') }}" alt="Home Icon" />
+            </a>
+            <a href="{{ route('vendedores.productos') }}" class="grid place-items-center w-12" aria-label="Productos">
+                <img class="w-6" src="{{ asset('imgs/vendedor.productos.png') }}" alt="Cart Icon" />
+            </a>
+            <a href="{{ route('vendedores.reservas') }}" class="grid place-items-center w-12" aria-label="Reservas">
+                <img class="w-6" src="{{ asset('imgs/vendedor.reservas.png') }}" alt="Favorites Icon" />
+            </a>
+            <a href="{{ route('vendedores.historial') }}" class="grid place-items-center w-12" aria-label="Historial">
+                <img class="w-6" src="{{ asset('imgs/mercado.historial.blancopng.png') }}" alt="Favorites Icon" />
+            </a>
+            <a href="{{ route('vendedor.perfil') }}" class="grid place-items-center w-12" aria-label="Perfil">
+                <img class="w-6" src="{{ asset('imgs/vendedor.perfil.png') }}" alt="Profile Icon" />
             </a>
         </div>
     </div>
-    <!-- Mobile Navbar -->
-    <div class="bottom-bar fixed bottom-[2%] left-0 right-0 md:hidden flex justify-center">
-        <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
-            <div class="flex items-center">
-                <a href="{{ route('vendedores.index') }}">
-                    <img class="w-6" src="{{ asset('imgs/vendedor.home.png') }}" alt="Home Icon" />
-                </a>
-            </div>
-            <div class="flex items-center">
-                <a href="{{ route('vendedores.productos') }}">
-                    <img class="w-6" src="{{ asset('imgs/vendedor.productos.png') }}" alt="Cart Icon" />
-                </a>
-            </div>
-            <div class="flex items-center">
-                <a href="{{ route('vendedores.reservas') }}">
-                    <img class="w-6" src="{{ asset('imgs/vendedor.reservas.png') }}" alt="Favorites Icon" />
-                </a>
-            </div>
-            <div class="flex items-center">
-                <a href="{{ route('vendedores.historial') }}">
-                    <img class="w-6" src="{{ asset('imgs/mercado.historial.blancopng.png') }}"
-                        alt="Favorites Icon" />
-                </a>
-            </div>
-            <div class="flex items-center">
-                <a href="{{ route('vendedor.perfil') }}">
-                    <img class="w-6" src="{{ asset('imgs/vendedor.perfil.png') }}" alt="Profile Icon" />
-                </a>
-            </div>
-        </div>
-    </div>
-    <!-- fin del Mobile Navbar -->
 
-    <!-- Inicio de los apartados del main -->
-    <main class="p-4">
-        <div class="w-full bg-white p-8 rounded-xl shadow-md">
-            <div class="flex justify-between items-start flex-wrap gap-4 mt-5">
-                <div class="ml-2">
-                    <h1 class="text-lg md:text-2xl font-semibold text-gray-800">
+    <!-- ===== Main ===== -->
+    <main class="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-8">
+
+        <!-- Header vendedor -->
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+            <div class="flex items-center gap-4">
+                <img class="hidden md:block w-16 h-16 rounded-full object-cover ring-1 ring-slate-200"
+                     src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="Vendedor">
+                <div>
+                    <h1 class="text-xl md:text-2xl font-semibold text-slate-800">
                         {{ $vendedor->nombre_del_local }} en
                         <span class="font-bold text-indigo-600">{{ $vendedor->mercadoLocal->nombre }}</span>
                     </h1>
-                    <h3 class="text-indigo-500 font-medium text-base mt-1">
+                    <p class="text-sm text-slate-600">
                         {{ $vendedor->nombre }} {{ $vendedor->apellidos }}
-                    </h3>
-                </div>
-                <div class="md:hidden mr-4 mt-2 w-32 h-32 rounded-full overflow-hidden">
-                    <img class="w-full h-full object-cover rounded-full"
-                        src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="User Icon">
+                    </p>
                 </div>
             </div>
 
-            <div class="text-center text-3xl md:text-5xl font-bold text-gray-700 my-8">
-                Mis Productos
-            </div>
+            <!-- Botón Agregar producto -->
+            <a href="{{ route('vendedores.agregarproducto', $vendedor->id) }}"
+               class="inline-flex items-center gap-2 px-4 h-10 rounded-md bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                Agregar producto
+            </a>
+        </div>
 
-            @if(session('success'))
-            <div class="bg-green-100 text-green-800 px-4 py-3 rounded-md mb-6 text-center font-medium">
+        <!-- Título -->
+        <div class="mt-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-800">Mis Productos</h2>
+            <p class="text-slate-500 mt-2">Administra tu catálogo: edita, elimina o crea nuevos productos.</p>
+        </div>
+
+        <!-- Alertas -->
+        @if(session('success'))
+            <div class="mt-6 rounded-md border border-green-200 bg-green-50 text-green-700 px-4 py-3 text-sm text-center">
                 {{ session('success') }}
             </div>
-            @endif
-
-            <div class="space-y-6 flex flex-col items-center justify-center">
-                @if ($productos->isEmpty())
-                <span class="text-center text-2xl text-gray-500 my-28">
-                    No hay Productos
-                </span>
-                @else
-                @foreach ($productos as $producto)
-                <div class="p-6 border border-gray-200 rounded-xl bg-gray-50 hover:bg-gray-100 transition w-full md:w-[75%] flex flex-col md:flex-row gap-6">
-                    <!-- Imagen del Producto -->
-                    <div class="flex-shrink-0 w-full md:w-1/4">
-                        <img src="{{ asset('imgs/' . $producto->imagen_referencia) }}"
-                            alt="Imagen del Producto"
-                            class="w-full h-48 md:h-56 object-cover rounded-lg shadow-sm">
-                    </div>
-
-                    <!-- Información del Producto -->
-                    <div class="flex-1">
-                        <h2 class="text-xl md:text-2xl font-semibold text-gray-800 mb-2">
-                            #{{ $producto->id }} {{ $producto->name }}
-                        </h2>
-                        <ul class="text-gray-700 space-y-1 text-sm md:text-base">
-                            <li><span class="font-medium">Descripción:</span> {{ $producto->description }}</li>
-                            <li><span class="font-medium">Precio:</span> ${{ $producto->price }}</li>
-                            <li><span class="font-medium">Categoría:</span> {{ $producto->clasificacion }}</li>
-                            <li><span class="font-medium">Estado:</span>
-                                <span class="font-semibold text-green-600">{{ $producto->estado }}</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Botones de Acción -->
-                    <div class="flex flex-col justify-center items-center md:items-start gap-3 h-full mt-10">
-                        <a href="{{ route('vendedores.verproducto', $producto->id) }}"
-                            class="px-4 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 rounded-md w-full text-center">
-                            <i class="fa fa-fw fa-eye"></i> {{ __('Ver') }}
-                        </a>
-
-                        <a href="{{ route('vendedores.editarproducto', $producto->id) }}"
-                            class="px-4 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 rounded-md w-full text-center">
-                            <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}
-                        </a>
-
-                        <form action="{{ route('vendedores.eliminarproducto', $producto->id) }}" method="POST" class="w-full">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600 rounded-md w-full text-center">
-                                <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
-                            </button>
-                        </form>
-                    </div>
-
-                </div>
-                @endforeach
-                @endif
+        @endif
+        @if(session('error'))
+            <div class="mt-6 rounded-md border border-red-200 bg-red-50 text-red-700 px-4 py-3 text-sm text-center">
+                {{ session('error') }}
             </div>
-            <!-- FIN DE LA CARTA -->
-        </div>
+        @endif
+
+        <!-- Grid de productos -->
+        <section class="mt-8">
+            @if ($productos->isEmpty())
+                <div class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200/60 p-10 text-center">
+                    <img class="mx-auto w-24 mb-4 opacity-80" src="{{ asset('imgs/empty-cart.png') }}" alt="">
+                    <h3 class="text-lg font-semibold text-slate-800">Aún no tienes productos</h3>
+                    <p class="text-slate-500 mt-1">Cuando agregues productos, aparecerán aquí.</p>
+                    <a href="{{ route('vendedores.agregarproducto', $vendedor->id) }}"
+                       class="mt-6 inline-flex items-center gap-2 px-4 h-10 rounded-md bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+                        Agregar producto
+                    </a>
+                </div>
+            @else
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach ($productos as $producto)
+                        <div class="group bg-white rounded-xl shadow-sm ring-1 ring-slate-200/70 overflow-hidden hover:shadow-md transition">
+                            <div class="relative h-48 w-full overflow-hidden">
+                                <img src="{{ asset('imgs/' . $producto->imagen_referencia) }}"
+                                     alt="Imagen del Producto"
+                                     class="h-full w-full object-cover group-hover:scale-[1.02] transition">
+                                <span class="absolute top-3 left-3 text-[11px] px-2 py-0.5 rounded-full bg-white/90 ring-1 ring-slate-200 text-slate-700">
+                                    #{{ $producto->id }}
+                                </span>
+                                <span class="absolute top-3 right-3 text-[11px] px-2 py-0.5 rounded-full
+                                    {{ $producto->estado === 'Disponible' ? 'bg-green-50 text-green-700 ring-green-300 font-bold' : 'bg-amber-50 text-amber-700 ring-amber-200' }} ring-2">
+                                    {{ $producto->estado }}
+                                </span>
+                            </div>
+
+                            <div class="p-4 space-y-2">
+                                <h3 class="text-base font-semibold text-slate-900 line-clamp-1">
+                                    {{ $producto->name }}
+                                </h3>
+                                <p class="text-sm text-slate-600 line-clamp-2">
+                                    {{ $producto->description }}
+                                </p>
+
+                                <div class="flex items-center justify-between pt-1">
+                                    <span class="text-sm text-slate-500">Precio</span>
+                                    <span class="text-base font-semibold text-indigo-700">
+                                        ${{ number_format($producto->price ?? 0, 2) }}
+                                    </span>
+                                </div>
+
+                                <div class="grid grid-cols-3 gap-2 pt-3">
+                                    <a href="{{ route('vendedores.verproducto', $producto->id) }}"
+                                       class="inline-flex items-center justify-center h-9 rounded-md text-xs font-bold bg-yellow-300 border border-slate-200 text-slate-700 hover:bg-slate-50">
+                                        Ver
+                                    </a>
+                                    <a href="{{ route('vendedores.editarproducto', $producto->id) }}"
+                                       class="inline-flex items-center justify-center h-9 rounded-md text-xs font-bold bg-blue-600 text-white hover:bg-blue-700">
+                                        Editar
+                                    </a>
+                                    <form action="{{ route('vendedores.eliminarproducto', $producto->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                class="w-full inline-flex items-center justify-center h-9 rounded-md text-xs font-bold bg-rose-600 text-white hover:bg-rose-700"
+                                                onclick="return confirm('¿Eliminar este producto?');">
+                                            Eliminar
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        </section>
     </main>
 
-
-    <!--Incluyendo el footer desde componentes-->
     @include('components.footer')
 </body>
-
 </html>
