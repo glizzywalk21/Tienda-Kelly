@@ -26,7 +26,7 @@
             <a href="{{ route('vendedores.reservas') }}"
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Reservas</a>
             <a href="{{ route('vendedores.historial') }}"
-                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mis Historial</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Historial</a>
             <a href="{{ route('vendedor.perfil') }}"
                 class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
                 Perfil
@@ -65,97 +65,97 @@
         </div>
     </div>
     <!-- fin del Mobile Navbar -->
-    <main class="p-4">
 
-        <div class="w-full bg-white p-8 rounded-lg shadow-lg">
-            <div class="flex justify-between mt-5">
-                <div class="ml-[2%]">
-                    <h1 class="md:text-[1.5rem] text-[1rem]">{{ $vendedor->nombre_del_local }} en <span
-                            class="font-semibold"> {{ $vendedor->mercadoLocal->nombre }}</span></h1>
-                    <h3 class="text-indigo-400 font-bold text-[1rem] ">{{ $vendedor->nombre }}
-                        {{ $vendedor->apellidos }}
+    <!-- Inicio de los apartados del main -->
+    <main class="p-4">
+        <div class="w-full bg-white p-8 rounded-xl shadow-md">
+            <div class="flex justify-between items-start flex-wrap gap-4 mt-5">
+                <div class="ml-2">
+                    <h1 class="text-lg md:text-2xl font-semibold text-gray-800">
+                        {{ $vendedor->nombre_del_local }} en
+                        <span class="font-bold text-indigo-600">{{ $vendedor->mercadoLocal->nombre }}</span>
+                    </h1>
+                    <h3 class="text-indigo-500 font-medium text-base mt-1">
+                        {{ $vendedor->nombre }} {{ $vendedor->apellidos }}
                     </h3>
                 </div>
-                <div class="md:hidden mr-[5%] mt-4 rounded-full w-[8rem] h-[8rem] ">
-                    <img class="rounded-full object-cover "
+                <div class="md:hidden mr-4 mt-2 w-32 h-32 rounded-full overflow-hidden">
+                    <img class="w-full h-full object-cover rounded-full"
                         src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="User Icon">
                 </div>
             </div>
-            <div class="text-center md:font-semibold text-[2rem] md:text-[4rem]">
+
+            <div class="text-center text-3xl md:text-5xl font-bold text-gray-700 my-8">
                 Mis Productos
             </div>
+
             @if(session('success'))
-            <div class="alert alert-success">
+            <div class="bg-green-100 text-green-800 px-4 py-3 rounded-md mb-6 text-center font-medium">
                 {{ session('success') }}
             </div>
             @endif
 
-            <div class="space-y-4 flex flex-col items-center justify-center">
+            <div class="space-y-6 flex flex-col items-center justify-center">
                 @if ($productos->isEmpty())
-                <span class="text-center justify-center flex text-[1.75rem] text-gray-600 my-[7rem]">No hay
-                    Productos</span>
+                <span class="text-center text-2xl text-gray-500 my-28">
+                    No hay Productos
+                </span>
                 @else
                 @foreach ($productos as $producto)
-                <div
-                    class="my-10 p-4 border-gray-200 rounded-lg flex flex-col mx-auto w-full md:w-[75%] h-auto md:h-[250px] md:flex-row md:items-start gap-4 md:gap-6 transition duration-300 hover:bg-gray-50">
+                <div class="p-6 border border-gray-200 rounded-xl bg-gray-50 hover:bg-gray-100 transition w-full md:w-[75%] flex flex-col md:flex-row gap-6">
                     <!-- Imagen del Producto -->
                     <div class="flex-shrink-0 w-full md:w-1/4">
                         <img src="{{ asset('imgs/' . $producto->imagen_referencia) }}"
-                            alt="Imagen del Producto" class="w-full h-[12rem] rounded-md object-cover">
+                            alt="Imagen del Producto"
+                            class="w-full h-48 md:h-56 object-cover rounded-lg shadow-sm">
                     </div>
 
                     <!-- Información del Producto -->
                     <div class="flex-1">
-                        <h2 class="text-lg text-gray-800 mb-2 md:text-[1.7rem] md:font-medium">
+                        <h2 class="text-xl md:text-2xl font-semibold text-gray-800 mb-2">
                             #{{ $producto->id }} {{ $producto->name }}
                         </h2>
-                        <p class="my-4 text-sm text-gray-600 mb-1 md:text-[1.5rem]"><span
-                                class="font-medium">Descripción:</span> {{ $producto->description }}</p>
-                        <p class="my-4 md:text-[1.5rem] text-sm text-gray-600 mb-1"><span
-                                class="font-medium">Precio:</span> ${{ $producto->price }}</p>
-                        <p class="my-4 md:text-[1.5rem] text-sm text-gray-600 mb-1"><span
-                                class="font-medium">Categoría:</span> {{ $producto->clasificacion }}</p>
-                        <p class="my-4 md:text-[1.5rem] text-sm text-gray-600 mb-2"><span
-                                class="font-medium">Estado:</span> <span
-                                class="font-semibold text-green-500">{{ $producto->estado }}</span></p>
+                        <ul class="text-gray-700 space-y-1 text-sm md:text-base">
+                            <li><span class="font-medium">Descripción:</span> {{ $producto->description }}</li>
+                            <li><span class="font-medium">Precio:</span> ${{ $producto->price }}</li>
+                            <li><span class="font-medium">Categoría:</span> {{ $producto->clasificacion }}</li>
+                            <li><span class="font-medium">Estado:</span>
+                                <span class="font-semibold text-green-600">{{ $producto->estado }}</span>
+                            </li>
+                        </ul>
                     </div>
 
                     <!-- Botones de Acción -->
-                    <div class="flex flex-col items-center gap-2 md:gap-4 md:items-start">
-                        <a class="btn btn-primary px-4 py-2 text-sm font-medium w-auto md:w-[100%] text-white bg-orange-500 rounded-md hover:bg-orange-600"
-                            href="{{ route('vendedores.verproducto', $producto->id) }}">
+                    <div class="flex flex-col justify-center items-center md:items-start gap-3 h-full mt-10">
+                        <a href="{{ route('vendedores.verproducto', $producto->id) }}"
+                            class="px-4 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 rounded-md w-full text-center">
                             <i class="fa fa-fw fa-eye"></i> {{ __('Ver') }}
                         </a>
 
-                        <a class="px-4 w-auto md:w-[100%] py-2 text-sm font-medium text-white  bg-blue-500 rounded-md hover:bg-blue-600"
-                            href="{{ route('vendedores.editarproducto', $producto->id) }}">
+                        <a href="{{ route('vendedores.editarproducto', $producto->id) }}"
+                            class="px-4 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 rounded-md w-full text-center">
                             <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}
                         </a>
 
-                        <form action="{{ route('vendedores.eliminarproducto', $producto->id) }}"
-                            method="POST">
+                        <form action="{{ route('vendedores.eliminarproducto', $producto->id) }}" method="POST" class="w-full">
                             @csrf
                             @method('DELETE')
                             <button type="submit"
-                                class=" btn btn-danger px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600">
+                                class="px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600 rounded-md w-full text-center">
                                 <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
                             </button>
                         </form>
                     </div>
+
                 </div>
                 @endforeach
                 @endif
             </div>
-
-
-
-            <!--FIN DE LA CARTA-->
-
+            <!-- FIN DE LA CARTA -->
         </div>
-
-        </div>
-
     </main>
+
+
     <!--Incluyendo el footer desde componentes-->
     @include('components.footer')
 </body>

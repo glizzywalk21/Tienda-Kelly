@@ -26,7 +26,7 @@
             <a href="{{ route('vendedores.reservas') }}"
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Reservas</a>
             <a href="{{ route('vendedores.historial') }}"
-                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mis Historial</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Historial</a>
             <a href="{{ route('vendedor.perfil') }}"
                 class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
                 Perfil
@@ -68,61 +68,59 @@
 
     <div class="mx-auto mt-10 px-4 max-w-7xl">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-            <img class="rounded-lg h-[25rem] object-cover w-full shadow-lg"
-                src="{{ asset('imgs/' . $product->imagen_referencia) }}" alt="{{ $product->imagen_referencia }}">
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="font-bold text-2xl lg:text-3xl text-gray-800">{{ $product->name }}</h2>
+            <img class="rounded-xl h-[25rem] object-cover w-full shadow-md"
+                src="{{ asset('imgs/' . $product->imagen_referencia) }}"
+                alt="{{ $product->imagen_referencia }}">
 
+            <div class="bg-white p-8 rounded-xl shadow-md flex flex-col justify-between">
+                <div class="mb-6">
+                    <h2 class="font-bold text-3xl text-gray-800 mb-2">{{ $product->name }}</h2>
+                    <p class="text-gray-600 text-lg">{{ $product->description }}</p>
                 </div>
 
-
-
-                <p class="text-gray-600 mb-4 text-lg">
-                    {{ $product->description }}
-                </p>
                 <hr class="my-4">
 
                 <div class="mb-6">
-                    <h3 class="font-bold text-xl lg:text-2xl text-gray-800">Precio</h3>
-                    <p class="text-xl lg:text-2xl text-gray-900">${{ $product->price }}</p>
+                    <h3 class="font-bold text-xl text-gray-800 mb-1">Precio</h3>
+                    <p class="text-2xl text-indigo-700 font-bold">${{ $product->price }}</p>
                 </div>
 
-                <a class="w-full bg-sky-300 hover:bg-sky-400 text-white text-lg font-bold py-3 rounded-lg  flex items-center justify-center my-4 uppercase"
-                    href="{{ route('vendedores.editarproducto', $product->id) }}">
-
+                <a href="{{ route('vendedores.editarproducto', $product->id) }}"
+                    class="w-full bg-green-600 hover:bg-green-700 text-white text-lg font-semibold py-3 rounded-lg flex items-center justify-center uppercase transition">
                     Editar
                 </a>
-                <form action="{{ route('vendedores.eliminarproducto', $product->id) }}" method="POST">
+
+                <form action="{{ route('vendedores.eliminarproducto', $product->id) }}" method="POST" class="mt-4">
                     @csrf
                     @method('DELETE')
                     <input type="submit"
-                        class="w-full bg-red-400 hover:bg-red-500 text-white text-lg font-bold py-3 rounded-lg  flex items-center justify-center my-4 uppercase"
-                        value="ELIMINAR">
+                        value="ELIMINAR"
+                        class="w-full bg-red-600 hover:bg-red-800 text-white text-lg font-semibold py-3 rounded-lg flex items-center justify-center uppercase transition">
                 </form>
             </div>
         </div>
 
         <!-- Recommended Products Section -->
-        <div class="mt-16">
-            <h2 class="text-2xl lg:text-3xl font-bold text-gray-800 mb-8">Otros Productos Tuyos</h2>
+        <div class="mt-20 mb-10">
+            <h2 class="text-3xl font-bold text-indigo-800 mb-8">Otros Productos Tuyos</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Product Card 1 -->
                 @foreach ($products as $product)
-                <a href="{{ route('vendedores.verproducto', $product->id) }} class=" bg-white p-6 rounded-lg
-                    shadow-lg ">
-                    <img class=" rounded-lg w-full mb-4" src="{{ asset('imgs/' . $product->imagen_referencia) }}" alt="{{ $product->imagen_referencia }}">
-                    <h3 class="font-bold text-lg text-gray-800">{{ $product->name }}</h3>
-                    <p class="text-gray-600 mb-4">
-                        <p class="text-gray-600 mb-4">{{ $product->vendedor->nombre_del_local }}. Precio: ${{ $product->price }}</p>
-
+                <a href="{{ route('vendedores.verproducto', $product->id) }}"
+                    class="bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-lg transition block">
+                    <img class="rounded-lg w-full h-48 object-cover mb-4"
+                        src="{{ asset('imgs/' . $product->imagen_referencia) }}"
+                        alt="{{ $product->imagen_referencia }}">
+                    <h3 class="font-bold text-lg text-gray-800 mb-1">{{ $product->name }}</h3>
+                    <p class="text-gray-600 text-sm mb-1">{{ $product->vendedor->nombre_del_local }}</p>
+                    <p class="text-indigo-700 font-semibold">Precio: ${{ $product->price }}</p>
                 </a>
                 @endforeach
-
-                <!--End CARD-->
             </div>
         </div>
     </div>
+
+
+
 </body>
 
 </html>

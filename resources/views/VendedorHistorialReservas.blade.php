@@ -27,7 +27,7 @@
             <a href="{{ route('vendedores.reservas') }}"
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Reservas</a>
             <a href="{{ route('vendedores.historial') }}"
-                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mis Historial</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Historial</a>
             <a href="{{ route('vendedor.perfil') }}"
                 class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
                 Perfil
@@ -69,97 +69,90 @@
 
 
     <main class="p-4">
-
-        <div class="w-full bg-white p-8 rounded-lg shadow-lg">
-            <div class="flex justify-between mt-5">
-                <div class="ml-[2%]">
-                    <h1 class="md:text-[1.5rem] text-[1rem]">{{ $vendedor->nombre_del_local }} en <span
-                            class="font-semibold"> {{ $vendedor->mercadoLocal->nombre }}</span></h1>
-                    <h3 class="text-indigo-400 font-bold text-[1rem]">{{ $vendedor->nombre }} {{ $vendedor->apellidos }}
+        <div class="w-full bg-white p-8 rounded-xl shadow-md">
+            <div class="flex justify-between items-start flex-wrap gap-4 mt-5">
+                <div class="ml-2">
+                    <h1 class="text-lg md:text-2xl font-semibold text-gray-800">
+                        {{ $vendedor->nombre_del_local }} en
+                        <span class="font-bold text-indigo-600">{{ $vendedor->mercadoLocal->nombre }}</span>
+                    </h1>
+                    <h3 class="text-indigo-500 font-medium text-base mt-1">
+                        {{ $vendedor->nombre }} {{ $vendedor->apellidos }}
                     </h3>
                 </div>
-                <div class="md:hidden mr-[5%] mt-4 rounded-full w-[8rem] h-[8rem] ">
-                    <img class="rounded-full object-cover "
+                <div class="md:hidden mr-4 mt-2 w-32 h-32 rounded-full overflow-hidden">
+                    <img class="w-full h-full object-cover rounded-full"
                         src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="User Icon">
                 </div>
             </div>
-            <div class="text-center md:font-semibold text-[2rem] md:text-[4rem] ">
+
+            <div class="text-center text-3xl md:text-5xl font-bold text-gray-700 my-8">
                 Mi Historial
             </div>
 
-            <div class="space-y-4">
-
-
-
-                <!--INICIO DE RESERVA-->
+            <div class="space-y-6">
+                <!-- INICIO DE RESERVA -->
                 @if ($reservations->isEmpty())
-                <span class="text-center justify-center flex text-[1.75rem] text-gray-600 my-[7rem]">No hay
-                    Historial Todavia</span>
+                <span class="flex justify-center text-2xl text-gray-500 my-28">
+                    No hay Historial Todavía
+                </span>
                 @else
                 @foreach ($reservations as $reservation)
                 @if ($reservation->estado == 'archivado')
-                <div
-                    class="p-4 border border-gray-200 rounded-lg  justify-between md:flex-row md:items-center transition duration-300 hover:bg-gray-50">
+                <div class="p-6 border border-gray-200 rounded-xl bg-gray-50 hover:bg-indigo-50 transition">
 
-                    <h2 class=" text-lg md:text-[2rem] font-bold text-gray-800 mb-[12px]">Reserva:
-                        <span
-                            class="px-2 uppercase w-fit py-0.5 md:py-[1rem] md:px-[2rem] text-s md:text-[1rem] font-semibold bg-gray-200 text-gray-800 rounded">
-
-                            Ya esta Archivado
-
+                    <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-2 flex items-center gap-4">
+                        <span>Reserva:</span>
+                        <span class="px-3 py-1 rounded text-sm font-semibold uppercase bg-gray-300 text-gray-800">
+                            Ya está Archivado
                         </span>
                     </h2>
-                    <h2 class=" text-lg md:text-[2rem] font-semibold text-gray-800 mb-[12px]"><span
-                            class="font-bold">Entregado a:</span> {{ $reservation->user->nombre }}
-                        {{ $reservation->user->apellido }}
+
+                    <h2 class="text-lg md:text-xl font-bold text-gray-700 mb-2">
+                        Entregado a:
+                        <span class="text-indigo-700">{{ $reservation->user->nombre }} {{ $reservation->user->apellido }}</span>
+
                     </h2>
 
-                    <p class="text-sm md:text-[1.5rem] text-gray-600 font-bold mb-[8px]">Total:
-                        ${{ $reservation->total }}</p>
-                    <p class="text-sm md:text-[1.5rem] text-gray-600  mb-[8px]"><b>Fecha de Entrega:</b>
-                        {{ $reservation->updated_at }}
+                    <p class="text-base md:text-lg text-gray-600 font-semibold mb-1">
+                        <b class="text-indigo-600">Total:</b> ${{ $reservation->total }}
+                    </p>
+                    <p class="text-base md:text-lg text-gray-600 mb-4">
+                        <b class="text-indigo-600">Fecha de Entrega:</b> {{ $reservation->updated_at }}
                     </p>
 
                     @foreach ($reservation->items as $item)
-                    <!--INICIO DE CARTA-->
-                    <div
-                        class="my-2 p-4 border border-gray-200 rounded-lg flex flex-col justify-between gap-2 md:flex-row md:items-center transition duration-300 hover:bg-gray-50">
-                        <div class="flex items-center">
+                    <!-- INICIO DE CARTA -->
+                    <div class="my-4 p-4 border border-gray-200 rounded-lg flex flex-col md:flex-row gap-4 bg-white hover:bg-gray-50 transition">
+                        <div class="flex-shrink-0">
                             <img src="{{ asset('imgs/' . $item->product->imagen_referencia) }}"
                                 alt="{{ $item->product->imagen_referencia }}"
-                                class="object-cover w-16 h-16 md:w-[10rem] md:h-[10rem] rounded-md mr-4">
-                            <div>
-                                <h2
-                                    class=" text-lg md:text-[2rem] font-semibold text-gray-800 mb-[12px]">
-                                    <span class="font-bold">{{ $item->product->name }}
-                                </h2>
-                                <p class="text-sm md:text-[1.25rem] text-gray-600  mb-[8px]">
-                                    <b>Cantidad:</b> {{ $item->quantity }}
-                                </p>
-                                <p class="text-sm md:text-[1.25rem] text-gray-600  mb-[8px]"><b>Precio
-                                        (c/u)
-                                        :</b> ${{ $item->precio }}</p>
-                                <p class="text-sm md:text-[1.5rem] text-gray-600  mb-[8px]">
-                                    <b>Subtotal:</b> ${{ $item->subtotal }}
-                                </p>
-                            </div>
-
+                                class="object-cover w-24 h-24 md:w-40 md:h-40 rounded-md">
                         </div>
 
+                        <div class="flex-1">
+                            <h3 class="text-lg md:text-2xl font-semibold text-gray-800 mb-2">
+                                {{ $item->product->name }}
+                            </h3>
+                            <ul class="text-gray-700 space-y-1 text-sm md:text-base">
+                                <li><strong>Cantidad:</strong> {{ $item->quantity }}</li>
+                                <li><strong>Precio (c/u):</strong> ${{ $item->precio }}</li>
+                                <li><strong>Subtotal:</strong> ${{ $item->subtotal }}</li>
+                            </ul>
+                        </div>
                     </div>
                     @endforeach
-                    <!--FIN DE CARTA-->
+                    <!-- FIN DE CARTA -->
                 </div>
                 @endif
                 @endforeach
                 @endif
-                <!--FIN DE SEGMENTO DE RESERVA-->
-
-
+                <!-- FIN DE SEGMENTO DE RESERVA -->
             </div>
         </div>
-
     </main>
+
+
     <!--Incluyendo el footer desde componentes-->
     @include('components.footer')
 </body>

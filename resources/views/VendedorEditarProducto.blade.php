@@ -25,7 +25,7 @@
             <a href="{{ route('vendedores.reservas') }}"
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Reservas</a>
             <a href="{{ route('vendedores.historial') }}"
-                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mis Historial</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Mi Historial</a>
             <a href="{{ route('vendedor.perfil') }}"
                 class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
                 Perfil
@@ -75,7 +75,7 @@
         <section>
             <div class="w-72 h-auto mx-auto mt-16">
                 <div class="text-center">
-                    <h1 class="text-[2rem] font-sans font-semibold text-rose-400 uppercase">Editar Producto</h1>
+                    <h1 class="text-[2rem] font-sans font-semibold text-indigo-500 uppercase text-bold">Editar Producto</h1>
                     <h3 class="mt-5 text-[1.5rem]">Puesto de: <span
                             class=" font-medium">{{ $vendedor->nombre_del_local }}</span></h3>
                 </div>
@@ -202,7 +202,7 @@
                 <!-- Botón para Guardar -->
                 <div class="flex justify-center mt-2 mb-8">
                     <button
-                        class="bg-rose-400 hover:bg-rose-500 w-72 h-10 text-white font-bold rounded-md">Guardar</button>
+                        class="bg-indigo-500 hover:bg-indigo-600 w-72 h-10 text-white font-bold rounded-md">Guardar</button>
                 </div>
             </div>
         </section>
