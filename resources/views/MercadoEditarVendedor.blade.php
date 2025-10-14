@@ -21,6 +21,7 @@
 
             <form method="POST" action="{{ route('mercados.actualizarvendedor', ['id' => $vendedor->id]) }}" enctype="multipart/form-data" class="space-y-6">
                 @csrf
+                @method('PUT')
                 <input type="hidden" name="id" value="{{ $vendedor->id }}">
 
                 @if ($errors->any())
@@ -77,10 +78,10 @@
                     <input type="email" name="usuario" value="{{ old('usuario', $vendedor?->usuario) }}" placeholder="Correo electrónico" required
                         class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
 
-                    <input type="password" name="password" maxlength="8" placeholder="Contraseña"
+                    <input type="password" id="password" name="password" maxlength="8" placeholder="Contraseña"
                         class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
 
-                    <input type="password" name="password_confirmation" maxlength="8" placeholder="Confirmar Contraseña" required
+                    <input type="password" id="password_confirmation" name="password_confirmation" maxlength="8" placeholder="Confirmar Contraseña"
                         class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-400 focus:outline-none transition">
 
                     <label class="flex items-center text-gray-600 text-sm col-span-2">

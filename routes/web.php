@@ -136,7 +136,7 @@ Route::patch('/mercados/actualizar/{id}', [MercadosController::class, 'actualiza
 Route::get('/mercados/vervendedor/{id}', [MercadosController::class, 'vervendedor'])->name('mercados.vervendedor')->middleware('check.user.session');
 Route::get('/mercados/listavendedores', [MercadosController::class, 'listavendedores'])->name('mercados.listavendedores')->middleware('check.user.session');
 Route::get('/mercados/editarvendedor/{id}', [MercadosController::class, 'editarvendedor'])->name('mercados.editarvendedor')->middleware('check.user.session');
-Route::post('/mercados/actualizarvendedor/{id}', [MercadosController::class, 'actualizarvendedor'])->name('mercados.actualizarvendedor')->middleware('check.user.session');
+Route::put('/mercados/actualizarvendedor/{id}', [MercadosController::class, 'actualizarvendedor'])->name('mercados.actualizarvendedor')->middleware('check.user.session');
 Route::get('/mercados/agregarvendedor', [MercadosController::class, 'agregarvendedor'])->name('mercados.agregarvendedor')->middleware('check.user.session');
 Route::post('/mercados/guardarvendedor', [MercadosController::class, 'guardarvendedor'])->name('mercados.guardarvendedor')->middleware('check.user.session');
 Route::delete('/mercados/eliminarvendedor/{id}', [MercadosController::class, 'eliminarvendedor'])->name('mercados.eliminarvendedor')->middleware('check.user.session');

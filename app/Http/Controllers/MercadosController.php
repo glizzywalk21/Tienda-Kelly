@@ -143,7 +143,7 @@ public function perfil()
             'password' => 'nullable|string|min:8|confirmed',
             'nombre' => 'required|string|max:255',
             'nombre_del_local' => 'required|string|max:255',
-            'imagen_de_referencia' => 'required|image|mimes:jpeg,png,jpg,gif,svg ',
+            'imagen_de_referencia' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg ',
             'apellidos' => 'required|string|max:255',
             'telefono' => 'required|string|max:255',
             'numero_puesto' => 'required|integer|unique:vendedors,numero_puesto,' . $id,
