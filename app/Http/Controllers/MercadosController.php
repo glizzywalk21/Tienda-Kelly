@@ -86,7 +86,7 @@ public function perfil()
             $data = $request->validate([
                 'nombre' => 'required|string|max:255',
                 'descripcion' => 'required|string|max:220',
-
+                'imagen_referencia_actual' => 'nullable|string',
             ]);
 
             // Si se ha subido una nueva imagen
@@ -100,6 +100,8 @@ public function perfil()
 
                 // Actualizar el nombre del archivo en los datos que se guardarán en la base de datos
                 $data['imagen_referencia'] = $imageName;
+            } else {
+                $data['imagen_referencia'] = $request->input('imagen_referencia_actual');
             }
 
             // Actualizar campos del mercado local con los datos del formulario

@@ -21,14 +21,16 @@ class MercadoLocalRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-			'nombre' => 'required|string',
-			'imagen_referencia' => 'required',
-			'municipio' => 'required|string',
-			'ubicacion' => 'required|string',
-			'horaentrada' => 'required|',
-			'horasalida' => 'required|',
-			'descripcion' => 'required|string',
+        $rules = [
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:220',
         ];
+
+        if ($this->isMethod('PATCH') || $this->isMethod('PUT')) {
+            $rules['imagen_referencia'] = 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+        } else {
+            $rules['imagen_referencia'] = 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+        }
+        return $rules;
     }
 }
