@@ -105,7 +105,7 @@ Route::post('/usuarios/actualizar/{id}', [UsuariosController::class, 'actualizar
 Route::get('/vendedores', [VendedoresController::class, 'index'])->name('vendedores.index')->middleware('check.user.session');
 Route::get('/vendedores/perfil', [VendedoresController::class, 'perfil'])->name('vendedor.perfil')->middleware('check.user.session');
 Route::get('/vendedores/editar/{id}', [VendedoresController::class, 'editar'])->name('vendedores.editar')->middleware('check.user.session');
-Route::post('/vendedores/actualizar/{id}', [VendedoresController::class, 'actualizar'])->name('vendedores.actualizar')->middleware('check.user.session');
+Route::put('/vendedores/actualizar/{id}', [VendedoresController::class, 'actualizar'])->name('vendedores.actualizar')->middleware('check.user.session');
 
 // Productos (vendedor)
 Route::get('/vendedores/productos', [VendedoresController::class, 'productos'])->name('vendedores.productos')->middleware('check.user.session');

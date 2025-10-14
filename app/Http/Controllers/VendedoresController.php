@@ -56,14 +56,16 @@ class VendedoresController extends Controller
     public function actualizar(VendedorRequest $request, $id)
     {
         $request->validate([
-            'password'             => 'nullable|string|min:8|confirmed',
-            'nombre'               => 'required|string|max:255',
-            'nombre_del_local'     => 'required|string|max:255',
+            'usuario' => 'required|email|unique:vendedors,usuario,' . $id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'nombre' => 'required|string|max:255',
+            'nombre_del_local' => 'required|string|max:255',
             'imagen_de_referencia' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'apellidos'            => 'required|string|max:255',
-            'telefono'             => 'required|string|max:255',
-            'numero_puesto'        => 'required|integer|unique:vendedors,numero_puesto,' . $id,
-            'fk_mercado'           => 'required|exists:mercado_locals,id',
+            'clasificacion' => 'nullable|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'telefono' => 'required|string|max:255',
+            'numero_puesto' => 'nullable|integer|unique:vendedors,numero_puesto,' . $id,
+            'fk_mercado' => 'nullable|exists:mercado_locals,id',
         ]);
 
         if (Auth::guard('vendedor')->id() != $id) {
@@ -72,31 +74,34 @@ class VendedoresController extends Controller
 
         $vendedor = Vendedor::findOrFail($id);
 
-        $vendedor->usuario          = $request->input('usuario');
-        $vendedor->ROL              = $request->input('ROL');
+        $vendedor->usuario = $request->input('usuario');
+        //$vendedor->ROL = $request->input('ROL');
+        $vendedor->nombre = $request->input('nombre');
+        $vendedor->apellidos = $request->input('apellidos');
+        $vendedor->telefono = $request->input('telefono');
+        $vendedor->nombre_del_local = $request->input('nombre_del_local');
+        $vendedor->clasificacion = $request->input('clasificacion');
+        $vendedor->numero_puesto = $request->input('numero_puesto');
+        $vendedor->fk_mercado = $request->input('fk_mercado');
+
         if ($request->filled('password')) {
             $vendedor->password = bcrypt($request->input('password'));
         }
-        $vendedor->nombre           = $request->input('nombre');
-        $vendedor->nombre_del_local = $request->input('nombre_del_local');
-        $vendedor->apellidos        = $request->input('apellidos');
-        $vendedor->telefono         = $request->input('telefono');
-        $vendedor->numero_puesto    = $request->input('numero_puesto');
-        $vendedor->fk_mercado       = $request->input('fk_mercado');
 
         if ($request->hasFile('imagen_de_referencia')) {
-            $imageName = time() . '.' . $request->file('imagen_de_referencia')->extension();
-            $request->file('imagen_de_referencia')->move(public_path('imgs'), $imageName);
+            $imageName = time() . '.' . $request->imagen_de_referencia->extension();
+            $request->imagen_de_referencia->move(public_path('imgs'), $imageName);
 
             if ($vendedor->imagen_de_referencia && file_exists(public_path('imgs/' . $vendedor->imagen_de_referencia))) {
-                @unlink(public_path('imgs/' . $vendedor->imagen_de_referencia));
+                unlink(public_path('imgs/' . $vendedor->imagen_de_referencia));
             }
+
             $vendedor->imagen_de_referencia = $imageName;
         }
 
         $vendedor->save();
 
-        return redirect()->route('vendedores.index')->with('success', 'Vendedor actualizado correctamente.');
+        return redirect()->back()->with('success', 'Datos del vendedor actualizados correctamente.');
     }
 
     /* ========== PRODUCTOS (LISTAR / VER) ========== */

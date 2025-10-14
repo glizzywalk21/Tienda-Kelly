@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('apellidos')->nullable();
             $table->string('telefono')->nullable();
             $table->string('numero_puesto', 10)->unique();
+            $table->string('clasificacion')->nullable();
             $table->unsignedBigInteger('fk_mercado');
             $table->foreign('fk_mercado')
                   ->references('id')

@@ -19,16 +19,25 @@ class VendedorRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
-        return [
-			'usuario' => 'required|string',
-			'password' => 'required|string',
-			'nombre' => 'required|string',
-			'apellidos' => 'string',
-			'telefono' => 'string',
-			'numero_puesto' => 'required',
-			'fk_mercado' => 'required',
+        $rules = [
+            'usuario' => 'required|email|unique:vendedors,usuario,' . $this->id,
+            'nombre' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'nombre_del_local' => 'required|string|max:255',
+            'telefono' => 'required|string|max:255',
+            'numero_puesto' => 'nullable|integer|unique:vendedors,numero_puesto,' . $this->id,
+            'fk_mercado' => 'nullable|exists:mercado_locals,id',
+            'imagen_de_referencia' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
+
+        if ($this->isMethod('PUT') || $this->isMethod('PATCH')) {
+        $rules['password'] = 'nullable|string|min:8|confirmed';
+        } else {
+            $rules['password'] = 'required|string|min:8|confirmed';
+        }
+
+        return $rules;
     }
 }
