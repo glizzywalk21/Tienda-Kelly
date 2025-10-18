@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>{{ $vendedor->nombre_del_local }} - Tienda Kelly</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <style>
         .btn-hover:hover {
             transform: translateY(-3px) scale(1.05);
@@ -32,7 +32,7 @@
     <!-- Perfil del Vendedor -->
     <section class="max-w-7xl mx-auto mt-10 px-4 md:px-0 text-center animate-fadeInUp">
         <img class="w-40 h-40 md:w-60 md:h-60 rounded-full mx-auto object-cover shadow-lg"
-             src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="{{ $vendedor->nombre_del_local }}">
+             src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}" alt="{{ $vendedor->nombre_del_local }}">
         <h1 class="text-3xl md:text-5xl font-extrabold mt-4">{{ $vendedor->nombre_del_local }}</h1>
         <p class="text-gray-600 mt-1 md:text-lg">
             Puesto #{{ $vendedor->numero_puesto }} - <span class="font-semibold">{{ $mercadoLocal->nombre }}</span>
@@ -46,7 +46,7 @@
            class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transform hover:-translate-y-2 btn-hover group transition">
             <div class="relative overflow-hidden">
                 <img class="w-full h-64 object-cover group-hover:scale-110 transition duration-500"
-                     src="{{ asset('imgs/' . $product->imagen_referencia) }}"
+                     src="{{ asset('images/' . $product->imagen_referencia) }}"
                      alt="{{ $product->name }}">
             </div>
             <div class="p-4 space-y-2">
@@ -56,7 +56,7 @@
                     <span class="text-indigo-600 font-bold text-lg">${{ $product->price }}</span>
                     <div class="flex items-center gap-1">
                         <span class="font-semibold">4.2</span>
-                        <img class="w-4" src="{{ asset('imgs/estrella.png') }}" alt="Estrella">
+                        <img class="w-4" src="{{ asset('images/estrella.png') }}" alt="Estrella">
                     </div>
                 </div>
             </div>

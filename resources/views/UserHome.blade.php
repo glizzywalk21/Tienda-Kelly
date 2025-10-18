@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   @vite('resources/css/app.css')
   <title>Inicio</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
   <style>
     /* Animaciones y gradientes */
     @keyframes fadeInUp {
@@ -50,14 +50,14 @@
       </h3>
     </div>
     <div class="animate-fadeInUp delay-400">
-      <img class="rounded-full w-20 h-20 md:w-24 md:h-24 border-4 border-indigo-500 shadow-lg" src="{{ asset('storage/imgs/' . (Auth::user()->imagen_perfil ?? 'non-img.png')) }}" alt="Foto Usuario">
+      <img class="rounded-full w-20 h-20 md:w-24 md:h-24 border-4 border-indigo-500 shadow-lg" src="{{ asset('storage/images/' . (Auth::user()->imagen_perfil ?? 'non-img.png')) }}" alt="Foto Usuario">
     </div>
   </header>
 
   <!-- Imagen principal -->
   <!-- Imagen principal -->
   <section class="mt-6 h-[60vh] rounded-xl shadow-inner mx-4 overflow-hidden">
-      <img src="{{ asset('imgs/bkg.jpg') }}" alt="Imagen principal" class="w-full h-full object-cover transition-transform hover:scale-105 duration-500">
+      <img src="{{ asset('images/bkg.jpg') }}" alt="Imagen principal" class="w-full h-full object-cover transition-transform hover:scale-105 duration-500">
   </section>
 
   <!-- Mercados -->
@@ -65,7 +65,7 @@
   <section class="my-12">
     <div class="flex flex-col md:grid md:grid-cols-2 gap-8 items-center max-w-6xl mx-auto rounded-xl overflow-hidden shadow-lg card-hover {{ $mercadoLocal->id % 2 == 0 ? 'bg-indigo-900 text-white' : 'bg-white' }}">
       @if ($mercadoLocal->id % 2 == 0)
-      <img class="w-full h-full object-cover" src="{{ asset('imgs/' . $mercadoLocal->imagen_referencia) }}" alt="">
+      <img class="w-full h-full object-cover" src="{{ asset('images/' . $mercadoLocal->imagen_referencia) }}" alt="">
       @endif
       <div class="p-8 space-y-5">
         <h2 class="font-extrabold text-3xl text-center">{{ $mercadoLocal->nombre }}</h2>
@@ -79,7 +79,7 @@
         </a>
       </div>
       @if ($mercadoLocal->id % 2 != 0)
-      <img class="w-full h-full object-cover" src="{{ asset('imgs/' . $mercadoLocal->imagen_referencia) }}" alt="">
+      <img class="w-full h-full object-cover" src="{{ asset('images/' . $mercadoLocal->imagen_referencia) }}" alt="">
       @endif
     </div>
   </section>
@@ -91,11 +91,11 @@
     <div class="grid gap-8 md:grid-cols-3">
       @foreach ($vendedors->take(3) as $vendedor)
       <div class="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition transform hover:-translate-y-2 card-hover">
-        <img class="h-56 w-full object-cover" src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="">
+        <img class="h-56 w-full object-cover" src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}" alt="">
         <div class="p-6">
           <h3 class="font-bold text-lg">Puesto de {{ $vendedor->nombre }} en {{ $vendedor->mercadoLocal->nombre }}</h3>
           <a href="{{ route('usuarios.vendedor', $vendedor->id) }}" class="flex gap-2 items-center text-indigo-600 font-medium mt-2 hover:underline">
-            Ver Puesto <img width="18" src="{{ asset('imgs/arrow_left.png') }}" alt="">
+            Ver Puesto <img width="18" src="{{ asset('images/arrow_left.png') }}" alt="">
           </a>
         </div>
       </div>

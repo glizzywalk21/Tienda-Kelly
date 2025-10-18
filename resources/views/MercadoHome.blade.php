@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   @vite('resources/css/app.css')
   <title>Área Home</title>
-  <link rel="shortcut icon" href="{{ asset('imgs/MiCarritoUser.png') }}" type="image/x-icon" />
+  <link rel="shortcut icon" href="{{ asset('images/MiCarritoUser.png') }}" type="image/x-icon" />
   <style>
     @keyframes fadeInUp {
       0% { opacity: 0; transform: translateY(20px); }
@@ -56,7 +56,7 @@
   <!-- Banner Mercado con Overlay -->
   <section class="relative w-full h-[25rem] md:h-[30rem] lg:h-[35rem] animate-fadeInUp">
     <img class="w-full h-full object-cover rounded-b-3xl shadow-xl transform hover:scale-105 transition duration-500"
-      src="{{ asset('imgs/' . $mercadoLocal->imagen_referencia) }}" alt="Banner Mercado">
+      src="{{ asset('images/' . $mercadoLocal->imagen_referencia) }}" alt="Banner Mercado">
     <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30 rounded-b-3xl"></div>
     <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 md:px-0">
       <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold gradient-text drop-shadow-lg">
@@ -86,7 +86,7 @@
         
         <div class="relative overflow-hidden h-64">
           <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-               src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}"
+               src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}"
                alt="{{ $vendedor->nombre_del_local }}">
         </div>
         
@@ -96,7 +96,7 @@
           <div class="flex justify-between items-center mt-2">
             <div class="flex items-center gap-1">
               <span class="text-sm font-semibold">4.2</span>
-              <img class="w-4" src="{{ asset('imgs/estrella.png') }}" alt="Estrella">
+              <img class="w-4" src="{{ asset('images/estrella.png') }}" alt="Estrella">
             </div>
           </div>
         </div>

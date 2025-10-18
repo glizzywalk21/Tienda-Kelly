@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <title>ProductoUser</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -38,28 +38,28 @@
         <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
             <div class="flex items-center">
                 <a href="{{ route('mercados.index') }}">
-                    <img class="w-6" src="{{ asset('imgs/mercado.home.nav.png') }}" alt="Home Icon" />
+                    <img class="w-6" src="{{ asset('images/mercado.home.nav.png') }}" alt="Home Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('mercados.listavendedores') }}">
-                    <img class="w-6" src="{{ asset('imgs/mercado.vendedores.nav.png') }}" alt="Cart Icon" />
+                    <img class="w-6" src="{{ asset('images/mercado.vendedores.nav.png') }}" alt="Cart Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('mercados.reservas') }}">
-                    <img class="w-6" src="{{ asset('imgs/mercado.reservas.nav.png') }}" alt="Favorites Icon" />
+                    <img class="w-6" src="{{ asset('images/mercado.reservas.nav.png') }}" alt="Favorites Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('mercados.historial') }}">
-                    <img class="w-6" src="{{ asset('imgs/mercado.historial.nav.png') }}"
+                    <img class="w-6" src="{{ asset('images/mercado.historial.nav.png') }}"
                         alt="Favorites Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('mercados.perfil') }}">
-                    <img class="w-6" src="{{ asset('imgs/mercado.perfil.nav.png') }}" alt="Profile Icon" />
+                    <img class="w-6" src="{{ asset('images/mercado.perfil.nav.png') }}" alt="Profile Icon" />
                 </a>
             </div>
         </div>
@@ -69,7 +69,7 @@
             @csrf
             <div class="mx-auto mt-10 px-4 max-w-7xl">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-                    <img class="rounded-lg h-auto shadow-lg" src="{{ asset('imgs/' . $product->imagen_referencia) }}"
+                    <img class="rounded-lg h-auto shadow-lg" src="{{ asset('images/' . $product->imagen_referencia) }}"
                         alt="{{ $product->imagen_referencia }}">
                     <div class="bg-white p-6 rounded-lg shadow-lg">
 
@@ -88,11 +88,11 @@
 
                         <!--ESTRELLAS
                 <div class="flex items-center mb-4">
-                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
-                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
-                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
-                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
-                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('images/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('images/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('images/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('images/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('images/775819.svg') }}" alt="Rating Icon">
                     <span class="text-lg text-gray-800">5.0</span>
                 </div>
             -->
@@ -122,7 +122,7 @@
                 @foreach ($products as $product)
                 <!-- Product Card 1 -->
                 <a href="{{ route('mercados.verproducto', $product->id) }}" class="bg-white p-6 rounded-lg shadow-lg">
-                    <img class="rounded-lg w-full mb-4" src="{{ asset('imgs/' . $product->imagen_referencia) }}"
+                    <img class="rounded-lg w-full mb-4" src="{{ asset('images/' . $product->imagen_referencia) }}"
                         alt="{{ $product->imagen_referencia }}">
                     <h3 class="font-bold text-lg text-gray-800">{{ $product->name }}</h3>
                     <p class="text-gray-600 mb-4">{{ $product->vendedor->nombre_del_local }}. Precio:
@@ -153,19 +153,19 @@
                     <p class="font-black text-5xl mb-4">Tienda <span class="text-red-600">Kelly</span></p>
                     <div class="flex gap-2">
                         <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                            <img width="18" class="invert" src="{{ asset('imgs/facebook.png') }}" alt="">
+                            <img width="18" class="invert" src="{{ asset('images/facebook.png') }}" alt="">
                         </div>
                         <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                            <img width="18" class="invert" src="{{ asset('imgs/google.png') }}" alt="">
+                            <img width="18" class="invert" src="{{ asset('images/google.png') }}" alt="">
                         </div>
                         <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                            <img width="18" class="invert" src="{{ asset('imgs/linkedin.png') }}" alt="">
+                            <img width="18" class="invert" src="{{ asset('images/linkedin.png') }}" alt="">
                         </div>
                         <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                            <img width="18" class="invert" src="{{ asset('imgs/twitter.png') }}" alt="">
+                            <img width="18" class="invert" src="{{ asset('images/twitter.png') }}" alt="">
                         </div>
                         <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full">
-                            <img width="18" src="{{ asset('imgs/youtube.png') }}" alt="">
+                            <img width="18" src="{{ asset('images/youtube.png') }}" alt="">
                         </div>
                     </div>
                 </div>

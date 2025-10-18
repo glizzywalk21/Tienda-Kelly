@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Editar Usuario</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <style>
         @keyframes fadeInUp {
             0% { opacity: 0; transform: translateY(20px); }
@@ -47,9 +47,9 @@
                 <!-- Imagen de perfil -->
                 <div class="flex justify-center mb-6">
                     <label class="relative w-32 h-32 rounded-full overflow-hidden shadow-lg border-2 border-gray-300 flex items-center justify-center bg-gray-100 cursor-pointer">
-                        <img id="img-preview" src="{{ asset('storage/imgs/' . ($cliente?->imagen_perfil ?? 'non-img.png')) }}" alt="Imagen Usuario" class="object-cover w-full h-full rounded-full">
+                        <img id="img-preview" src="{{ asset('storage/images/' . ($cliente?->imagen_perfil ?? 'non-img.png')) }}" alt="Imagen Usuario" class="object-cover w-full h-full rounded-full">
                         <span class="absolute bottom-0 right-0 w-8 h-8 bg-indigo-600 rounded-full flex justify-center items-center">
-                            <img class="w-4" src="{{ asset('imgs/files2.svg') }}" alt="Icono Subir">
+                            <img class="w-4" src="{{ asset('images/files2.svg') }}" alt="Icono Subir">
                         </span>
                         <!-- input invisible pero clickeable -->
                         <input type="file" name="imagen_perfil" id="imagen_perfil" accept=".png,.jpg,.jpeg" class="absolute w-full h-full top-0 left-0 opacity-0 cursor-pointer">

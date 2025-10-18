@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     @vite('resources/css/app.css')
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <title>Tienda Kelly Carrito</title>
     <link
         rel="shortcut icon"
-        href="{{ asset('imgs/MiCarritoUser.png') }}"
+        href="{{ asset('images/MiCarritoUser.png') }}"
         type="image/x-icon" />
 </head>
 
@@ -43,7 +43,7 @@
                 <a href="./VendedorHome" class="bg-white rounded-full p-1">
                     <img
                         class="w-6"
-                        src="{{ asset('imgs/HomeSelectedIcon.png') }}"
+                        src="{{ asset('images/HomeSelectedIcon.png') }}"
                         alt="Home Icon" />
                 </a>
             </div>
@@ -51,7 +51,7 @@
                 <a href="./VendedorMiBuzon">
                     <img
                         class="w-6"
-                        src="{{ asset('imgs/BuzonIcon.png') }}"
+                        src="{{ asset('images/BuzonIcon.png') }}"
                         alt="Cart Icon" />
                 </a>
             </div>
@@ -59,7 +59,7 @@
                 <a href="./VendedorMisReservas">
                     <img
                         class="w-6"
-                        src="{{ asset('imgs/ReservasIcon.png') }}"
+                        src="{{ asset('images/ReservasIcon.png') }}"
                         alt="Favorites Icon" />
                 </a>
             </div>
@@ -67,7 +67,7 @@
                 <a href="./VendedorProfileVista">
                     <img
                         class="w-6"
-                        src="{{ asset('imgs/UserIcon.png') }}"
+                        src="{{ asset('images/UserIcon.png') }}"
                         alt="Profile Icon" />
                 </a>
             </div>
@@ -83,7 +83,7 @@
                 <div class="p-4 rounded-lg border">
                     <div class="flex items-center justify-between">
                         <img
-                            src="{{ asset('imgs/AguacateQuintal.jpg') }}"
+                            src="{{ asset('images/AguacateQuintal.jpg') }}"
                             alt="Producto 1"
                             class="w-16 h-16 object-cover rounded" />
                         <button
@@ -103,7 +103,7 @@
                 <div class="p-4 rounded-lg border">
                     <div class="flex items-center justify-between">
                         <img
-                            src="{{ asset('imgs/AguacateQuintal.jpg') }}"
+                            src="{{ asset('images/AguacateQuintal.jpg') }}"
                             alt="Producto 1"
                             class="w-16 h-16 object-cover rounded" />
                         <button
@@ -122,7 +122,7 @@
                 <div class="p-4 rounded-lg border">
                     <div class="flex items-center justify-between">
                         <img
-                            src="{{ asset('imgs/AguacateQuintal.jpg') }}"
+                            src="{{ asset('images/AguacateQuintal.jpg') }}"
                             alt="Producto 1"
                             class="w-16 h-16 object-cover rounded" />
                         <button

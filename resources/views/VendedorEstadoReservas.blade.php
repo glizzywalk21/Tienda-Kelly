@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   @vite('resources/css/app.css')
   <title>Estado de Pedidos · Tienda Kelly</title>
-  <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
   <style>
     .fadeInUp { animation: fadeInUp .5s ease forwards; opacity: 0; }
     @keyframes fadeInUp { 0%{opacity:0;transform:translateY(12px)} 100%{opacity:1;transform:translateY(0)} }
@@ -38,11 +38,11 @@
   <!-- Mobile Bottom Navbar -->
   <div class="fixed bottom-3 left-0 right-0 md:hidden flex justify-center z-40">
     <div class="bg-gray-900 rounded-2xl w-72 h-14 flex justify-around items-center px-4 shadow-lg">
-      <a href="{{ route('vendedores.index') }}"><img class="w-6" src="{{ asset('imgs/vendedor.home.png') }}" alt=""></a>
-      <a href="{{ route('vendedores.productos') }}"><img class="w-6" src="{{ asset('imgs/vendedor.productos.png') }}" alt=""></a>
-      <a href="{{ route('vendedores.reservas') }}"><img class="w-6" src="{{ asset('imgs/vendedor.reservas.png') }}" alt=""></a>
-      <a href="{{ route('vendedores.historial') }}"><img class="w-6" src="{{ asset('imgs/mercado.historial.blancopng.png') }}" alt=""></a>
-      <a href="{{ route('vendedor.perfil') }}"><img class="w-6" src="{{ asset('imgs/vendedor.perfil.png') }}" alt=""></a>
+      <a href="{{ route('vendedores.index') }}"><img class="w-6" src="{{ asset('images/vendedor.home.png') }}" alt=""></a>
+      <a href="{{ route('vendedores.productos') }}"><img class="w-6" src="{{ asset('images/vendedor.productos.png') }}" alt=""></a>
+      <a href="{{ route('vendedores.reservas') }}"><img class="w-6" src="{{ asset('images/vendedor.reservas.png') }}" alt=""></a>
+      <a href="{{ route('vendedores.historial') }}"><img class="w-6" src="{{ asset('images/mercado.historial.blancopng.png') }}" alt=""></a>
+      <a href="{{ route('vendedor.perfil') }}"><img class="w-6" src="{{ asset('images/vendedor.perfil.png') }}" alt=""></a>
     </div>
   </div>
 
@@ -51,7 +51,7 @@
     <section class="bg-white rounded-2xl shadow-sm p-5 md:p-7 mb-6 md:mb-10 flex items-start gap-5 shadow-xl">
       <div class="hidden md:block">
         <img class="w-24 h-24 rounded-full object-cover ring-2 ring-indigo-100"
-             src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="Vendedor" />
+             src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}" alt="Vendedor" />
       </div>
       <div class="flex-1">
         <h2 class="text-xl md:text-2xl font-extrabold text-slate-800">
@@ -73,7 +73,7 @@
 
     @if ($activos->isEmpty())
       <section class="bg-white rounded-2xl shadow-sm p-10 text-center fadeInUp">
-        <img src="{{ asset('imgs/empty-box.png') }}" alt="" class="mx-auto w-26 h-26 md:w-28 md:h-28 opacity-70 mb-4">
+        <img src="{{ asset('images/empty-box.png') }}" alt="" class="mx-auto w-26 h-26 md:w-28 md:h-28 opacity-70 mb-4">
         <p class="text-slate-600 text-lg">No tienes reservas activas por ahora.</p>
         <p class="text-slate-500 text-sm">Cuando lleguen, aparecerán aquí.</p>
       </section>
@@ -115,7 +115,7 @@
                 @foreach ($reservation->items as $item)
                   <article class="p-4 md:p-5 border border-slate-200 rounded-xl bg-slate-50 hover:bg-slate-100 transition">
                     <div class="flex flex-col md:flex-row md:items-start gap-4 md:gap-5">
-                      <img src="{{ asset('imgs/' . $item->product->imagen_referencia) }}"
+                      <img src="{{ asset('images/' . $item->product->imagen_referencia) }}"
                            alt="{{ $item->product->name }}"
                            class="w-24 h-24 md:w-36 md:h-36 object-cover rounded-md ring-1 ring-white shadow-sm">
 

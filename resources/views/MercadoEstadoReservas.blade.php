@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Estado de Pedidos - Tienda Kelly</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
 </head>
 
 <body class="bg-gray-50 flex flex-col min-h-screen">
@@ -56,7 +56,7 @@
                         <div class="p-6 space-y-4 md:space-y-6">
                             @foreach ($reservation->items->where('estado', '!=', 'archivado') as $item)
                                 <div class="flex flex-col md:flex-row items-center gap-4 p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition">
-                                    <img src="{{ asset('imgs/' . $item->product->imagen_referencia) }}"
+                                    <img src="{{ asset('images/' . $item->product->imagen_referencia) }}"
                                         alt="{{ $item->product->name }}"
                                         class="w-20 h-20 md:w-32 md:h-32 object-cover rounded-md">
                                     <div class="flex-1">

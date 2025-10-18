@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Mis Productos</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
 </head>
 
 <body class="bg-gradient-to-b from-slate-50 to-white text-slate-900">
@@ -14,7 +14,7 @@
     <!-- ===== Desktop Navbar ===== -->
     <div class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-sm sticky top-0 z-50 border-b border-slate-100">
         <a href="{{ route('vendedores.index') }}" class="group inline-flex items-center gap-2">
-            <img src="{{ asset('imgs/shop.png') }}" alt="Logo" class="w-7 h-7">
+            <img src="{{ asset('images/shop.png') }}" alt="Logo" class="w-7 h-7">
             <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">
                 Tienda Kelly <span class="text-indigo-600 group-hover:text-indigo-700 transition-colors">Vendedores</span>
             </h1>
@@ -34,19 +34,19 @@
     <div class="fixed bottom-4 left-0 right-0 md:hidden flex justify-center z-50">
         <div class="bg-slate-900/95 backdrop-blur rounded-2xl w-64 h-14 flex justify-around px-2 shadow-2xl">
             <a href="{{ route('vendedores.index') }}" class="grid place-items-center w-12" aria-label="Inicio">
-                <img class="w-6" src="{{ asset('imgs/vendedor.home.png') }}" alt="Home Icon" />
+                <img class="w-6" src="{{ asset('images/vendedor.home.png') }}" alt="Home Icon" />
             </a>
             <a href="{{ route('vendedores.productos') }}" class="grid place-items-center w-12" aria-label="Productos">
-                <img class="w-6" src="{{ asset('imgs/vendedor.productos.png') }}" alt="Cart Icon" />
+                <img class="w-6" src="{{ asset('images/vendedor.productos.png') }}" alt="Cart Icon" />
             </a>
             <a href="{{ route('vendedores.reservas') }}" class="grid place-items-center w-12" aria-label="Reservas">
-                <img class="w-6" src="{{ asset('imgs/vendedor.reservas.png') }}" alt="Favorites Icon" />
+                <img class="w-6" src="{{ asset('images/vendedor.reservas.png') }}" alt="Favorites Icon" />
             </a>
             <a href="{{ route('vendedores.historial') }}" class="grid place-items-center w-12" aria-label="Historial">
-                <img class="w-6" src="{{ asset('imgs/mercado.historial.blancopng.png') }}" alt="Favorites Icon" />
+                <img class="w-6" src="{{ asset('images/mercado.historial.blancopng.png') }}" alt="Favorites Icon" />
             </a>
             <a href="{{ route('vendedor.perfil') }}" class="grid place-items-center w-12" aria-label="Perfil">
-                <img class="w-6" src="{{ asset('imgs/vendedor.perfil.png') }}" alt="Profile Icon" />
+                <img class="w-6" src="{{ asset('images/vendedor.perfil.png') }}" alt="Profile Icon" />
             </a>
         </div>
     </div>
@@ -58,7 +58,7 @@
         <div class="flex items-start justify-between gap-4 flex-wrap">
             <div class="flex items-center gap-4">
                 <img class="hidden md:block w-16 h-16 rounded-full object-cover ring-1 ring-slate-200"
-                     src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="Vendedor">
+                     src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}" alt="Vendedor">
                 <div>
                     <h1 class="text-xl md:text-2xl font-semibold text-slate-800">
                         {{ $vendedor->nombre_del_local }} en
@@ -102,7 +102,7 @@
         <section class="mt-8">
             @if ($productos->isEmpty())
                 <div class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200/60 p-10 text-center">
-                    <img class="mx-auto w-24 mb-4 opacity-80" src="{{ asset('imgs/empty-cart.png') }}" alt="">
+                    <img class="mx-auto w-24 mb-4 opacity-80" src="{{ asset('images/empty-cart.png') }}" alt="">
                     <h3 class="text-lg font-semibold text-slate-800">Aún no tienes productos</h3>
                     <p class="text-slate-500 mt-1">Cuando agregues productos, aparecerán aquí.</p>
                     <a href="{{ route('vendedores.agregarproducto', $vendedor->id) }}"
@@ -115,7 +115,7 @@
                     @foreach ($productos as $producto)
                         <div class="group bg-white rounded-xl shadow-sm ring-1 ring-slate-200/70 overflow-hidden hover:shadow-md transition">
                             <div class="relative h-48 w-full overflow-hidden">
-                                <img src="{{ asset('imgs/' . $producto->imagen_referencia) }}"
+                                <img src="{{ asset('images/' . $producto->imagen_referencia) }}"
                                      alt="Imagen del Producto"
                                      class="h-full w-full object-cover group-hover:scale-[1.02] transition">
                                 <span class="absolute top-3 left-3 text-[11px] px-2 py-0.5 rounded-full bg-white/90 ring-1 ring-slate-200 text-slate-700">

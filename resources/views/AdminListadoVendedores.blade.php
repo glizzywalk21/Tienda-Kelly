@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <title>Editar Puesto Vendedor</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
 </head>
 
 <body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white text-gray-800">
@@ -20,12 +20,14 @@
         </a>
         <div class="flex gap-8">
             <a href="{{ route('admin.index') }}"
-                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Areas</a>
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Áreas</a>
             <a href="{{ route('admin.vendedores') }}"
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Vendedores</a>
             <a href="{{ route('admin.clientes') }}"
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Clientes</a>
-            <a href="{{ route('AdminProfileVista')}}"
+            <a href="{{ route('reservations.index') }}"
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Reservas</a>
+            <a href="{{ route('AdminProfileVista') }}"
                 class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
                 Perfil
             </a>
@@ -36,16 +38,16 @@
     <div class="bottom-bar fixed bottom-[1%] left-0 right-0 z-[100] flex justify-center md:hidden">
         <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
             <div class="flex items-center">
-                <a href="{{ route('admin.index') }}"><img class="w-6" src="{{ asset('imgs/admin.home.nav.png') }}" alt="Home"></a>
+                <a href="{{ route('admin.index') }}"><img class="w-6" src="{{ asset('images/admin.home.nav.png') }}" alt="Home"></a>
             </div>
             <div class="flex items-center">
-                <a href="{{ route('admin.vendedores') }}"><img class="w-6" src="{{ asset('imgs/admin.sellers.nav.png') }}" alt="Sellers"></a>
+                <a href="{{ route('admin.vendedores') }}"><img class="w-6" src="{{ asset('images/admin.sellers.nav.png') }}" alt="Sellers"></a>
             </div>
             <div class="flex items-center">
-                <a href="{{ route('admin.clientes') }}"><img class="w-6" src="{{ asset('imgs/admin.users.nav.png') }}" alt="Users"></a>
+                <a href="{{ route('admin.clientes') }}"><img class="w-6" src="{{ asset('images/admin.users.nav.png') }}" alt="Users"></a>
             </div>
             <div class="flex items-center">
-                <a href="{{ route('AdminProfileVista') }}"><img class="w-6" src="{{ asset('imgs/UserIcon.png') }}" alt="Profile"></a>
+                <a href="{{ route('AdminProfileVista') }}"><img class="w-6" src="{{ asset('images/UserIcon.png') }}" alt="Profile"></a>
             </div>
         </div>
     </div>
@@ -68,7 +70,7 @@
 
                     <!-- Imagen + Info -->
                     <div class="flex items-center gap-4">
-                        <img src="{{ asset('imgs/'. $vendedor->imagen_de_referencia) }}"
+                        <img src="{{ asset('images/'. $vendedor->imagen_de_referencia) }}"
                             alt="Imagen"
                             class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover ring-2 ring-indigo-700 shadow-sm">
 

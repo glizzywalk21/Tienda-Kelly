@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Editar Vendedor</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
 </head>
 
 <body class="bg-gray-50">
@@ -46,7 +46,7 @@
                 class="flex items-center justify-between px-4 py-2 border border-gray-300 rounded-md shadow-sm cursor-pointer hover:bg-gray-100 transition">
                 <span class="text-sm text-gray-600">Imagen del vendedor o del puesto</span>
                 <input type="file" accept=".png, .jpg, .jpeg" name="imagen_de_referencia" class="hidden" id="imagen_de_referencia">
-                <img src="{{ asset('imgs/files2.svg') }}" class="w-5 h-5" alt="Subir imagen">
+                <img src="{{ asset('images/files2.svg') }}" class="w-5 h-5" alt="Subir imagen">
             </label>
             {!! $errors->first('imagen_de_referencia', '<div class="text-xs text-red-500 mt-1">:message</div>') !!}
 
@@ -55,7 +55,7 @@
                 <div class="mt-4 text-center">
                     <p class="text-sm text-gray-500 mb-2">Imagen actual:</p>
                     <img id="img-preview" class="w-48 h-32 object-cover rounded-md border mx-auto shadow-md"
-                        src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}"
+                        src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}"
                         alt="Imagen del vendedor">
                 </div>
             @else

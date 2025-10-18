@@ -1,5 +1,5 @@
 <?php
-/***/
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,15 +14,15 @@ class Reservation extends Model
         'total',
         'estado',
         'retiro',
-
     ];
 
     public function items()
     {
         return $this->hasMany(ReservationItem::class, 'fk_reservation');
     }
-    public function user(){
+
+    public function user()
+    {
         return $this->belongsTo(User::class, 'fk_user');
     }
-
 }

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <title>Perfil Usuario</title>
     <style>
         @keyframes fadeInUp {
@@ -38,12 +38,12 @@
     <!-- Foto del usuario más abajo -->
     <div class="flex justify-center mt-10 animate-fadeInUp delay-400">
         <img class="w-32 h-32 md:w-36 md:h-36 rounded-full border-4 border-indigo-500 shadow-2xl" 
-             src="{{ asset('storage/imgs/' . (Auth::user()->imagen_perfil ?? 'non-img.png')) }}" alt="Foto Usuario">
+             src="{{ asset('storage/images/' . (Auth::user()->imagen_perfil ?? 'non-img.png')) }}" alt="Foto Usuario">
     </div>
 
     <div class="flex justify-center mt-3">
         @for($i=0; $i<5; $i++)
-            <img class="w-4 h-4 ml-1" src="{{ asset('imgs/estrella.png') }}" alt="Estrella">
+            <img class="w-4 h-4 ml-1" src="{{ asset('images/estrella.png') }}" alt="Estrella">
         @endfor
         <span class="ml-2 text-sm font-semibold">5.0</span>
     </div>
@@ -59,25 +59,25 @@
     <!-- Enlaces del usuario -->
     <div class="w-11/12 md:w-1/2 mx-auto my-16 space-y-6">
         <a href="{{ route('usuarios.editar', Auth::user()->id ) }}" class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
-            <img class="w-7" src="{{ asset('imgs/EditSelectedIcon.png') }}" alt="Editar Icon">
+            <img class="w-7" src="{{ asset('images/EditSelectedIcon.png') }}" alt="Editar Icon">
             <h3 class="flex-grow text-left font-bold ml-5">Editar mi Perfil</h3>
         </a>
         <a href="{{ route('usuarios.index') }}" class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
-            <img class="w-7" src="{{ asset('imgs/HomeSelectedIcon.png') }}" alt="Hogar Icon">
+            <img class="w-7" src="{{ asset('images/HomeSelectedIcon.png') }}" alt="Hogar Icon">
             <h3 class="flex-grow text-left font-bold ml-5">Hogar</h3>
         </a>
         <a href="{{ route('usuarios.historial') }}" class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
-            <img class="w-5" src="{{ asset('imgs/heart.png') }}" alt="Historial Icon">
+            <img class="w-5" src="{{ asset('images/heart.png') }}" alt="Historial Icon">
             <h3 class="flex-grow text-left font-bold ml-3">Historial de Pedidos</h3>
         </a>
         <a href="{{ route('usuarios.reservas') }}" class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
-            <img class="w-7" src="{{ asset('imgs/ReservasSelectedIcon.png') }}" alt="Estado Icon">
+            <img class="w-7" src="{{ asset('images/ReservasSelectedIcon.png') }}" alt="Estado Icon">
             <h3 class="flex-grow text-left font-bold ml-5">Estado de Pedidos</h3>
         </a>
         <form action="{{ route('logout') }}" method="GET">
             @csrf
             <button type="submit" class="flex items-center w-full px-4 py-3 bg-red-500 text-white font-bold rounded-lg shadow hover:bg-red-600 transition btn-hover">
-                <img class="w-5 mr-3" src="{{ asset('imgs/tuerca.png') }}" alt="Cerrar Cuenta Icon">
+                <img class="w-5 mr-3" src="{{ asset('images/tuerca.png') }}" alt="Cerrar Cuenta Icon">
                 Cerrar Cuenta
             </button>
         </form>

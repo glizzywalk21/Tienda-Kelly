@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @vite('resources/css/app.css')
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <title>Perfil del Vendedor</title>
 </head>
 
@@ -15,7 +15,7 @@
         <div class="max-w-6xl mx-auto px-6">
             <div class="h-16 flex items-center justify-between">
                 <a href="{{ route('vendedores.index') }}" class="group inline-flex items-center gap-3">
-                    <img src="{{ asset('imgs/shop.png') }}" class="w-8 h-8" alt="Logo">
+                    <img src="{{ asset('images/shop.png') }}" class="w-8 h-8" alt="Logo">
                     <h1 class="text-2xl font-extrabold tracking-tight">
                         Tienda Kelly <span class="text-indigo-600 group-hover:text-indigo-700 transition">Vendedores</span>
                     </h1>
@@ -34,11 +34,11 @@
     <!-- NAV MÓVIL -->
     <div class="md:hidden fixed bottom-5 left-0 right-0 z-50 flex justify-center">
         <nav class="bg-slate-900 text-white/90 rounded-2xl shadow-2xl w-[300px] h-16 px-3 flex items-center justify-around">
-            <a href="{{ route('vendedores.index') }}"><img class="w-6" src="{{ asset('imgs/vendedor.home.png') }}" alt=""></a>
-            <a href="{{ route('vendedores.productos') }}"><img class="w-6" src="{{ asset('imgs/vendedor.productos.png') }}" alt=""></a>
-            <a href="{{ route('vendedores.reservas') }}"><img class="w-6" src="{{ asset('imgs/vendedor.reservas.png') }}" alt=""></a>
-            <a href="{{ route('vendedores.historial') }}"><img class="w-6" src="{{ asset('imgs/mercado.historial.blancopng.png') }}" alt=""></a>
-            <a href="{{ route('vendedor.perfil') }}"><img class="w-6" src="{{ asset('imgs/vendedor.perfil.png') }}" alt=""></a>
+            <a href="{{ route('vendedores.index') }}"><img class="w-6" src="{{ asset('images/vendedor.home.png') }}" alt=""></a>
+            <a href="{{ route('vendedores.productos') }}"><img class="w-6" src="{{ asset('images/vendedor.productos.png') }}" alt=""></a>
+            <a href="{{ route('vendedores.reservas') }}"><img class="w-6" src="{{ asset('images/vendedor.reservas.png') }}" alt=""></a>
+            <a href="{{ route('vendedores.historial') }}"><img class="w-6" src="{{ asset('images/mercado.historial.blancopng.png') }}" alt=""></a>
+            <a href="{{ route('vendedor.perfil') }}"><img class="w-6" src="{{ asset('images/vendedor.perfil.png') }}" alt=""></a>
         </nav>
     </div>
 
@@ -60,12 +60,12 @@
             <div class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200/70 p-8 md:p-10">
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
                     <img class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover ring-4 ring-white shadow"
-                         src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="Foto del vendedor">
+                         src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}" alt="Foto del vendedor">
 
                     <div class="flex-1 text-center md:text-left space-y-3">
                         <div class="flex items-center justify-center md:justify-start gap-1 text-amber-500">
                             @for ($i = 0; $i < 5; $i++)
-                                <img class="w-5 h-5" src="{{ asset('imgs/estrella.png') }}" alt="star">
+                                <img class="w-5 h-5" src="{{ asset('images/estrella.png') }}" alt="star">
                             @endfor
                             <span class="ml-2 text-sm text-slate-600">5.0</span>
                         </div>
@@ -98,7 +98,7 @@
                 <a href="{{ route('vendedores.agregarproducto', $vendedor->id) }}"
                    class="group bg-white rounded-2xl p-6 ring-1 ring-slate-200/70 hover:shadow-md transition space-y-2">
                     <div class="flex items-center gap-3">
-                        <img class="w-6" src="{{ asset('imgs/AddSelectedIcon.png') }}" alt="">
+                        <img class="w-6" src="{{ asset('images/AddSelectedIcon.png') }}" alt="">
                         <h4 class="text-lg font-semibold text-slate-900">Agregar productos</h4>
                         <span class="ml-auto text-indigo-600 group-hover:translate-x-0.5 transition">→</span>
                     </div>
@@ -108,7 +108,7 @@
                 <a href="{{ route('vendedores.editar', $vendedor->id) }}"
                    class="group bg-white rounded-2xl p-6 ring-1 ring-slate-200/70 hover:shadow-md transition space-y-2">
                     <div class="flex items-center gap-3">
-                        <img class="w-5" src="{{ asset('imgs/EditSelectedIcon.png') }}" alt="">
+                        <img class="w-5" src="{{ asset('images/EditSelectedIcon.png') }}" alt="">
                         <h4 class="text-lg font-semibold text-slate-900">Editar mi puesto</h4>
                         <span class="ml-auto text-indigo-600 group-hover:translate-x-0.5 transition">→</span>
                     </div>
@@ -118,7 +118,7 @@
                 <a href="{{ route('vendedores.reservas') }}"
                    class="group bg-white rounded-2xl p-6 ring-1 ring-slate-200/70 hover:shadow-md transition space-y-2">
                     <div class="flex items-center gap-3">
-                        <img class="w-5" src="{{ asset('imgs/admin.vendedores.png') }}" alt="">
+                        <img class="w-5" src="{{ asset('images/admin.vendedores.png') }}" alt="">
                         <h4 class="text-lg font-semibold text-slate-900">Mi buzón</h4>
                         <span class="ml-auto text-indigo-600 group-hover:translate-x-0.5 transition">→</span>
                     </div>
@@ -128,7 +128,7 @@
                 <a href="{{ route('vendedores.historial') }}"
                    class="group bg-white rounded-2xl p-6 ring-1 ring-slate-200/70 hover:shadow-md transition space-y-2">
                     <div class="flex items-center gap-3">
-                        <img class="w-5" src="{{ asset('imgs/mercado.historial.png') }}" alt="">
+                        <img class="w-5" src="{{ asset('images/mercado.historial.png') }}" alt="">
                         <h4 class="text-lg font-semibold text-slate-900">Historial</h4>
                         <span class="ml-auto text-indigo-600 group-hover:translate-x-0.5 transition">→</span>
                     </div>

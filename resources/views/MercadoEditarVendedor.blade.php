@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Editar Vendedor</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
 </head>
 
 <body class="bg-gradient-to-br from-pink-50 to-red-50 min-h-screen">
@@ -38,7 +38,7 @@
                 <div class="flex justify-center">
                     <label for="imagen_de_referencia" class="w-full md:w-80 bg-red-100 border border-red-300 rounded-xl p-3 flex justify-between items-center cursor-pointer hover:bg-red-200 transition">
                         <span class="text-gray-500 text-sm">Imagen de <b>Usted</b> o <b>Su Puesto</b></span>
-                        <img class="w-5 h-5" src="{{ asset('imgs/files2.svg') }}" alt="">
+                        <img class="w-5 h-5" src="{{ asset('images/files2.svg') }}" alt="">
                         <input type="file" name="imagen_de_referencia" id="imagen_de_referencia" class="hidden" accept=".png,.jpg,.jpeg">
                     </label>
                 </div>
@@ -46,7 +46,7 @@
                 {{-- Preview --}}
                 <div class="text-center mt-3">
                     @if ($vendedor?->imagen_de_referencia)
-                        <img id="img-preview" class="mx-auto max-h-40 rounded-xl shadow-lg" src="{{ asset('imgs/' . $vendedor?->imagen_de_referencia) }}" alt="Imagen del Vendedor">
+                        <img id="img-preview" class="mx-auto max-h-40 rounded-xl shadow-lg" src="{{ asset('images/' . $vendedor?->imagen_de_referencia) }}" alt="Imagen del Vendedor">
                     @else
                         <img id="img-preview" class="hidden" alt="Preview">
                     @endif

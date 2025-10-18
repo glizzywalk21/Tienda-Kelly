@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <title>Inicio</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
 </head>
 
 <body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white text-gray-800">
@@ -26,7 +26,9 @@
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Vendedores</a>
             <a href="{{ route('admin.clientes') }}"
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Clientes</a>
-            <a href="{{ route('AdminProfileVista')}}"
+            <a href="{{ route('reservations.index') }}"
+                class="font-medium uppercase text-sm hover:text-indigo-600 transition">Reservas</a>
+            <a href="{{ route('AdminProfileVista') }}"
                 class="font-semibold uppercase text-sm border border-indigo-600 text-indigo-600 px-3 py-1 rounded-md hover:bg-indigo-600 hover:text-white transition">
                 Perfil
             </a>
@@ -39,17 +41,17 @@
         <div class="bottom-bar fixed bottom-[1%] left-0 right-0 z-[100] flex justify-center md:hidden">
             <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around ">
                 <div class="flex items-center  ">
-                    <a href="{{ route('admin.index') }}"><img class="w-6" src="{{ asset('imgs/admin.home.nav.png') }}" alt="User Icon"></a>
+                    <a href="{{ route('admin.index') }}"><img class="w-6" src="{{ asset('images/admin.home.nav.png') }}" alt="User Icon"></a>
                 </div>
                 <div class="flex items-center">
-                    <a href="{{ route('admin.vendedores') }}"><img class="w-6" src="{{ asset('imgs/admin.sellers.nav.png') }}" alt="User Icon"></a>
+                    <a href="{{ route('admin.vendedores') }}"><img class="w-6" src="{{ asset('images/admin.sellers.nav.png') }}" alt="User Icon"></a>
                 </div>
                 <div class="flex items-center">
-                    <a href="{{ route('admin.clientes') }}"><img class="w-6" src="{{ asset('imgs/admin.users.nav.png') }}" alt="User Icon"></a>
+                    <a href="{{ route('admin.clientes') }}"><img class="w-6" src="{{ asset('images/admin.users.nav.png') }}" alt="User Icon"></a>
                 </div>
                 <div class="flex items-center">
 
-                    <a href="{{ route('AdminProfileVista')}}"><img class="w-6" src="{{ asset('imgs/UserIcon.png') }}" alt="User Icon"></a>
+                    <a href="{{ route('AdminProfileVista')}}"><img class="w-6" src="{{ asset('images/UserIcon.png') }}" alt="User Icon"></a>
                 </div>
             </div>
             <!--FIN DE NAVBAR MOBIL-->
@@ -75,14 +77,14 @@
             @endif
             <!---->
             <div class="mt-6 h-[60vh] rounded-xl shadow-inner mx-4 overflow-hidden">
-                <img class="w-full h-full object-cover " src="{{ asset('imgs/index.jpg') }}" alt="Banner Image">
+                <img class="w-full h-full object-cover " src="{{ asset('images/index.jpg') }}" alt="Banner Image">
             </div>
 
             <div class="flex mt-5 justify-around w-[90%] mx-auto">
                 <a href="{{ route('admin.crearmercados') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
 
                     <span class="flex items-center font-extrabold px-6 py-3 bg-white border shadow-md rounded-xl btn-primary transition hover:text-indigo-600 transition">
-                        <img class="w-7 mr-3 " src="{{ asset('imgs/AddIcon.png') }}" alt="User Icon">
+                        <img class="w-7 mr-3 " src="{{ asset('images/AddIcon.png') }}" alt="User Icon">
                         Agregar Area
                     </span>
                 </a>
@@ -96,7 +98,7 @@
 
                     <!-- Imagen -->
                     <img class="w-full h-48 object-cover"
-                        src="{{ asset('imgs/'.$mercadoLocal->imagen_referencia) }}"
+                        src="{{ asset('images/'.$mercadoLocal->imagen_referencia) }}"
                         alt="{{ $mercadoLocal->imagen_referencia }}">
 
                     <!-- Texto -->

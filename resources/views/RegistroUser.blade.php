@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <title>Registrar Usuario</title>
 </head>
 
@@ -132,7 +132,7 @@
         <!-- Sección derecha (Imagen y bienvenida) -->
         <div class="hidden md:flex md:w-1/2 flex-col items-center justify-center bg-gradient-to-tr from-indigo-100 via-blue-50 to-white relative">
             <h3 class="font-bold text-3xl mb-4 text-gray-700">Crea tu Cuenta</h3>
-            <img class="w-[70%] drop-shadow-2xl animate-fade-in" src="{{ asset('imgs/imagenindex.png') }}" alt="Register Image">
+            <img class="w-[70%] drop-shadow-2xl animate-fade-in" src="{{ asset('images/imagenindex.png') }}" alt="Register Image">
             <h3 class="mt-6 text-lg text-gray-600">Comienza tu experiencia en <span class="font-bold text-indigo-600">Tienda Kelly</span></h3>
         </div>
     </div>

@@ -20,16 +20,16 @@
 <div class="bottom-bar fixed bottom-3 left-0 right-0 md:hidden flex justify-center z-50">
     <div class="bg-gray-900 shadow-xl rounded-2xl w-72 h-14 flex justify-around items-center px-3">
         <a href="{{ route('usuarios.index') }}" class="bg-white rounded-full p-2 shadow-lg">
-            <img class="w-6" src="{{ asset('imgs/HomeSelectedIcon.png') }}" alt="Home Icon" />
+            <img class="w-6" src="{{ asset('images/HomeSelectedIcon.png') }}" alt="Home Icon" />
         </a>
         <a href="{{ route('usuarios.carrito') }}">
-            <img class="w-6" src="{{ asset('imgs/CarritoIcon.png') }}" alt="Cart Icon" />
+            <img class="w-6" src="{{ asset('images/CarritoIcon.png') }}" alt="Cart Icon" />
         </a>
         <a href="{{ route('usuarios.reservas') }}">
-            <img class="w-6" src="{{ asset('imgs/FavIcon.png') }}" alt="Favorites Icon" />
+            <img class="w-6" src="{{ asset('images/FavIcon.png') }}" alt="Favorites Icon" />
         </a>
         <a href="{{ route('UserProfileVista') }}">
-            <img class="w-8 h-8 rounded-full object-cover border-2 border-white shadow" src="{{ asset('storage/imgs/' . (Auth::user()->imagen_perfil ?? 'non-img.png')) }}" alt="Profile Icon" />
+            <img class="w-8 h-8 rounded-full object-cover border-2 border-white shadow" src="{{ asset('storage/images/' . (Auth::user()->imagen_perfil ?? 'non-img.png')) }}" alt="Profile Icon" />
         </a>
     </div>
 </div>

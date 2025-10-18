@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Tienda Kelly</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
 </head>
 
 <body class="bg-gradient-to-br from-indigo-200 via-blue-100 to-white">
@@ -43,7 +43,7 @@
                     </a>
                     <a href="{{ route('usuarios.create') }}"
                         class="relative flex items-center justify-center border-2 border-indigo-400 text-indigo-600 font-semibold w-40 h-12 rounded-xl shadow-md hover:bg-indigo-50 transition transform hover:scale-105">
-                        <img class="absolute left-4 w-6" src="{{ asset('imgs/play.png') }}" alt="User Icon">
+                        <img class="absolute left-4 w-6" src="{{ asset('images/play.png') }}" alt="User Icon">
                         <span class="pl-6">Registrarse</span>
                     </a>
                 </div>
@@ -52,19 +52,19 @@
                 <div class="flex justify-center gap-5 mt-10">
                     <a href="https://www.facebook.com/DirectivaCentralMercadosSanSalvador/?locale=es_LA"
                         class="bg-indigo-600 hover:bg-indigo-700 p-2 rounded-full shadow-md transition">
-                        <img class="w-6" src="{{ asset('imgs/facebook.png') }}" alt="Facebook">
+                        <img class="w-6" src="{{ asset('images/facebook.png') }}" alt="Facebook">
                     </a>
                     <a href="https://x.com/SsMercados"
                         class="bg-blue-500 hover:bg-blue-600 p-2 rounded-full shadow-md transition">
-                        <img class="w-6" src="{{ asset('imgs/twitter.png') }}" alt="Twitter">
+                        <img class="w-6" src="{{ asset('images/twitter.png') }}" alt="Twitter">
                     </a>
                     <a href="https://www.instagram.com/explore/locations/198993770818162/mercado-central-de-san-salvador"
                         class="bg-pink-500 hover:bg-pink-600 p-2 rounded-full shadow-md transition">
-                        <img class="w-6" src="{{ asset('imgs/instagram.png') }}" alt="Instagram">
+                        <img class="w-6" src="{{ asset('images/instagram.png') }}" alt="Instagram">
                     </a>
                     <a href="https://www.linkedin.com/company/sansalvador"
                         class="bg-blue-700 hover:bg-blue-800 p-2 rounded-full shadow-md transition">
-                        <img class="w-6" src="{{ asset('imgs/linkedin.png') }}" alt="LinkedIn">
+                        <img class="w-6" src="{{ asset('images/linkedin.png') }}" alt="LinkedIn">
                     </a>
                 </div>
             </div>
@@ -73,7 +73,7 @@
         <!-- Imagen -->
         <div
             class="hidden md:flex justify-center items-center md:w-1/2 bg-gradient-to-tr from-indigo-100 via-blue-50 to-white">
-            <img class="w-[80%] drop-shadow-2xl animate-fade-in" src="{{ asset('imgs/imagenindex.png') }}"
+            <img class="w-[80%] drop-shadow-2xl animate-fade-in" src="{{ asset('images/imagenindex.png') }}"
                 alt="Imagen principal">
         </div>
     </div>

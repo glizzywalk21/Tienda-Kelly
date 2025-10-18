@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @vite('resources/css/app.css')
     <title>Estado de Pedidos · Historial</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon" />
     <style>
         .fadeInUp {
             animation: fadeInUp .5s ease forwards;
@@ -51,15 +51,15 @@
     <!-- Mobile Bottom Bar -->
     <div class="fixed bottom-3 left-0 right-0 md:hidden flex justify-center z-40">
         <div class="bg-gray-900 rounded-2xl w-72 h-14 flex justify-around items-center px-4 shadow-lg">
-            <a href="{{ route('vendedores.index') }}"><img class="w-6" src="{{ asset('imgs/vendedor.home.png') }}"
+            <a href="{{ route('vendedores.index') }}"><img class="w-6" src="{{ asset('images/vendedor.home.png') }}"
                     alt=""></a>
             <a href="{{ route('vendedores.productos') }}"><img class="w-6"
-                    src="{{ asset('imgs/vendedor.productos.png') }}" alt=""></a>
+                    src="{{ asset('images/vendedor.productos.png') }}" alt=""></a>
             <a href="{{ route('vendedores.reservas') }}"><img class="w-6"
-                    src="{{ asset('imgs/vendedor.reservas.png') }}" alt=""></a>
+                    src="{{ asset('images/vendedor.reservas.png') }}" alt=""></a>
             <a href="{{ route('vendedores.historial') }}"><img class="w-6"
-                    src="{{ asset('imgs/mercado.historial.blancopng.png') }}" alt=""></a>
-            <a href="{{ route('vendedor.perfil') }}"><img class="w-6" src="{{ asset('imgs/vendedor.perfil.png') }}"
+                    src="{{ asset('images/mercado.historial.blancopng.png') }}" alt=""></a>
+            <a href="{{ route('vendedor.perfil') }}"><img class="w-6" src="{{ asset('images/vendedor.perfil.png') }}"
                     alt=""></a>
         </div>
     </div>
@@ -76,7 +76,7 @@
         <div class="relative max-w-6xl mx-auto px-6 lg:px-8 py-10 lg:py-14 text-white">
             <div class="flex items-start gap-5">
                 <img class="hidden md:block w-20 h-20 lg:w-24 lg:h-24 rounded-full ring-4 ring-white/20 object-cover"
-                    src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" alt="Vendedor">
+                    src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}" alt="Vendedor">
                 <div>
                     <h2 class="text-2xl lg:text-3xl font-extrabold leading-tight">
                         {{ $vendedor->nombre_del_local }}
@@ -95,7 +95,7 @@
         <div class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200 p-6 lg:p-8 fadeInUp">
             @if ($reservations->isEmpty() || $reservations->where('estado', 'archivado')->isEmpty())
                 <div class="py-16 text-center">
-                    <img src="{{ asset('imgs/empty-box.png') }}" alt="" class="mx-auto w-24 h-24 opacity-70 mb-4">
+                    <img src="{{ asset('images/empty-box.png') }}" alt="" class="mx-auto w-24 h-24 opacity-70 mb-4">
                     <p class="text-lg text-slate-600">Aún no hay pedidos archivados.</p>
                     <p class="text-sm text-slate-500">Cuando completes entregas aparecerán aquí.</p>
                 </div>
@@ -133,7 +133,7 @@
                                 <div class="mt-4 grid gap-4 md:grid-cols-2">
                                     @foreach ($reservation->items as $item)
                                         <article class="bg-white border border-slate-200 rounded-xl p-4 flex gap-4">
-                                            <img src="{{ asset('imgs/' . $item->product->imagen_referencia) }}"
+                                            <img src="{{ asset('images/' . $item->product->imagen_referencia) }}"
                                                 alt="{{ $item->product->name }}"
                                                 class="w-24 h-24 md:w-28 md:h-28 rounded-lg object-cover ring-1 ring-slate-200" />
                                             <div class="flex-1">

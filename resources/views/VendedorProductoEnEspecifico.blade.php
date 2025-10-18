@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <title>ProductoUser</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -38,28 +38,28 @@
         <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
             <div class="flex items-center">
                 <a href="{{ route('vendedores.index') }}">
-                    <img class="w-6" src="{{ asset('imgs/vendedor.home.png') }}" alt="Home Icon" />
+                    <img class="w-6" src="{{ asset('images/vendedor.home.png') }}" alt="Home Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('vendedores.productos') }}">
-                    <img class="w-6" src="{{ asset('imgs/vendedor.productos.png') }}" alt="Cart Icon" />
+                    <img class="w-6" src="{{ asset('images/vendedor.productos.png') }}" alt="Cart Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('vendedores.reservas') }}">
-                    <img class="w-6" src="{{ asset('imgs/vendedor.reservas.png') }}" alt="Favorites Icon" />
+                    <img class="w-6" src="{{ asset('images/vendedor.reservas.png') }}" alt="Favorites Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('vendedores.historial') }}">
-                    <img class="w-6" src="{{ asset('imgs/mercado.historial.blancopng.png') }}"
+                    <img class="w-6" src="{{ asset('images/mercado.historial.blancopng.png') }}"
                         alt="Favorites Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('vendedor.perfil') }}">
-                    <img class="w-6" src="{{ asset('imgs/vendedor.perfil.png') }}" alt="Profile Icon" />
+                    <img class="w-6" src="{{ asset('images/vendedor.perfil.png') }}" alt="Profile Icon" />
                 </a>
             </div>
         </div>
@@ -69,7 +69,7 @@
     <div class="mx-auto mt-10 px-4 max-w-7xl">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             <img class="rounded-xl h-[25rem] object-cover w-full shadow-md"
-                src="{{ asset('imgs/' . $product->imagen_referencia) }}"
+                src="{{ asset('images/' . $product->imagen_referencia) }}"
                 alt="{{ $product->imagen_referencia }}">
 
             <div class="bg-white p-8 rounded-xl shadow-md flex flex-col justify-between">
@@ -108,7 +108,7 @@
                 <a href="{{ route('vendedores.verproducto', $product->id) }}"
                     class="bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-lg transition block">
                     <img class="rounded-lg w-full h-48 object-cover mb-4"
-                        src="{{ asset('imgs/' . $product->imagen_referencia) }}"
+                        src="{{ asset('images/' . $product->imagen_referencia) }}"
                         alt="{{ $product->imagen_referencia }}">
                     <h3 class="font-bold text-lg text-gray-800 mb-1">{{ $product->name }}</h3>
                     <p class="text-gray-600 text-sm mb-1">{{ $product->vendedor->nombre_del_local }}</p>

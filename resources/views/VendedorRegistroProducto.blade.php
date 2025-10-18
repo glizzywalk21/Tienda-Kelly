@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <title>Registrar Producto Vendedor</title>
 </head>
 
@@ -37,28 +37,28 @@
         <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
             <div class="flex items-center">
                 <a href="{{ route('vendedores.index') }}">
-                    <img class="w-6" src="{{ asset('imgs/vendedor.home.png') }}" alt="Home Icon" />
+                    <img class="w-6" src="{{ asset('images/vendedor.home.png') }}" alt="Home Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('vendedores.productos') }}">
-                    <img class="w-6" src="{{ asset('imgs/vendedor.productos.png') }}" alt="Cart Icon" />
+                    <img class="w-6" src="{{ asset('images/vendedor.productos.png') }}" alt="Cart Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('vendedores.reservas') }}">
-                    <img class="w-6" src="{{ asset('imgs/vendedor.reservas.png') }}" alt="Favorites Icon" />
+                    <img class="w-6" src="{{ asset('images/vendedor.reservas.png') }}" alt="Favorites Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('vendedores.historial') }}">
-                    <img class="w-6" src="{{ asset('imgs/mercado.historial.blancopng.png') }}"
+                    <img class="w-6" src="{{ asset('images/mercado.historial.blancopng.png') }}"
                         alt="Favorites Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('vendedor.perfil') }}">
-                    <img class="w-6" src="{{ asset('imgs/vendedor.perfil.png') }}" alt="Profile Icon" />
+                    <img class="w-6" src="{{ asset('images/vendedor.perfil.png') }}" alt="Profile Icon" />
                 </a>
             </div>
         </div>
@@ -81,7 +81,7 @@
                 <label for="file-input" class="flex items-center justify-between px-4 py-2 border border-gray-300 rounded-md shadow-sm cursor-pointer hover:bg-gray-50 transition">
                     <span class="text-sm text-gray-600">Imagen del Producto</span>
                     <input id="file-input" type="file" name="imagen_referencia" class="hidden" onchange="previewImage(event)">
-                    <span class="w-5 h-5 bg-cover" style="background-image: url('{{ asset('imgs/files2.svg') }}');"></span>
+                    <span class="w-5 h-5 bg-cover" style="background-image: url('{{ asset('images/files2.svg') }}');"></span>
                 </label>
                 @error('imagen_referencia')
                 <p class="text-rose-500 text-xs">{{ $message }}</p>

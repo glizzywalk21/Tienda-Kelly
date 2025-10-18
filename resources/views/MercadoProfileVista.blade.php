@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <title>Perfil Mercado</title>
     <style>
         @keyframes fadeInUp {
@@ -63,13 +63,13 @@
     <!-- Foto del mercado -->
     <div class="flex justify-center mt-10 animate-fadeInUp delay-400">
         <img class="w-40 h-40 md:w-44 md:h-44 rounded-full border-4 border-red-500 shadow-2xl"
-            src="{{ asset('imgs/' . $mercadoLocal->imagen_referencia) }}" alt="Foto Mercado">
+            src="{{ asset('images/' . $mercadoLocal->imagen_referencia) }}" alt="Foto Mercado">
     </div>
 
     <!-- Estrellas -->
     <div class="flex justify-center mt-3">
         @for($i = 0; $i < 5; $i++)
-            <img class="w-4 h-4 ml-1" src="{{ asset('imgs/estrella.png') }}" alt="Estrella">
+            <img class="w-4 h-4 ml-1" src="{{ asset('images/estrella.png') }}" alt="Estrella">
         @endfor
         <span class="ml-2 text-sm font-semibold">5.0</span>
     </div>
@@ -85,25 +85,25 @@
     <div class="w-11/12 md:w-1/2 mx-auto my-16 space-y-6">
         <a href="{{ route('mercados.agregarvendedor')}}"
             class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
-            <img class="w-5" src="{{ asset('imgs/mercado.agregar.png') }}" alt="Agregar Icon">
+            <img class="w-5" src="{{ asset('images/mercado.agregar.png') }}" alt="Agregar Icon">
             <h3 class="flex-grow text-left font-bold ml-3">Agregar Vendedores</h3>
         </a>
 
         <a href="{{ route('mercados.listavendedores')}}"
             class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
-            <img class="w-5" src="{{ asset('imgs/mercado.vendedores.png') }}" alt="Vendedores Icon">
+            <img class="w-5" src="{{ asset('images/mercado.vendedores.png') }}" alt="Vendedores Icon">
             <h3 class="flex-grow text-left font-bold ml-3">Listado de Vendedores</h3>
         </a>
 
         <a href="{{ route('mercados.reservas')}}"
             class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
-            <img class="w-5" src="{{ asset('imgs/mercado.reservas.png') }}" alt="Reservas Icon">
+            <img class="w-5" src="{{ asset('images/mercado.reservas.png') }}" alt="Reservas Icon">
             <h3 class="flex-grow text-left font-bold ml-3">Reservas de Vendedores</h3>
         </a>
 
         <a href="{{ route('mercados.historial')}}"
             class="flex items-center px-4 py-3 bg-white rounded-lg shadow hover:shadow-lg transition btn-hover">
-            <img class="w-5" src="{{ asset('imgs/mercado.historial.png') }}" alt="Historial Icon">
+            <img class="w-5" src="{{ asset('images/mercado.historial.png') }}" alt="Historial Icon">
             <h3 class="flex-grow text-left font-bold ml-3">Historial de Compras</h3>
         </a>
 
@@ -111,7 +111,7 @@
             @csrf
             <button type="submit"
                 class="flex items-center w-full px-4 py-3 bg-red-500 text-white font-bold rounded-lg shadow hover:bg-red-600 transition btn-hover">
-                <img class="w-5 mr-3" src="{{ asset('imgs/tuerca.png') }}" alt="Cerrar Icon">
+                <img class="w-5 mr-3" src="{{ asset('images/tuerca.png') }}" alt="Cerrar Icon">
                 Cerrar Cuenta
             </button>
         </form>

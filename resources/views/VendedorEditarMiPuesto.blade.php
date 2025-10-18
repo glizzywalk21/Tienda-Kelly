@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <title>Document</title>
 </head>
 
@@ -18,7 +18,7 @@
                     <h3 class="text-3xl font-bold">Tienda</h3>
                 </div>
                 <div>
-                    <img class="w-6 mt-2 ml-3" src="{{ asset('imgs/shop.png') }}" alt="User Icon">
+                    <img class="w-6 mt-2 ml-3" src="{{ asset('images/shop.png') }}" alt="User Icon">
                 </div>
             </div>
             <div class="w-[30%]">
@@ -31,7 +31,7 @@
                 <h3 class="text-center font-bold text-lg">Nombre del mercado</h3>
             </div>
             <div class="flex justify-center mt-14">
-                <img class="w-[60%] h-40 overflow-hidden object-cover rounded-2xl" src="{{ asset('imgs/img.png') }}" alt="User Icon">
+                <img class="w-[60%] h-40 overflow-hidden object-cover rounded-2xl" src="{{ asset('images/img.png') }}" alt="User Icon">
             </div>
 
             <div class="mt-5">
@@ -65,18 +65,18 @@
         <!--INICIO DE NAVBAR MOBIL-->
         <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
             <div class="flex items-center  ">
-                <a href="./VendedorHome" class=" bg-white rounded-full p-[0.25rem] "><img class="w-6" src="{{ asset('imgs/HomeSelectedIcon.png') }}" alt="User Icon"></a>
+                <a href="./VendedorHome" class=" bg-white rounded-full p-[0.25rem] "><img class="w-6" src="{{ asset('images/HomeSelectedIcon.png') }}" alt="User Icon"></a>
             </div>
 
             <div class="flex items-center">
-                <a href="./VendedorMiBuzon"><img class="w-6" src="{{ asset('imgs/BuzonIcon.png') }}" alt="User Icon"></a>
+                <a href="./VendedorMiBuzon"><img class="w-6" src="{{ asset('images/BuzonIcon.png') }}" alt="User Icon"></a>
             </div>
 
             <div class="flex items-center">
-                <a href="./VendedorMisReservas"><img class="w-6" src="{{ asset('imgs/ReservasIcon.png') }}" alt="User Icon"></a>
+                <a href="./VendedorMisReservas"><img class="w-6" src="{{ asset('images/ReservasIcon.png') }}" alt="User Icon"></a>
             </div>
             <div class="flex items-center">
-                <a href="./VendedorProfileVista"><img class="w-6" src="{{ asset('imgs/UserIcon.png') }}" alt="User Icon"></a>
+                <a href="./VendedorProfileVista"><img class="w-6" src="{{ asset('images/UserIcon.png') }}" alt="User Icon"></a>
             </div>
         </div>
 

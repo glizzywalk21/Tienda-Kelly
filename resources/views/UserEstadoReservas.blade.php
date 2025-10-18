@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Estado de Pedidos - Tienda Kelly</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <style>
         .fadeInUp {
             animation: fadeInUp 0.8s ease forwards;
@@ -72,7 +72,7 @@
                         <div class="p-6 space-y-4 md:space-y-6">
                             @foreach ($reservation->items->where('estado', '!=', 'archivado') as $item)
                                 <div class="flex flex-col md:flex-row items-center gap-4 p-4 bg-gray-100 rounded-xl shadow-sm card-hover">
-                                    <img src="{{ asset('imgs/'. $item->product->imagen_referencia) }}" alt="{{ $item->product->name }}"
+                                    <img src="{{ asset('images/'. $item->product->imagen_referencia) }}" alt="{{ $item->product->name }}"
                                         class="w-24 h-24 md:w-32 md:h-32 object-cover rounded-md">
                                     <div class="flex-1">
                                         <h3 class="font-bold text-gray-900 md:text-lg">{{ $item->product->name }} - {{ $item->product->vendedor->nombre_del_local }}</h3>

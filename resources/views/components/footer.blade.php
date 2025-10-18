@@ -14,19 +14,19 @@
             <p class="font-black text-3xl mb-3">Tienda <span class="text-blue-600">Kelly</span></p>
             <div class="flex gap-2 justify-end">
                 <div class="w-7 aspect-square flex justify-center items-center bg-white rounded-full">
-                    <img width="16" class="invert" src="{{ asset('imgs/facebook.png') }}" alt="Facebook">
+                    <img width="16" class="invert" src="{{ asset('images/facebook.png') }}" alt="Facebook">
                 </div>
                 <div class="w-7 aspect-square flex justify-center items-center bg-white rounded-full">
-                    <img width="16" class="invert" src="{{ asset('imgs/google.png') }}" alt="Google">
+                    <img width="16" class="invert" src="{{ asset('images/google.png') }}" alt="Google">
                 </div>
                 <div class="w-7 aspect-square flex justify-center items-center bg-white rounded-full">
-                    <img width="16" class="invert" src="{{ asset('imgs/linkedin.png') }}" alt="LinkedIn">
+                    <img width="16" class="invert" src="{{ asset('images/linkedin.png') }}" alt="LinkedIn">
                 </div>
                 <div class="w-7 aspect-square flex justify-center items-center bg-white rounded-full">
-                    <img width="16" class="invert" src="{{ asset('imgs/twitter.png') }}" alt="Twitter">
+                    <img width="16" class="invert" src="{{ asset('images/twitter.png') }}" alt="Twitter">
                 </div>
                 <div class="w-7 aspect-square flex justify-center items-center bg-white rounded-full">
-                    <img width="16" src="{{ asset('imgs/youtube.png') }}" alt="YouTube">
+                    <img width="16" src="{{ asset('images/youtube.png') }}" alt="YouTube">
                 </div>
             </div>
         </div>

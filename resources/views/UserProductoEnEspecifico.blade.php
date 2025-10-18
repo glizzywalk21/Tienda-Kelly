@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>{{ $product->name }} - Tienda Kelly</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <style>
         /* Animaciones */
         .fadeInUp {
@@ -63,15 +63,15 @@
         <!-- Imagen del producto -->
         <div class="relative">
             <img class="rounded-2xl w-full shadow-xl transform transition duration-700 hover:scale-105"
-                src="{{ asset('imgs/' . $product->imagen_referencia) }}" alt="{{ $product->name }}">
+                src="{{ asset('images/' . $product->imagen_referencia) }}" alt="{{ $product->name }}">
         </div>
                     <!--ESTRELLAS
                 <div class="flex items-center mb-4">
-                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
-                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
-                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
-                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
-                    <img class="w-6 mr-2" src="{{ asset('imgs/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('images/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('images/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('images/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('images/775819.svg') }}" alt="Rating Icon">
+                    <img class="w-6 mr-2" src="{{ asset('images/775819.svg') }}" alt="Rating Icon">
                     <span class="text-lg text-gray-800">5.0</span>
 
         <!-- Información y carrito -->
@@ -138,7 +138,7 @@
             @foreach ($products as $product)
             <a href="{{ route('usuarios.producto', $product->id) }}"
                 class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover transform transition duration-300">
-                <img class="w-full h-64 object-cover rounded-t-2xl" src="{{ asset('imgs/' . $product->imagen_referencia) }}"
+                <img class="w-full h-64 object-cover rounded-t-2xl" src="{{ asset('images/' . $product->imagen_referencia) }}"
                     alt="{{ $product->name }}">
                 <div class="p-5">
                     <h3 class="text-lg font-bold text-gray-800">{{ $product->name }}</h3>

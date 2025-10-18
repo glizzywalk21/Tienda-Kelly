@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Editar Puesto Vendedor</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <style>
         .card-hover {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -46,7 +46,7 @@
             @foreach ($vendedores as $vendedor)
             <div class="bg-white rounded-2xl shadow-md overflow-hidden card-hover">
                 <div class="relative">
-                    <img src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}" 
+                    <img src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}" 
                          alt="{{ $vendedor->nombre }}" 
                          class="w-full h-48 object-cover rounded-t-2xl">
                     <span class="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-lg font-semibold text-sm shadow-md">

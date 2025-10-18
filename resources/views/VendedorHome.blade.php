@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @vite('resources/css/app.css')
     <title>Tienda Kelly — Panel Vendedor</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon" />
 </head>
 
 <body class="bg-gradient-to-b from-slate-50 to-white text-slate-900">
@@ -14,7 +14,7 @@
     <header
         class="hidden md:flex px-6 lg:px-10 py-4 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 items-center justify-between shadow-sm sticky top-0 z-50 border-b border-slate-100">
         <a href="{{ route('vendedores.index') }}" class="group inline-flex items-center gap-2">
-            <img src="{{ asset('imgs/shop.png') }}" alt="Logo Tienda Kelly" class="w-8 h-8" />
+            <img src="{{ asset('images/shop.png') }}" alt="Logo Tienda Kelly" class="w-8 h-8" />
             <h1 class="text-2xl lg:text-3xl font-extrabold tracking-tight">
                 Tienda Kelly <span
                     class="text-indigo-600 group-hover:text-indigo-700 transition-colors">Vendedores</span>
@@ -42,20 +42,20 @@
     <nav aria-label="Navegación móvil" class="fixed bottom-4 left-0 right-0 md:hidden flex justify-center z-50">
         <div class="bg-slate-900/95 backdrop-blur rounded-2xl w-[19rem] h-14 flex justify-around px-2 shadow-2xl">
             <a href="{{ route('vendedores.index') }}" class="grid place-items-center w-12" aria-label="Inicio">
-                <img class="w-6" src="{{ asset('imgs/vendedor.home.png') }}" alt="Inicio" />
+                <img class="w-6" src="{{ asset('images/vendedor.home.png') }}" alt="Inicio" />
             </a>
             <a href="{{ route('vendedores.productos') }}" class="grid place-items-center w-12"
                 aria-label="Mis Productos">
-                <img class="w-6" src="{{ asset('imgs/vendedor.productos.png') }}" alt="Productos" />
+                <img class="w-6" src="{{ asset('images/vendedor.productos.png') }}" alt="Productos" />
             </a>
             <a href="{{ route('vendedores.reservas') }}" class="grid place-items-center w-12" aria-label="Mis Reservas">
-                <img class="w-6" src="{{ asset('imgs/vendedor.reservas.png') }}" alt="Reservas" />
+                <img class="w-6" src="{{ asset('images/vendedor.reservas.png') }}" alt="Reservas" />
             </a>
             <a href="{{ route('vendedores.historial') }}" class="grid place-items-center w-12" aria-label="Historial">
-                <img class="w-6" src="{{ asset('imgs/mercado.historial.blancopng.png') }}" alt="Historial" />
+                <img class="w-6" src="{{ asset('images/mercado.historial.blancopng.png') }}" alt="Historial" />
             </a>
             <a href="{{ route('vendedor.perfil') }}" class="grid place-items-center w-12" aria-label="Perfil">
-                <img class="w-6" src="{{ asset('imgs/vendedor.perfil.png') }}" alt="Perfil" />
+                <img class="w-6" src="{{ asset('images/vendedor.perfil.png') }}" alt="Perfil" />
             </a>
         </div>
     </nav>
@@ -73,7 +73,7 @@
 
         <div class="animate-fadeInUp delay-400">
             <img class="rounded-full w-20 h-20 md:w-24 md:h-24 border-4 border-indigo-500 shadow-lg object-cover"
-                src="{{ asset('imgs/' . ($vendedor->imagen_de_referencia ?? 'non-img.png')) }}"
+                src="{{ asset('images/' . ($vendedor->imagen_de_referencia ?? 'non-img.png')) }}"
                 alt="Foto de {{ $vendedor->nombre }} {{ $vendedor->apellidos }}">
         </div>
     </header>
@@ -98,13 +98,13 @@
                     <!-- Avatar (solo móvil) -->
                     <img
                         class="md:hidden rounded-full w-24 h-24 border-4 border-indigo-500 shadow-lg object-cover mx-auto mb-4"
-                        src="{{ asset('imgs/' . ($vendedor->imagen_de_referencia ?? 'non-img.png')) }}"
+                        src="{{ asset('images/' . ($vendedor->imagen_de_referencia ?? 'non-img.png')) }}"
                         alt="Foto de {{ $vendedor->nombre }} {{ $vendedor->apellidos }}">
 
                     <!-- Banner (solo desktop) -->
                     <img
                         class="hidden md:block w-full md:w-[52rem] md:h-[25rem] object-cover object-center rounded-3xl shadow-lg ring-1 ring-slate-200/60"
-                        src="{{ asset('imgs/' . ($vendedor->imagen_de_referencia ?? 'non-img.png')) }}"
+                        src="{{ asset('images/' . ($vendedor->imagen_de_referencia ?? 'non-img.png')) }}"
                         alt="Banner de {{ $vendedor->nombre }} {{ $vendedor->apellidos }}">
                 </div>
             </div>
@@ -116,7 +116,7 @@
         <div class="max-w-7xl mx-auto">
             <a href="{{ route('vendedores.agregarproducto', $vendedor->id) }}"
                 class="group w-full md:w-auto inline-flex items-center justify-center gap-3 bg-indigo-700 hover:bg-indigo-600 text-white font-bold uppercase tracking-wide rounded-2xl px-6 py-3 transition-transform duration-200 hover:scale-[1.02] shadow">
-                <img class="w-6 h-6" src="{{ asset('imgs/AddIcon.png') }}" alt="Agregar" />
+                <img class="w-6 h-6" src="{{ asset('images/AddIcon.png') }}" alt="Agregar" />
                 <span>Agregar productos</span>
             </a>
         </div>
@@ -141,7 +141,7 @@
                             <a href="{{ route('vendedores.verproducto', $product->id) }}"
                                 class="group block bg-white rounded-2xl overflow-hidden ring-1 ring-slate-200/60 shadow-sm hover:shadow-md transition-shadow">
                                 <div class="relative">
-                                    <img src="{{ asset('imgs/' . $product->imagen_referencia) }}" alt="{{ $product->name }}"
+                                    <img src="{{ asset('images/' . $product->imagen_referencia) }}" alt="{{ $product->name }}"
                                         class="w-full h-56 object-cover group-hover:scale-[1.02] transition-transform duration-300" />
                                 </div>
                                 <div class="p-4">

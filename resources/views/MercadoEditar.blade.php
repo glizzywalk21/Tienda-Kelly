@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>Editar área</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
 </head>
 
 <body class="bg-gradient-to-br from-pink-50 to-red-50 min-h-screen">
@@ -52,7 +52,7 @@
                     <label for="imagen_referencia"
                            class="w-full md:w-80 bg-red-100 border border-red-300 rounded-xl p-3 flex justify-between items-center cursor-pointer hover:bg-red-200 transition">
                         <span class="text-gray-500 text-sm">Imagen del área</span>
-                        <img class="w-5 h-5" src="{{ asset('imgs/files2.svg') }}" alt="">
+                        <img class="w-5 h-5" src="{{ asset('images/files2.svg') }}" alt="">
                         <input type="file" accept=".png,.jpg,.jpeg" name="imagen_referencia" class="hidden" id="imagen_referencia">
                     </label>
 
@@ -61,7 +61,7 @@
                         @if ($mercadoLocal?->imagen_referencia)
                             <p class="text-sm text-gray-600 mb-2">Imagen actual:</p>
                             <img id="img-preview" class="mx-auto max-h-40 rounded-xl shadow-lg border"
-                                 src="{{ asset('imgs/' . $mercadoLocal->imagen_referencia) }}"
+                                 src="{{ asset('images/' . $mercadoLocal->imagen_referencia) }}"
                                  alt="Imagen del Mercado">
                         @else
                             <img id="img-preview" class="hidden" alt="Preview">

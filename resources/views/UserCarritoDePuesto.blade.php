@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <title>TiendaKelly Carrito</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -32,22 +32,22 @@
         <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
             <div class="flex items-center">
                 <a href="{{ route('usuarios.index') }}" class="bg-white rounded-full p-1">
-                    <img class="w-6" src="{{ asset('imgs/HomeSelectedIcon.png') }}" alt="Home Icon" />
+                    <img class="w-6" src="{{ asset('images/HomeSelectedIcon.png') }}" alt="Home Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('usuarios.carrito') }}">
-                    <img class="w-6" src="{{ asset('imgs/CarritoIcon.png') }}" alt="Cart Icon" />
+                    <img class="w-6" src="{{ asset('images/CarritoIcon.png') }}" alt="Cart Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('usuarios.reservas') }}">
-                    <img class="w-6" src="{{ asset('imgs/FavIcon.png') }}" alt="Favorites Icon" />
+                    <img class="w-6" src="{{ asset('images/FavIcon.png') }}" alt="Favorites Icon" />
                 </a>
             </div>
             <div class="flex items-center">
                 <a href="{{ route('UserProfileVista') }}">
-                    <img class="w-6" src="{{ asset('imgs/UserIcon.png') }}" alt="Profile Icon" />
+                    <img class="w-6" src="{{ asset('images/UserIcon.png') }}" alt="Profile Icon" />
                 </a>
             </div>
         </div>
@@ -61,7 +61,7 @@
                 <!-- Producto 1 -->
                 <div class="p-4 rounded-lg border">
                     <div class="flex items-center justify-between">
-                        <img src="{{ asset('imgs/AguacateQuintal.jpg') }}" alt="Producto 1"
+                        <img src="{{ asset('images/AguacateQuintal.jpg') }}" alt="Producto 1"
                             class="w-16 h-16 object-cover rounded">
                         <div class="h-8 font-bold bg-slate-900 rounded-md w-20 flex items-center justify-between px-2">
                             <button class="text-white">-</button>
@@ -78,7 +78,7 @@
                 <!-- Producto 1 -->
                 <div class="p-4 rounded-lg border">
                     <div class="flex items-center justify-between">
-                        <img src="{{ asset('imgs/AguacateQuintal.jpg') }}" alt="Producto 1"
+                        <img src="{{ asset('images/AguacateQuintal.jpg') }}" alt="Producto 1"
                             class="w-16 h-16 object-cover rounded">
                         <div class="h-8 font-bold bg-slate-900 rounded-md w-20 flex items-center justify-between px-2">
                             <button class="text-white">-</button>
@@ -94,7 +94,7 @@
                 </div>
                 <div class="p-4 rounded-lg border">
                     <div class="flex items-center justify-between">
-                        <img src="{{ asset('imgs/AguacateQuintal.jpg') }}" alt="Producto 1"
+                        <img src="{{ asset('images/AguacateQuintal.jpg') }}" alt="Producto 1"
                             class="w-16 h-16 object-cover rounded">
                         <div class="h-8 font-bold bg-slate-900 rounded-md w-20 flex items-center justify-between px-2">
                             <button class="text-white">-</button>

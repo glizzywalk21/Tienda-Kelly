@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <title>{{ $mercadoLocal->nombre }} - Tienda Kelly</title>
-    <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <style>
         /* Gradiente de texto y animaciones */
         .gradient-text {
@@ -53,7 +53,7 @@
     <!-- Hero Banner Mercado -->
     <section class="relative w-full h-[350px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-b-3xl shadow-xl mt-6">
         <img class="w-full h-full object-cover object-center transform hover:scale-105 transition duration-700"
-             src="{{ asset('imgs/' . $mercadoLocal->imagen_referencia) }}"
+             src="{{ asset('images/' . $mercadoLocal->imagen_referencia) }}"
              alt="{{ $mercadoLocal->nombre }}">
         
         <!-- Overlay gradiente para contraste con texto -->
@@ -83,7 +83,7 @@
 
             <div class="relative overflow-hidden">
                 <img class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500"
-                     src="{{ asset('imgs/' . $vendedor->imagen_de_referencia) }}"
+                     src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}"
                      alt="{{ $vendedor->nombre_del_local }}">
             </div>
 
@@ -96,7 +96,7 @@
                     </span>
                     <div class="flex items-center gap-1">
                         <span class="font-semibold">4.2</span>
-                        <img class="w-4" src="{{ asset('imgs/estrella.png') }}" alt="Estrella">
+                        <img class="w-4" src="{{ asset('images/estrella.png') }}" alt="Estrella">
                     </div>
                 </div>
             </div>

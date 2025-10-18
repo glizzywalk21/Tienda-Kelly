@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   @vite('resources/css/app.css')
   <title>Mi Carrito - Tienda Kelly</title>
-  <link rel="shortcut icon" href="{{ asset('imgs/shop.png') }}" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
   <style>
     .fadeInUp{animation:fadeInUp .8s ease forwards}
     @keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
@@ -39,7 +39,7 @@
         <div class="md:col-span-2 space-y-6">
           @foreach ($cartItems as $cartItem)
             <div class="bg-gradient-to-br from-white to-blue-50 shadow-lg rounded-3xl p-6 flex flex-col md:flex-row items-center gap-6 card-hover fadeInUp">
-              <img src="{{ asset('imgs/' . $cartItem->product->imagen_referencia) }}" alt="{{ $cartItem->product->name }}" class="w-full md:w-44 h-44 object-cover rounded-2xl shadow-md">
+              <img src="{{ asset('images/' . $cartItem->product->imagen_referencia) }}" alt="{{ $cartItem->product->name }}" class="w-full md:w-44 h-44 object-cover rounded-2xl shadow-md">
               <div class="flex-1">
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">{{ $cartItem->product->name }}</h2>
                 <p class="text-gray-600 text-lg mb-1">Precio: ${{ $cartItem->product->price }} c/u</p>
@@ -68,7 +68,7 @@
             <div class="flex flex-col gap-3 w-full mb-6">
               @foreach ($cartItems as $cartItem)
                 <div class="flex items-center justify-between bg-white rounded-xl p-2 shadow">
-                  <img src="{{ asset('imgs/' . $cartItem->product->imagen_referencia) }}" alt="{{ $cartItem->product->name }}" class="w-12 h-12 object-cover rounded-md">
+                  <img src="{{ asset('images/' . $cartItem->product->imagen_referencia) }}" alt="{{ $cartItem->product->name }}" class="w-12 h-12 object-cover rounded-md">
                   <div class="flex-1 mx-2">
                     <p class="text-gray-800 font-semibold text-sm">{{ $cartItem->product->name }}</p>
                     <p class="text-gray-600 text-xs">x{{ $cartItem->quantity }}</p>
@@ -161,11 +161,11 @@
       <div class="md:self-end md:justify-self-end pb-4">
         <p class="font-black text-5xl mb-4">Tienda <span class="text-blue-600">Kelly</span></p>
         <div class="flex gap-2">
-          <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full"><img width="18" class="invert" src="{{ asset('imgs/facebook.png') }}" alt=""></div>
-          <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full"><img width="18" class="invert" src="{{ asset('imgs/google.png') }}" alt=""></div>
-          <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full"><img width="18" class="invert" src="{{ asset('imgs/linkedin.png') }}" alt=""></div>
-          <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full"><img width="18" class="invert" src="{{ asset('imgs/twitter.png') }}" alt=""></div>
-          <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full"><img width="18" src="{{ asset('imgs/youtube.png') }}" alt=""></div>
+          <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full"><img width="18" class="invert" src="{{ asset('images/facebook.png') }}" alt=""></div>
+          <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full"><img width="18" class="invert" src="{{ asset('images/google.png') }}" alt=""></div>
+          <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full"><img width="18" class="invert" src="{{ asset('images/linkedin.png') }}" alt=""></div>
+          <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full"><img width="18" class="invert" src="{{ asset('images/twitter.png') }}" alt=""></div>
+          <div class="w-8 aspect-square flex justify-center items-center bg-white rounded-full"><img width="18" src="{{ asset('images/youtube.png') }}" alt=""></div>
         </div>
       </div>
     </div>
