@@ -27,7 +27,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class UsuariosController extends Controller
 {
@@ -35,10 +37,10 @@ class UsuariosController extends Controller
     public function index()
     {
         $mercadoLocals = MercadoLocal::paginate();
-        $vendedors     = Vendedor::paginate();
+        $vendedors = Vendedor::paginate();
 
-        $iVendedors      = (request()->input('page', 1) - 1) * $vendedors->perPage();
-        $iMercadoLocals  = (request()->input('page', 1) - 1) * $mercadoLocals->perPage();
+        $iVendedors = (request()->input('page', 1) - 1) * $vendedors->perPage();
+        $iMercadoLocals = (request()->input('page', 1) - 1) * $mercadoLocals->perPage();
 
         return view('UserHome', compact('vendedors', 'mercadoLocals'))
             ->with('iVendedors', $iVendedors)
@@ -63,43 +65,77 @@ class UsuariosController extends Controller
     public function actualizar(Request $request, $id)
     {
         $request->validate([
-            'password'        => 'nullable|string|min:8|confirmed',
-            'nombre'          => 'required|string|max:255',
-            'apellido'        => 'required|string|max:255',
-            'telefono'        => 'nullable|string|max:15',
-            'sexo'            => 'nullable|string|in:Masculino,Femenino',
-            'imagen_perfil'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'usuario'         => 'required|string|email|max:255|unique:users,usuario,' . $id,
+            'usuario' => 'required|string|email|max:255|unique:users,usuario,' . $id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'telefono' => 'nullable|string|max:15',
+            // Acepta ambos formatos y luego normalizamos
+            'sexo' => 'nullable|string|in:Masc,Fem,Masculino,Femenino',
+            'imagen_perfil' => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:4096',
         ]);
 
         $user = User::findOrFail($id);
 
-        $user->usuario  = $request->input('usuario');
-        $user->nombre   = $request->input('nombre');
+        // Campos básicos
+        $user->usuario = $request->input('usuario');
+        $user->nombre = $request->input('nombre');
         $user->apellido = $request->input('apellido');
         $user->telefono = $request->input('telefono');
-        $user->sexo     = $request->input('sexo');
 
+        // Normaliza sexo a Masc/Fem
+        $sexo = $request->input('sexo');
+        if ($sexo === 'Masculino')
+            $sexo = 'Masc';
+        if ($sexo === 'Femenino')
+            $sexo = 'Fem';
+        $user->sexo = $sexo;
+
+        // Password opcional
         if ($request->filled('password')) {
             $user->password = bcrypt($request->input('password'));
         }
 
-        // Imagen
+        // ====== Imagen: mover a public/images, borrar la anterior, guardar SOLO el nombre ======
         if ($request->hasFile('imagen_perfil') && $request->file('imagen_perfil')->isValid()) {
             $file = $request->file('imagen_perfil');
-            $imageName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public/imgs', $imageName);
 
-            if ($user->imagen_perfil && $user->imagen_perfil !== 'non-img.png') {
-                $oldImagePath = storage_path('app/public/imgs/' . $user->imagen_perfil);
-                if (file_exists($oldImagePath)) {
-                    @unlink($oldImagePath);
+            // Asegura carpeta
+            $imagesDir = public_path('images');
+            if (!is_dir($imagesDir)) {
+                @mkdir($imagesDir, 0775, true);
+            }
+
+            // Nombre legible + único
+            $base = Str::slug(($user->nombre . '_' . $user->apellido) ?: 'avatar', '_');
+            $ext = strtolower($file->getClientOriginalExtension()) ?: 'png';
+            $imageName = time() . '_' . $base . '_' . Str::random(6) . '.' . $ext;
+
+            // Mover
+            $file->move($imagesDir, $imageName);
+
+            // Borrar anterior (soporta "archivo.png" o "images/archivo.png")
+            if (!empty($user->imagen_perfil)) {
+                $old = $user->imagen_perfil;
+                $oldPath = Str::startsWith($old, 'images/')
+                    ? public_path($old)
+                    : public_path('images/' . ltrim($old, '/'));
+                if (file_exists($oldPath)) {
+                    @unlink($oldPath);
                 }
             }
+
+            // Guardar solo nombre nuevo
             $user->imagen_perfil = $imageName;
         }
+        // ====== /Imagen ======
 
         $user->save();
+
+        // Refresca el usuario autenticado para que avatar_url se actualice en la sesión
+        if (Auth::id() === $user->id) {
+            Auth::setUser($user->fresh());
+        }
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
     }
@@ -110,11 +146,11 @@ class UsuariosController extends Controller
     public function store(ClienteRequest $request)
     {
         $validator = Validator::make($request->all(), [
-            'usuario'    => 'required|email|unique:clientes',
-            'nombre'     => 'required|string|max:255',
-            'apellido'   => 'required|string|max:255',
-            'telefono'   => 'required|string|max:20|unique:clientes',
-            'sexo'       => 'required|string',
+            'usuario' => 'required|email|unique:clientes',
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'telefono' => 'required|string|max:20|unique:clientes',
+            'sexo' => 'required|string',
             'contrasena' => 'required|string|min:8|confirmed',
         ]);
 
@@ -123,12 +159,12 @@ class UsuariosController extends Controller
         }
 
         $cliente = User::create([
-            'usuario'   => $request->usuario,
-            'nombre'    => $request->nombre,
-            'apellido'  => $request->apellido,
-            'telefono'  => $request->telefono,
-            'sexo'      => $request->sexo,
-            'password'  => bcrypt($request->contrasena),
+            'usuario' => $request->usuario,
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'telefono' => $request->telefono,
+            'sexo' => $request->sexo,
+            'password' => bcrypt($request->contrasena),
         ]);
 
         Session::put('id', $cliente->id);
@@ -159,7 +195,7 @@ class UsuariosController extends Controller
         }
 
         $mercadoLocal = $vendedor->mercadoLocal;
-        $products     = Product::where('fk_vendedors', $id)->paginate();
+        $products = Product::where('fk_vendedors', $id)->paginate();
 
         return view('UserProductosDeUnPuesto', compact('vendedor', 'mercadoLocal', 'products'))
             ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
@@ -188,11 +224,11 @@ class UsuariosController extends Controller
     {
         $request->validate([
             'quantity' => 'required|integer|min:1',
-            'talla'    => 'string|max:10',
+            'talla' => 'string|max:10',
         ]);
 
         $quantity = $request->input('quantity');
-        $talla    = $request->input('talla');
+        $talla = $request->input('talla');
 
         $cartItem = Cart::where('fk_product', $product->id)
             ->where('fk_user', Auth::id())
@@ -201,15 +237,15 @@ class UsuariosController extends Controller
 
         if ($cartItem) {
             $cartItem->quantity += $quantity;
-            $cartItem->subtotal  = $cartItem->quantity * $cartItem->product->price;
+            $cartItem->subtotal = $cartItem->quantity * $cartItem->product->price;
             $cartItem->save();
         } else {
             Cart::create([
                 'fk_product' => $product->id,
-                'fk_user'    => Auth::id(),
-                'quantity'   => $quantity,
-                'talla'      => $talla,
-                'subtotal'   => $quantity * $product->price
+                'fk_user' => Auth::id(),
+                'quantity' => $quantity,
+                'talla' => $talla,
+                'subtotal' => $quantity * $product->price
             ]);
         }
 
@@ -221,7 +257,7 @@ class UsuariosController extends Controller
     {
         $user = Auth::user();
         if (!$user) {
-            return redirect()->route('login')->with('error','Debe iniciar sesión para completar el pago');
+            return redirect()->route('login')->with('error', 'Debe iniciar sesión para completar el pago');
         }
 
         DB::beginTransaction();
@@ -234,8 +270,8 @@ class UsuariosController extends Controller
 
             $reservation = Reservation::create([
                 'fk_user' => Auth::id(),
-                'total'   => 0,
-                'estado'  => 'en_espera'
+                'total' => 0,
+                'estado' => 'en_espera'
             ]);
 
             $total = 0;
@@ -244,19 +280,19 @@ class UsuariosController extends Controller
                 if ($item->product->stock < $item->quantity) {
                     DB::rollBack();
                     return redirect()->route('usuarios.carrito')
-                        ->with('error','El producto '.$item->product->nombre.' no tiene suficiente stock disponible');
+                        ->with('error', 'El producto ' . $item->product->nombre . ' no tiene suficiente stock disponible');
                 }
 
                 ReservationItem::create([
                     'fk_reservation' => $reservation->id,
-                    'fk_product'     => $item->fk_product,
-                    'quantity'       => $item->quantity,
-                    'nombre'         => $item->product->nombre,
-                    'subtotal'       => $item->subtotal,
-                    'fk_vendedors'   => $item->product->vendedor->id,
-                    'fk_mercados'    => $item->product->vendedor->fk_mercado,
-                    'precio'         => $item->product->price,
-                    'estado'         => 'en_espera'
+                    'fk_product' => $item->fk_product,
+                    'quantity' => $item->quantity,
+                    'nombre' => $item->product->nombre,
+                    'subtotal' => $item->subtotal,
+                    'fk_vendedors' => $item->product->vendedor->id,
+                    'fk_mercados' => $item->product->vendedor->fk_mercado,
+                    'precio' => $item->product->price,
+                    'estado' => 'en_espera'
                 ]);
 
                 $item->product->decrement('stock', $item->quantity);
@@ -274,11 +310,11 @@ class UsuariosController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Fallo de checkout:', [
-                'user_id'      => Auth::id(),
-                'error_message'=> $e->getMessage(),
-                'stack_trace'  => $e->getTraceAsString(),
+                'user_id' => Auth::id(),
+                'error_message' => $e->getMessage(),
+                'stack_trace' => $e->getTraceAsString(),
             ]);
-            return redirect()->route('usuarios.carrito')->with('error','Ocurrió un error al procesar el pago.');
+            return redirect()->route('usuarios.carrito')->with('error', 'Ocurrió un error al procesar el pago.');
         }
     }
 
@@ -302,22 +338,25 @@ class UsuariosController extends Controller
             ->values();
 
         // limpiar cualquier salida previa (evita PDF corrupto)
-        if (ob_get_length()) { @ob_end_clean(); }
+        if (ob_get_length()) {
+            @ob_end_clean();
+        }
 
         $pdf = Pdf::loadView('receipt', [
             'reservation' => $reservation,
-            'mercados'    => $mercados,
+            'mercados' => $mercados,
         ])->setPaper('letter');
 
         $binary = $pdf->output();
 
         return response()->streamDownload(
-            function () use ($binary) { echo $binary; },
+            function () use ($binary) {
+                echo $binary; },
             'recibo_reserva_' . $reservation->id . '.pdf',
             [
-                'Content-Type'        => 'application/pdf',
-                'Cache-Control'       => 'private, must-revalidate, max-age=0',
-                'Pragma'              => 'public',
+                'Content-Type' => 'application/pdf',
+                'Cache-Control' => 'private, must-revalidate, max-age=0',
+                'Pragma' => 'public',
                 'Content-Disposition' => 'attachment; filename="recibo_reserva_' . $reservation->id . '.pdf"',
             ]
         );
@@ -341,15 +380,17 @@ class UsuariosController extends Controller
             ->unique('id')
             ->values();
 
-        if (ob_get_length()) { @ob_end_clean(); }
+        if (ob_get_length()) {
+            @ob_end_clean();
+        }
 
-        $pdf    = Pdf::loadView('receipt', ['reservation' => $reservation, 'mercados' => $mercados])->setPaper('letter');
+        $pdf = Pdf::loadView('receipt', ['reservation' => $reservation, 'mercados' => $mercados])->setPaper('letter');
         $binary = $pdf->output();
 
         return response($binary, 200, [
-            'Content-Type'        => 'application/pdf',
-            'Cache-Control'       => 'private, must-revalidate, max-age=0',
-            'Pragma'              => 'public',
+            'Content-Type' => 'application/pdf',
+            'Cache-Control' => 'private, must-revalidate, max-age=0',
+            'Pragma' => 'public',
             'Content-Disposition' => 'inline; filename="recibo_reserva_' . $reservation->id . '.pdf"',
         ]);
     }
@@ -357,9 +398,9 @@ class UsuariosController extends Controller
     public function carrito()
     {
         try {
-            $userid    = Auth::id();
+            $userid = Auth::id();
             $cartItems = Cart::with('product')->where('fk_user', $userid)->get();
-            $total     = $cartItems->reduce(fn($carry, $item) => $carry + ($item->product->price * $item->quantity), 0);
+            $total = $cartItems->reduce(fn($carry, $item) => $carry + ($item->product->price * $item->quantity), 0);
 
             return view('UserCarritoGeneral', compact('cartItems', 'total', 'userid'));
         } catch (\Exception $e) {
@@ -374,7 +415,7 @@ class UsuariosController extends Controller
         try {
             $reservation = Reservation::create([
                 'fk_user' => Auth::id(),
-                'total'   => 0,
+                'total' => 0,
             ]);
 
             $cartItems = Cart::where('fk_user', Auth::id())->get();
@@ -383,13 +424,13 @@ class UsuariosController extends Controller
             foreach ($cartItems as $item) {
                 ReservationItem::create([
                     'fk_reservation' => $reservation->id,
-                    'fk_product'     => $item->fk_product,
-                    'quantity'       => $item->quantity,
-                    'nombre'         => $item->product->nombre,
-                    'subtotal'       => $item->subtotal,
-                    'fk_vendedors'   => $item->product->vendedor->id,
-                    'fk_mercados'    => $item->product->vendedor->fk_mercado,
-                    'precio'         => $item->product->price
+                    'fk_product' => $item->fk_product,
+                    'quantity' => $item->quantity,
+                    'nombre' => $item->product->nombre,
+                    'subtotal' => $item->subtotal,
+                    'fk_vendedors' => $item->product->vendedor->id,
+                    'fk_mercados' => $item->product->vendedor->fk_mercado,
+                    'precio' => $item->product->price
                 ]);
                 $total += $item->subtotal;
             }
@@ -439,7 +480,7 @@ class UsuariosController extends Controller
 
         if ($item->reservation->user->id == Auth::id()) {
             $estadoValido = ['enviado', 'sin_existencias', 'en_espera', 'sin_espera', 'en_entrega', 'recibido', 'sin_recibir', 'problemas', 'archivado'];
-            $nuevoEstado  = $request->input('estado');
+            $nuevoEstado = $request->input('estado');
 
             if (in_array($nuevoEstado, $estadoValido)) {
                 $item->estado = $nuevoEstado;
@@ -450,12 +491,12 @@ class UsuariosController extends Controller
 
                 $checks = [
                     'sin_existencias' => 'sin_existencias',
-                    'en_espera'       => 'en_espera',
-                    'sin_espera'      => 'sin_espera',
-                    'en_entrega'      => 'en_entrega',
-                    'sin_recibir'     => 'sin_recibir',
-                    'problema'        => 'problema',
-                    'recibido'        => 'recibido',
+                    'en_espera' => 'en_espera',
+                    'sin_espera' => 'sin_espera',
+                    'en_entrega' => 'en_entrega',
+                    'sin_recibir' => 'sin_recibir',
+                    'problema' => 'problema',
+                    'recibido' => 'recibido',
                 ];
 
                 foreach ($checks as $estadoReserva => $valorFiltro) {

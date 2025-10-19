@@ -8,68 +8,84 @@ use App\Models\Vendedor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
-    // Mostrar formulario de login
+    // GET /login
     public function login()
     {
-        return view('LoginUser');
+        return view('LoginUser'); // o tu vista de login; el registro lo haces en registroUserblade
     }
 
-    // Registrar nuevo usuario
-    public function register(Request $request)
+    // POST /validar-registro
+    public function validarRegistro(Request $request)
     {
-        // Validación de los datos con mensajes personalizados
         $request->validate([
-            'usuario' => [
-                'required',
-                'email',
-                'max:255',
+            'usuario'  => [
+                'required','email','max:255',
                 function ($attribute, $value, $fail) {
-                    if (User::where('usuario', $value)->exists() ||
-                        Vendedor::where('usuario', $value)->exists() ||
-                        MercadoLocal::where('usuario', $value)->exists()) {
+                    if (User::where('usuario', $value)->exists()
+                        || Vendedor::where('usuario', $value)->exists()
+                        || MercadoLocal::where('usuario', $value)->exists()) {
                         $fail('El correo electrónico ya está en uso. Por favor, elige otro.');
                     }
                 },
             ],
-            'nombre' => 'required|string|max:255',
+            'nombre'   => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'telefono' => [
-                'required',
-                'string',
-                'max:15',
+                'required','string','max:20',
                 function ($attribute, $value, $fail) {
                     if (User::where('telefono', $value)->exists()) {
                         $fail('El número de teléfono ya está registrado.');
                     }
                 },
             ],
-            'sexo' => 'required|in:Masc,Fem',
+            'sexo'     => 'required|in:Masc,Fem',
             'password' => 'required|min:8|confirmed',
-        ], [
-            'usuario.required' => 'El correo electrónico es obligatorio.',
-            'usuario.email' => 'Debes ingresar un correo electrónico válido.',
-            'nombre.required' => 'El nombre es obligatorio.',
-            'apellido.required' => 'El apellido es obligatorio.',
-            'telefono.required' => 'El teléfono es obligatorio.',
-            'sexo.required' => 'Debes seleccionar tu sexo.',
-            'sexo.in' => 'Sexo inválido. Debe ser Masc o Fem.',
-            'password.required' => 'La contraseña es obligatoria.',
-            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
-            'password.confirmed' => 'Las contraseñas no coinciden. Por favor, verifica.',
+            'imagen_perfil' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
         ]);
 
-        // Crear el usuario
+        // === GUARDA EN /public/images y BD solo el NOMBRE (no "images/...") ===
+        $imageName = null;
+
+        if ($request->hasFile('imagen_perfil')) {
+            $file = $request->file('imagen_perfil');
+
+            // Asegura la carpeta /public/images
+            $imagesDir = public_path('images');
+            if (!is_dir($imagesDir)) {
+                @mkdir($imagesDir, 0775, true);
+            }
+
+            // Nombre único y legible
+            $base = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME), '_') ?: 'avatar';
+            $imageName = time().'_'.$base.'_'.Str::random(6).'.'.$file->getClientOriginalExtension();
+
+            // Mueve el archivo
+            $file->move($imagesDir, $imageName);
+
+            // Verifica que realmente se movió
+            if (!file_exists($imagesDir.DIRECTORY_SEPARATOR.$imageName)) {
+                return back()
+                    ->with('error', 'Error al guardar la imagen. Intenta de nuevo.')
+                    ->withInput();
+            }
+        } else {
+            return back()->with('error', 'No se recibió la imagen de perfil.')->withInput();
+        }
+
+        // Crea el usuario (imagen_perfil solo con el nombre)
         $user = User::create([
-            'usuario' => $request->usuario,
-            'password' => Hash::make($request->password),
-            'nombre' => $request->nombre,
-            'apellido' => $request->apellido,
-            'telefono' => $request->telefono,
-            'sexo' => $request->sexo,
-            'ROL' => 4, // Usuario normal
+            'usuario'       => $request->usuario,
+            'password'      => Hash::make($request->password),
+            'nombre'        => $request->nombre,
+            'apellido'      => $request->apellido,
+            'telefono'      => $request->telefono,
+            'sexo'          => $request->sexo,
+            'ROL'           => 4,              // usuario normal
+            'imagen_perfil' => $imageName,     // <-- SOLO nombre (ej: "hAw8lmcI9g....png")
         ]);
 
         Auth::login($user);
@@ -77,28 +93,27 @@ class LoginController extends Controller
         return redirect()->route('usuarios.index')->with('success', '¡Registro exitoso!');
     }
 
-    // Login de usuario
+    // POST /validar-login
     public function LoginUser(Request $request)
     {
         $request->validate([
-            'usuario' => 'required|string|email',
+            'usuario'  => 'required|string|email',
             'password' => 'required|string',
         ], [
-            'usuario.required' => 'El correo electrónico es obligatorio.',
-            'usuario.email' => 'Debes ingresar un correo electrónico válido.',
+            'usuario.required'  => 'El correo electrónico es obligatorio.',
+            'usuario.email'     => 'Debes ingresar un correo electrónico válido.',
             'password.required' => 'La contraseña es obligatoria.',
         ]);
 
         $credentials = $request->only('usuario', 'password');
-        $remember = $request->filled('remember');
+        $remember = $request->boolean('remember');
 
-        // Intentar login en tabla User
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
             return $this->redirectUser(Auth::user()->ROL);
         }
 
-        // Intentar login en tabla Vendedor
+        // Si manejas otros guards:
         $vendedor = Vendedor::where('usuario', $credentials['usuario'])->first();
         if ($vendedor && Hash::check($credentials['password'], $vendedor->password)) {
             Auth::guard('vendedor')->login($vendedor, $remember);
@@ -106,7 +121,6 @@ class LoginController extends Controller
             return $this->redirectUser(3);
         }
 
-        // Intentar login en tabla MercadoLocal
         $mercado = MercadoLocal::where('usuario', $credentials['usuario'])->first();
         if ($mercado && Hash::check($credentials['password'], $mercado->password)) {
             Auth::guard('mercado')->login($mercado, $remember);
@@ -114,37 +128,30 @@ class LoginController extends Controller
             return $this->redirectUser(2);
         }
 
-        // Si falla todo
-        return redirect()->back()->withErrors([
+        return back()->withErrors([
             'usuario' => 'Correo o contraseña incorrectos. Intenta de nuevo.',
         ])->withInput($request->only('usuario'));
     }
 
-    // Redirige según rol
     protected function redirectUser($rol)
     {
         switch ($rol) {
-            case 1:
-                return redirect()->intended('admin');
-            case 2:
-                return redirect()->intended('mercados');
-            case 3:
-                return redirect()->intended('vendedores');
-            case 4:
-                return redirect()->intended('usuarios');
+            case 1: return redirect()->intended('admin');
+            case 2: return redirect()->intended('mercados');
+            case 3: return redirect()->intended('vendedores');
+            case 4: return redirect()->intended('usuarios');
             default:
                 Auth::logout();
                 return redirect()->route('login')->with('error', 'Rol no reconocido.');
         }
     }
 
-    // Logout
+    // GET /logout
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return redirect()->route('login');
     }
 }

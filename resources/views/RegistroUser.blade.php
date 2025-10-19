@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @vite('resources/css/app.css')
     <link rel="shortcut icon" href="{{ asset('images/shop.png') }}" type="image/x-icon">
     <title>Registrar Usuario</title>
@@ -29,8 +29,8 @@
             </div>
 
             <!-- Formulario -->
-            <form method="POST" action="{{ route('validar-registro') }}" enctype="multipart/form-data" 
-                  class="space-y-4 max-w-sm mx-auto w-full">
+            <form method="POST" action="{{ route('validar-registro') }}" enctype="multipart/form-data"
+                class="space-y-4 max-w-sm mx-auto w-full">
                 @csrf
 
                 <!-- Email -->
@@ -81,6 +81,25 @@
                     <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
                 @enderror
 
+                <!-- Imagen de perfil (OBLIGATORIA) -->
+                <div class="space-y-2 mt-2">
+                    <label for="imagen_perfil" class="text-sm text-gray-700">Imagen de perfil (obligatoria)</label>
+                    <div class="flex items-center gap-4">
+                        <div class="h-20 w-20 rounded-full overflow-hidden ring-1 ring-gray-200 bg-gray-50">
+                            <img id="img-preview" class="w-full h-full object-cover hidden" alt="Vista previa" />
+                        </div>
+                        <div class="flex-1">
+                            <input type="file" name="imagen_perfil" id="imagen_perfil" accept="image/*" required
+                                class="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                            <span id="file-name" class="text-xs text-gray-500">Ningún archivo seleccionado</span>
+                            <p class="text-[11px] text-gray-400 mt-1">Formatos: JPG/PNG · Máx 2MB.</p>
+                        </div>
+                    </div>
+                    @error('imagen_perfil')
+                        <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <!-- Contraseña -->
                 <div class="flex flex-col">
                     <input type="password" name="password" id="password" placeholder="Contraseña"
@@ -93,7 +112,8 @@
 
                 <!-- Confirmar Contraseña -->
                 <div class="flex flex-col">
-                    <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirmar Contraseña"
+                    <input type="password" name="password_confirmation" id="password_confirmation"
+                        placeholder="Confirmar Contraseña"
                         class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none bg-transparent"
                         required>
                     @error('password_confirmation')
@@ -130,18 +150,50 @@
         </div>
 
         <!-- Sección derecha (Imagen y bienvenida) -->
-        <div class="hidden md:flex md:w-1/2 flex-col items-center justify-center bg-gradient-to-tr from-indigo-100 via-blue-50 to-white relative">
+        <div
+            class="hidden md:flex md:w-1/2 flex-col items-center justify-center bg-gradient-to-tr from-indigo-100 via-blue-50 to-white relative">
             <h3 class="font-bold text-3xl mb-4 text-gray-700">Crea tu Cuenta</h3>
-            <img class="w-[70%] drop-shadow-2xl animate-fade-in" src="{{ asset('images/imagenindex.png') }}" alt="Register Image">
-            <h3 class="mt-6 text-lg text-gray-600">Comienza tu experiencia en <span class="font-bold text-indigo-600">Tienda Kelly</span></h3>
+            <img class="w-[70%] drop-shadow-2xl animate-fade-in" src="{{ asset('images/imagenindex.png') }}"
+                alt="Register Image">
+            <h3 class="mt-6 text-lg text-gray-600">Comienza tu experiencia en <span
+                    class="font-bold text-indigo-600">Tienda Kelly</span></h3>
         </div>
     </div>
 
     <script>
-        document.getElementById('show-passwords').addEventListener('change', function () {
+        // Mostrar/Ocultar contraseñas
+        document.getElementById('show-passwords')?.addEventListener('change', function () {
             const passwords = document.querySelectorAll('#password, #password_confirmation');
             passwords.forEach(p => p.type = this.checked ? 'text' : 'password');
         });
+
+        // Vista previa de imagen + nombre de archivo
+        (function () {
+            const input = document.getElementById('imagen_perfil');
+            const preview = document.getElementById('img-preview');
+            const fileNameSpan = document.getElementById('file-name');
+
+            if (!input) return;
+
+            input.addEventListener('change', function (e) {
+                const file = this.files && this.files[0] ? this.files[0] : null;
+                if (!file) {
+                    if (preview) { preview.src = '#'; preview.classList.add('hidden'); }
+                    if (fileNameSpan) fileNameSpan.textContent = 'Ningún archivo seleccionado';
+                    return;
+                }
+                if (fileNameSpan) fileNameSpan.textContent = file.name;
+
+                const reader = new FileReader();
+                reader.onload = function (ev) {
+                    if (preview) {
+                        preview.src = ev.target.result;
+                        preview.classList.remove('hidden');
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        })();
     </script>
 </body>
 

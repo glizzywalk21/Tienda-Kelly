@@ -95,8 +95,8 @@ public function perfil()
                 $nombre = str_replace(' ', '_', strtolower($request->input('nombre')));
                 $imageName = "{$nombre}.png";
 
-                // Mover el archivo a la carpeta 'imgs' con el nuevo nombre
-                $request->file('imagen_referencia')->move(public_path('imgs'), $imageName);
+                // Mover el archivo a la carpeta 'images' con el nuevo nombre
+                $request->file('imagen_referencia')->move(public_path('images'), $imageName);
 
                 // Actualizar el nombre del archivo en los datos que se guardarán en la base de datos
                 $data['imagen_referencia'] = $imageName;
@@ -172,11 +172,11 @@ public function perfil()
         if ($request->hasFile('imagen_de_referencia')) {
             // Guardar la imagen
             $imageName = time() . '.' . $request->imagen_de_referencia->extension();
-            $request->imagen_de_referencia->move(public_path('imgs'), $imageName);
+            $request->imagen_de_referencia->move(public_path('images'), $imageName);
 
             // Eliminar la imagen antigua si existe
-            if ($vendedor->imagen_de_referencia && file_exists(public_path('imgs/' . $vendedor->imagen_de_referencia))) {
-                unlink(public_path('imgs/' . $vendedor->imagen_de_referencia));
+            if ($vendedor->imagen_de_referencia && file_exists(public_path('images/' . $vendedor->imagen_de_referencia))) {
+                unlink(public_path('images/' . $vendedor->imagen_de_referencia));
             }
 
             // Actualizar la referencia en la base de datos
@@ -261,7 +261,7 @@ public function perfil()
             $imageName = $request->nombre . '_' . $request->nombre_del_local . '.png';
 
             // Movimiento
-            $file->move(public_path('imgs'), $imageName);
+            $file->move(public_path('images'), $imageName);
             // Guardar
             $vendedor->imagen_de_referencia = $imageName;
         }

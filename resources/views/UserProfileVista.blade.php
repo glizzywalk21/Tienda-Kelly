@@ -35,10 +35,15 @@
         </p>
     </div>
 
-    <!-- Foto del usuario más abajo -->
+    <!-- Foto del usuario -->
     <div class="flex justify-center mt-10 animate-fadeInUp delay-400">
-        <img class="w-32 h-32 md:w-36 md:h-36 rounded-full border-4 border-indigo-500 shadow-2xl" 
-             src="{{ asset('storage/images/' . (Auth::user()->imagen_perfil ?? 'non-img.png')) }}" alt="Foto Usuario">
+        <img
+            class="w-32 h-32 md:w-36 md:h-36 rounded-full border-4 border-indigo-500 shadow-2xl object-cover"
+            src="{{ Auth::user()->avatar_url }}"
+            alt="Foto de {{ Auth::user()->nombre }} {{ Auth::user()->apellido }}"
+            loading="lazy"
+            decoding="async"
+            onerror="this.src='{{ asset('images/default-avatar.jpg') }}'">
     </div>
 
     <div class="flex justify-center mt-3">
@@ -51,8 +56,8 @@
     <!-- Información del usuario -->
     <div class="mt-6 text-center space-y-2">
         @auth
-        <div><span class="font-semibold text-lg">Usuario: </span> {{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</div>
-        <div><span class="font-semibold text-lg">Correo Electrónico: </span><br> {{ Auth::user()->usuario }}</div>
+            <div><span class="font-semibold text-lg">Usuario: </span> {{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</div>
+            <div><span class="font-semibold text-lg">Correo Electrónico: </span><br> {{ Auth::user()->usuario }}</div>
         @endauth
     </div>
 
@@ -87,5 +92,4 @@
     @include('components.footer')
 
 </body>
-
 </html>
