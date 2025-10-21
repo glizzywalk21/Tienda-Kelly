@@ -1,5 +1,5 @@
 <?php
-/***/
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,20 +12,20 @@ class Cart extends Model
     protected $fillable = [
         'fk_product',
         'fk_user',
-        'subtotal', // Añadimos fk_user a los campos fillable
+        'subtotal',
         'quantity',
-        'talla', // Se agrega talla para el campo de zapateria
+        'talla',
     ];
 
     public function product()
-{
-    return $this->belongsTo(Product::class, 'fk_product');
-}
-
+    {
+        // tu columna es fk_product
+        return $this->belongsTo(Product::class, 'fk_product');
+    }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        // IMPORTANTE: tu columna es fk_user (no user_id)
+        return $this->belongsTo(User::class, 'fk_user');
     }
 }
-

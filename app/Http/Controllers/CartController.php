@@ -1,31 +1,38 @@
 <?php
-/***/
+
 namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use App\Models\Cart;      // si lo usas en la lógica
+use App\Models\Product;   // si lo usas
+use Illuminate\Support\Facades\Auth;
 
-class Cart extends Model
+class CartController extends Controller
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'fk_product',
-        'fk_user',
-        'subtotal', // Añadimos fk_user a los campos fillable
-        'quantity',
-        'talla', // Se agrega talla para el campo de zapateria
-    ];
-
-    public function product()
-{
-    return $this->belongsTo(Product::class, 'fk_product');
-}
-
-
-    public function user()
+    public function index()
     {
-        return $this->belongsTo(User::class);
+        // Ejemplo mínimo (ajusta a tu vista real)
+        // $items = Cart::with('product')->where('fk_user', Auth::id())->get();
+        // return view('cart.index', compact('items'));
+        return response('Cart index', 200);
+    }
+
+    public function add($product)
+    {
+        // Tu lógica para agregar al carrito
+        // Cart::create([...]);
+        return back()->with('success', 'Producto agregado al carrito.');
+    }
+
+    public function remove($product)
+    {
+        // Tu lógica para eliminar del carrito
+        return back()->with('success', 'Producto eliminado del carrito.');
+    }
+
+    public function checkout(Request $request)
+    {
+        // Tu lógica de checkout
+        return back()->with('success', 'Checkout procesado.');
     }
 }
-

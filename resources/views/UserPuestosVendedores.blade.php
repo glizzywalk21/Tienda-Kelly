@@ -20,8 +20,15 @@
         }
 
         @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .btn-hover:hover {
@@ -40,7 +47,7 @@
             top: 0.5rem;
             left: 0.5rem;
             z-index: 10;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
@@ -50,12 +57,24 @@
     <!-- Navbar reutilizable -->
     @include('components.navbar')
 
+
+    <!-- BOTÓN DE REGRESO -->
+    <div class="m-6">
+        <button onclick="history.back()"
+            class="inline-flex items-center gap-2 rounded-full bg-indigo-600 text-white px-4 py-2 text-sm font-semibold shadow hover:bg-indigo-500 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+            Regresar
+        </button>
+    </div>
+
     <!-- Hero Banner Mercado -->
     <section class="relative w-full h-[350px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-b-3xl shadow-xl mt-6">
         <img class="w-full h-full object-cover object-center transform hover:scale-105 transition duration-700"
-             src="{{ asset('images/' . $mercadoLocal->imagen_referencia) }}"
-             alt="{{ $mercadoLocal->nombre }}">
-        
+            src="{{ asset('images/' . $mercadoLocal->imagen_referencia) }}" alt="{{ $mercadoLocal->nombre }}">
+
         <!-- Overlay gradiente para contraste con texto -->
         <div class="absolute inset-0 bg-gradient-to-b from-black/25 via-black/10 to-black/40"></div>
 
@@ -73,36 +92,37 @@
     <!-- Cartas de Vendedores -->
     <section class="max-w-7xl mx-auto mt-14 px-4 grid sm:grid-cols-2 md:grid-cols-3 gap-8 animate-fadeInUp">
         @foreach ($vendedors as $vendedor)
-        <a href="{{ route('usuarios.vendedor', $vendedor->id) }}"
-           class="relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2 btn-hover group">
-           
-            <!-- Badge Popular (ejemplo) -->
-            @if($vendedor->popular ?? false)
-            <span class="badge-popular">Popular</span>
-            @endif
+            <a href="{{ route('usuarios.vendedor', $vendedor->id) }}"
+                class="relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2 btn-hover group">
 
-            <div class="relative overflow-hidden">
-                <img class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500"
-                     src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}"
-                     alt="{{ $vendedor->nombre_del_local }}">
-            </div>
+                <!-- Badge Popular (ejemplo) -->
+                @if($vendedor->popular ?? false)
+                    <span class="badge-popular">Popular</span>
+                @endif
 
-            <div class="p-5 space-y-2">
-                <h3 class="font-bold text-xl">{{ $vendedor->nombre_del_local }}</h3>
-                <p class="text-gray-600">Tienda de {{ $vendedor->nombre }} {{ $vendedor->apellidos }}</p>
-                <div class="flex justify-between items-center mt-2">
-                    <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full font-semibold text-sm">
-                        {{ $vendedor->clasificacion }}
-                    </span>
-                    <div class="flex items-center gap-1">
-                        <span class="font-semibold">4.2</span>
-                        <img class="w-4" src="{{ asset('images/estrella.png') }}" alt="Estrella">
+                <div class="relative overflow-hidden">
+                    <img class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500"
+                        src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}"
+                        alt="{{ $vendedor->nombre_del_local }}">
+                </div>
+
+                <div class="p-5 space-y-2">
+                    <h3 class="font-bold text-xl">{{ $vendedor->nombre_del_local }}</h3>
+                    <p class="text-gray-600">Tienda de {{ $vendedor->nombre }} {{ $vendedor->apellidos }}</p>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full font-semibold text-sm">
+                            {{ $vendedor->clasificacion }}
+                        </span>
+                        <div class="flex items-center gap-1">
+                            <span class="font-semibold">4.5</span>
+                            <img class="w-4" src="{{ asset('images/estrella.png') }}" alt="Estrella">
+                        </div>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
         @endforeach
     </section>
+
 
     <!-- Paginación opcional -->
     <div class="max-w-7xl mx-auto my-10 flex justify-center gap-3">

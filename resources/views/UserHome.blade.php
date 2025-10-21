@@ -48,7 +48,7 @@
 
   <!-- Imagen principal -->
   <section class="mt-6 h-[60vh] rounded-xl shadow-inner mx-4 overflow-hidden">
-    <img src="{{ asset('images/bkg.jpg') }}" alt="Imagen principal" class="w-full h-full object-cover transition-transform hover:scale-105 duration-500">
+    <img src="{{ asset('images/indexTK.jpg') }}" alt="Imagen principal" class="w-full h-full object-cover transition-transform hover:scale-105 duration-500">
   </section>
 
   <!-- Mercados -->
@@ -105,6 +105,8 @@
       @endforeach
     </div>
   </section>
+
+  
 
   @include('components.footer')
 

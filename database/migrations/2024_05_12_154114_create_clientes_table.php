@@ -29,7 +29,7 @@ return new class extends Migration
         });
         $password = 'minishop1';
         $hash = Hash::make($password);
-        DB::insert('insert into clientes (id, ROL, usuario, password, nombre, apellido, telefono, sexo) values (?, ?, ?, ?, ?, ?, ?, ?)', [1, 1, 'admin@minishop.sv', $hash, 'Administrador', 'De MiniShop', NULL, NULL]);
+        DB::insert('insert into clientes (id, ROL, usuario, password, nombre, apellido, telefono, sexo) values (?, ?, ?, ?, ?, ?, ?, ?)', [1, 1, 'admin@tiendakelly.sv', $hash, 'Administrador', 'De Tienda Kelly', NULL, NULL]);
 
     }
 

@@ -60,7 +60,8 @@
                             <div class="mb-4 md:mb-0">
                                 <h2 class="text-xl md:text-2xl font-bold text-gray-900">Reserva #{{ $reservation->id }}</h2>
                                 <p class="text-gray-700 md:text-lg">
-                                    Pedido por: <span class="font-semibold">{{ $reservation->user->nombre }} {{ $reservation->user->apellido }}</span>
+                                    Pedido por: <span class="font-semibold">{{ $reservation->user->nombre }}
+                                        {{ $reservation->user->apellido }}</span>
                                 </p>
                                 <p class="mt-2">
                                     <span class="px-2 py-1 rounded font-semibold bg-gray-500 text-white">
@@ -74,9 +75,10 @@
                         {{-- Items --}}
                         <div class="p-6 space-y-4 md:space-y-6">
                             @foreach ($reservation->items as $item)
-                                <div class="flex flex-col md:flex-row items-center gap-4 p-4 bg-gray-100 rounded-xl shadow-sm card-hover">
-                                    <img src="{{ asset('images/'. $item->product->imagen_referencia) }}" alt="{{ $item->product->name }}"
-                                        class="w-24 h-24 md:w-32 md:h-32 object-cover rounded-md">
+                                <div
+                                    class="flex flex-col md:flex-row items-center gap-4 p-4 bg-gray-100 rounded-xl shadow-sm card-hover">
+                                    <img src="{{ asset('images/' . $item->product->imagen_referencia) }}"
+                                        alt="{{ $item->product->name }}" class="w-24 h-24 md:w-32 md:h-32 object-cover rounded-md">
                                     <div class="flex-1">
                                         <h3 class="font-bold text-gray-900 md:text-lg">
                                             {{ $item->product->name }} - {{ $item->product->vendedor->nombre_del_local }}
@@ -108,7 +110,7 @@
         @endif
     </main>
 
-    <!-- Footer -->
+   <!-- Footer -->
     @include('components.footer')
 
 </body>

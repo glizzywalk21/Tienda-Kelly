@@ -23,8 +23,7 @@
                 <!-- Descripción -->
                 <p class="hidden md:block text-gray-700 mt-6 text-lg leading-relaxed text-center">
                     En <span class="font-semibold text-indigo-600">Tienda Kelly</span> encuentras
-                    <span class="font-semibold">múltiples áreas</span>: abarrotes, frutas y verduras,
-                    carnes y embutidos, lácteos, bebidas, limpieza, cuidado personal, hogar y más.
+                    <span class="font-semibold">múltiples áreas</span>: alimentos, electrodomésticos, juguetes, zapatos, hogar y más.
                     Explora catálogos, reserva productos y recógelos cuando te convenga.
                 </p>
 

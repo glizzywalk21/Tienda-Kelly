@@ -29,7 +29,7 @@
             </div>
 
             <!-- Formulario -->
-            <form method="POST" action="{{ route('validar-registro') }}" enctype="multipart/form-data"
+            <form method="POST" action="{{ route('validarRegistro') }}" enctype="multipart/form-data"
                 class="space-y-4 max-w-sm mx-auto w-full">
                 @csrf
 

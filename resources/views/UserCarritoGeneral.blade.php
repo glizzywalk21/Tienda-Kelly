@@ -23,7 +23,38 @@
 <body class="bg-gradient-to-b from-indigo-50 via-blue-50 to-white flex flex-col min-h-screen">
   @include('components.navbar')
 
-  <main class="flex-1 max-w-7xl mx-auto p-4 mt-10 fadeInUp">
+  <!-- BOTÓN FIJO: Seguir comprando (Glass iOS) -->
+  <div class="fixed left-4 top-6 md:top-28 m-4 z-50">
+    <div class="relative inline-block">
+      <!-- Fondo local para que el blur se note -->
+      <div class="absolute -inset-3 -z-10 rounded-3xl
+                  bg-[radial-gradient(120%_120%_at_0%_0%,rgba(147,197,253,0.45)_0%,transparent_60%),radial-gradient(120%_120%_at_100%_100%,rgba(196,181,253,0.45)_0%,transparent_60%)]">
+      </div>
+
+      <a href="{{ route('usuarios.index') }}"
+         class="group relative inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm font-semibold text-black
+                bg-white/25 hover:bg-white/30 active:bg-white/35
+                backdrop-blur-2xl backdrop-saturate-150
+                border border-white/50 ring-1 ring-black/5
+                shadow-[inset_0_1px_0_rgba(255,255,255,0.65),0_8px_22px_rgba(0,0,0,0.12)]
+                transition-all duration-300 active:scale-[0.98]
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20">
+        <span class="pointer-events-none absolute inset-0 rounded-2xl
+                     before:content-[''] before:absolute before:inset-0 before:rounded-2xl
+                     before:bg-gradient-to-b before:from-white/70 before:to-white/15 before:opacity-60
+                     after:content-[''] after:absolute after:inset-x-2 after:top-0 after:h-px after:bg-white/80 after:rounded-full"></span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="1.5"
+             class="w-5 h-5 shrink-0 text-black/90 transition-transform duration-300 group-hover:-translate-x-0.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+        </svg>
+        <span class="relative z-10">Seguir comprando</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Agregamos padding-top para no superponer el botón -->
+  <main class="flex-1 max-w-7xl mx-auto p-4 pt-16 md:pt-20 mt-10 fadeInUp">
     <h1 class="text-3xl md:text-5xl font-extrabold text-center mb-12">Mi Carrito</h1>
 
     @if (session('success'))
@@ -233,7 +264,7 @@
 
         // === Solo 16 dígitos ===
         function formatCardNumber(raw){
-          const digits=onlyDigits(raw).slice(0,16);        // límite duro
+          const digits=onlyDigits(raw).slice(0,16);
           const formatted=digits.replace(/(.{4})/g,'$1 ').trim();
           return {digits,formatted};
         }
@@ -324,5 +355,6 @@
       }
     });
   </script>
+
 </body>
 </html>

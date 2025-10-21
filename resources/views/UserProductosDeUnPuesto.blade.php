@@ -18,8 +18,15 @@
         }
 
         @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -31,8 +38,22 @@
 
     <!-- Perfil del Vendedor -->
     <section class="max-w-7xl mx-auto mt-10 px-4 md:px-0 text-center animate-fadeInUp">
+
+
+        <!-- BOTÓN DE REGRESO -->
+        <div class="m-6">
+            <button onclick="history.back()"
+                class="inline-flex items-center gap-2 rounded-full bg-indigo-600 text-white px-4 py-2 text-sm font-semibold shadow hover:bg-indigo-500 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+                Regresar
+            </button>
+        </div>
+
         <img class="w-40 h-40 md:w-60 md:h-60 rounded-full mx-auto object-cover shadow-lg"
-             src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}" alt="{{ $vendedor->nombre_del_local }}">
+            src="{{ asset('images/' . $vendedor->imagen_de_referencia) }}" alt="{{ $vendedor->nombre_del_local }}">
         <h1 class="text-3xl md:text-5xl font-extrabold mt-4">{{ $vendedor->nombre_del_local }}</h1>
         <p class="text-gray-600 mt-1 md:text-lg">
             Puesto #{{ $vendedor->numero_puesto }} - <span class="font-semibold">{{ $mercadoLocal->nombre }}</span>
@@ -42,25 +63,24 @@
     <!-- Productos -->
     <section class="max-w-7xl mx-auto mt-12 px-4 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         @foreach ($products as $product)
-        <a href="{{ route('usuarios.producto', $product->id) }}"
-           class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transform hover:-translate-y-2 btn-hover group transition">
-            <div class="relative overflow-hidden">
-                <img class="w-full h-64 object-cover group-hover:scale-110 transition duration-500"
-                     src="{{ asset('images/' . $product->imagen_referencia) }}"
-                     alt="{{ $product->name }}">
-            </div>
-            <div class="p-4 space-y-2">
-                <h2 class="font-bold text-xl uppercase">{{ $product->name }}</h2>
-                <p class="text-gray-600 text-sm">{{ $product->description }}</p>
-                <div class="flex justify-between items-center mt-2">
-                    <span class="text-indigo-600 font-bold text-lg">${{ $product->price }}</span>
-                    <div class="flex items-center gap-1">
-                        <span class="font-semibold">4.2</span>
-                        <img class="w-4" src="{{ asset('images/estrella.png') }}" alt="Estrella">
+            <a href="{{ route('usuarios.producto', $product->id) }}"
+                class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transform hover:-translate-y-2 btn-hover group transition">
+                <div class="relative overflow-hidden">
+                    <img class="w-full h-64 object-cover group-hover:scale-110 transition duration-500"
+                        src="{{ asset('images/' . $product->imagen_referencia) }}" alt="{{ $product->name }}">
+                </div>
+                <div class="p-4 space-y-2">
+                    <h2 class="font-bold text-xl uppercase">{{ $product->name }}</h2>
+                    <p class="text-gray-600 text-sm">{{ $product->description }}</p>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-indigo-600 font-bold text-lg">${{ $product->price }}</span>
+                        <div class="flex items-center gap-1">
+                            <span class="font-semibold">4.2</span>
+                            <img class="w-4" src="{{ asset('images/estrella.png') }}" alt="Estrella">
+                        </div>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
         @endforeach
     </section>
 

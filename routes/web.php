@@ -25,7 +25,7 @@ Route::post('/inicia-sesion', [LoginController::class, 'loginUser'])->name('inic
 Route::view('/', 'Index')->name('Index');
 Route::view('/LoginUser', 'LoginUser')->name('LoginUser');
 Route::view('/RegistroUser', 'RegistroUser')->name('RegistroUser');
-Route::post('/validar-registro', [LoginController::class, 'register'])->name('validar-registro');
+Route::post('/validar-registro', [LoginController::class, 'validarRegistro'])->name('validarRegistro');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 /* ---------- Vistas de perfiles (solo render) ---------- */
