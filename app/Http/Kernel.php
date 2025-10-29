@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    
         ],
 
         'api' => [
@@ -71,6 +72,8 @@ class Kernel extends HttpKernel
 
     // Otros middlewares...
     'check.user.session' => \App\Http\Middleware\CheckUserSession::class,
+    'check.user.exists' => \App\Http\Middleware\CheckUserStillExists::class,
+    
 ];
 
 }

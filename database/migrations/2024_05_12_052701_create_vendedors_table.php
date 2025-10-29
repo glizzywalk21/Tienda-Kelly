@@ -60,7 +60,7 @@ return new class extends Migration
             'nombre' => 'Juan',
             'apellidos' => 'Pérez',
             'nombre_del_local' => 'Electrodomésticos',
-            'imagen_de_referencia' => 'juanperez.jpg',
+            'imagen_de_referencia' => '20220045.jpg',
             'telefono' => '75412345',
             'numero_puesto' => '2',
             'fk_mercado' => 2,

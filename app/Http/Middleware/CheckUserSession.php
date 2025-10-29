@@ -1,31 +1,39 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use App\Models\User;
 
 class CheckUserSession
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
     public function handle($request, Closure $next)
     {
-        // Check if any guard is authenticated
-        if (!Auth::check() && !Auth::guard('vendedor')->check() && !Auth::guard('mercado')->check()) {
-            return response()->view('auth.login-required');
+        // 🔐 Verificar si hay sesión en cualquier guard
+        if (!Auth::guard('web')->check() && !Auth::guard('admin')->check()) {
+            return redirect()->route('login')->with('error', 'Sesión expirada o cerrada.');
         }
 
-        $response = $next($request);
+        // 📌 Si hay usuario logueado en 'web', verificar si aún existe
+        if (Auth::guard('web')->check()) {
+            $user = Auth::guard('web')->user();
+            if (!$user || !User::where('id', $user->id)->exists()) {
+                Auth::guard('web')->logout();
+                Session::flush();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
 
-        // Disable browser cache for protected routes
-        return $response->header('Cache-Control', 'no-cache, no-store, must-revalidate')
-                        ->header('Pragma', 'no-cache')
-                        ->header('Expires', '0');
+                return redirect()->route('login')->with('error', 'Tu cuenta fue eliminada.');
+            }
+        }
+        
+        if (!Auth::guard('web')->check() && !Auth::guard('admin')->check()) {
+            return redirect()->route('login');
+        }
+
+        // 🚫 No hacer logout si es admin
+        return $next($request);
     }
 }
-

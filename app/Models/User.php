@@ -1,5 +1,5 @@
 <?php
-/***/
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +12,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    /** =====================================================
+     *  CAMPOS PERMITIDOS
+     *  ===================================================== */
     protected $fillable = [
         'usuario',
         'password',
@@ -23,21 +26,52 @@ class User extends Authenticatable
         'ROL',
     ];
 
-    protected $hidden = ['password','remember_token'];
+    /** =====================================================
+     *  CAMPOS OCULTOS EN RESPUESTAS
+     *  ===================================================== */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
-    protected $casts = ['email_verified_at' => 'datetime'];
+    /** =====================================================
+     *  CASTS Y ATRIBUTOS EXTRAS
+     *  ===================================================== */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 
-    protected $appends = ['avatar_url'];
+    protected $appends = [
+        'avatar_url',
+    ];
 
+    /** =====================================================
+     *  RELACIONES
+     *  ===================================================== */
+    public function sessions()
+    {
+        return $this->hasMany(\App\Models\Session::class, 'user_id');
+    }
+
+    public function reservas()
+    {
+        return $this->hasMany(Reservation::class, 'fk_user');
+    }
+
+    /** =====================================================
+     *  GETTER PARA AVATAR
+     *  ===================================================== */
     public function getAvatarUrlAttribute(): string
     {
         $ruta = $this->imagen_perfil;
         $fallback = asset('images/default-avatar.jpg');
 
-        if (!$ruta) return $fallback;
+        if (!$ruta) {
+            return $fallback;
+        }
 
-        // URL absoluta
-        if (Str::startsWith($ruta, ['http://','https://'])) {
+        // URL absoluta (por si viene de red externa)
+        if (Str::startsWith($ruta, ['http://', 'https://'])) {
             return $ruta;
         }
 
@@ -49,11 +83,6 @@ class User extends Authenticatable
             return asset($ruta);
         }
 
-        return asset('images/'.$ruta);
-    }
-
-    public function user()
-    {
-        return $this->hasMany(Reservation::class, 'fk_user');
+        return asset('images/' . $ruta);
     }
 }

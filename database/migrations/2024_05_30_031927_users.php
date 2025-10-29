@@ -26,10 +26,39 @@ return new class extends Migration
             $table->rememberToken();
         });
 
-        // Agregar un usuario admin general por defecto
-        $password = 'minishop1';
-        $hash = Hash::make($password);
-        DB::insert('insert into users (id, ROL, usuario, password, nombre, apellido, telefono, sexo) values (?, ?, ?, ?, ?, ?, ?, ?)', [1, 1, 'admin@tiendakelly.sv', $hash, 'Administrador', 'De Tienda Kelly', NULL, NULL]);
+        $usuarios = [
+            [
+                'ROL' => 4,
+                'usuario' => 'jose.lopez@tiendakelly.sv',
+                'password' => Hash::make('jose123'),
+                'nombre' => 'José',
+                'apellido' => 'López Martínez',
+                'telefono' => '78451236',
+                'sexo' => 'M'
+            ],
+            [
+                'ROL' => 4,
+                'usuario' => 'maria.reyes@tiendakelly.sv',
+                'password' => Hash::make('maria456'),
+                'nombre' => 'María',
+                'apellido' => 'Reyes Gómez',
+                'telefono' => '76984521',
+                'sexo' => 'F'
+            ],
+            [
+                'ROL' => 4,
+                'usuario' => 'carlos.mendez@tiendakelly.sv',
+                'password' => Hash::make('carlos789'),
+                'nombre' => 'Carlos',
+                'apellido' => 'Méndez Castillo',
+                'telefono' => '71569384',
+                'sexo' => 'M'
+            ]
+        ];
+
+        foreach ($usuarios as $u) {
+            DB::table('users')->insert($u);
+        }
     }
 
     /**

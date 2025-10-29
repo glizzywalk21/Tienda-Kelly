@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -24,8 +28,8 @@ class AdminController extends Controller
     {
         $id = 1;
         $mercadoLocals = MercadoLocal::paginate();
-        $vendedors     = Vendedor::paginate();
-        $clientes      = User::where('id', $id)->get();
+        $vendedors = Vendedor::paginate();
+        $clientes = User::where('id', $id)->get();
 
         return view('AdminHome', compact('mercadoLocals', 'vendedors', 'clientes'))
             ->with('i', (request()->input('page', 1) - 1) * $mercadoLocals->perPage());
@@ -41,22 +45,22 @@ class AdminController extends Controller
     {
         $request->validate([
             'imagen_referencia' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'nombre'            => 'required|string|max:255',
-            'descripcion'       => 'required|string|max:500',
-            'email'             => 'required|email|unique:mercado_locals,usuario',
-            'password'          => 'required|string|min:6',
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:500',
+            'email' => 'required|email|unique:mercado_locals,usuario',
+            'password' => 'required|string|min:6',
         ]);
 
         $mercadolocal = new MercadoLocal();
-        $mercadolocal->nombre       = $request->nombre;
-        $mercadolocal->descripcion  = $request->descripcion;
-        $mercadolocal->usuario      = $request->email;
-        $mercadolocal->password     = Hash::make($request->password);
+        $mercadolocal->nombre = $request->nombre;
+        $mercadolocal->descripcion = $request->descripcion;
+        $mercadolocal->usuario = $request->email;
+        $mercadolocal->password = Hash::make($request->password);
 
         // Subir imagen a /public/images
         if ($request->hasFile('imagen_referencia')) {
             $image = $request->file('imagen_referencia');
-            $dir   = public_path('images');
+            $dir = public_path('images');
             if (!File::exists($dir)) {
                 File::makeDirectory($dir, 0755, true);
             }
@@ -68,17 +72,17 @@ class AdminController extends Controller
         $mercadolocal->save();
 
         return redirect()->route('admin.index')->with([
-            'success'  => 'Mercado registrado correctamente',
-            'usuario'  => $request->email,
+            'success' => 'Mercado registrado correctamente',
+            'usuario' => $request->email,
             'password' => $request->password,
-            'nombre'   => $mercadolocal->nombre,
+            'nombre' => $mercadolocal->nombre,
         ]);
     }
 
     public function vermercados($id)
     {
         $mercadoLocal = MercadoLocal::find($id);
-        $vendedors    = Vendedor::where('fk_mercado', $id)->get();
+        $vendedors = Vendedor::where('fk_mercado', $id)->get();
 
         return view('AdminMercadoEspecifico', compact('mercadoLocal', 'vendedors'));
     }
@@ -96,13 +100,13 @@ class AdminController extends Controller
         $mercadoLocal = MercadoLocal::findOrFail($id);
 
         $validated = $request->validate([
-            'nombre'       => 'required|string|max:255',
-            'descripcion'  => 'required|string|max:500',
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:500',
             'nueva_imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         // Actualizar texto
-        $mercadoLocal->nombre      = $validated['nombre'];
+        $mercadoLocal->nombre = $validated['nombre'];
         $mercadoLocal->descripcion = $validated['descripcion'];
 
         // Imagen (opcional) -> /public/images
@@ -140,8 +144,8 @@ class AdminController extends Controller
     {
         $registro = MercadoLocal::find($id);
         if ($registro) {
-            if ($registro->imagen_referencia && File::exists(public_path('images/'.$registro->imagen_referencia))) {
-                @unlink(public_path('images/'.$registro->imagen_referencia));
+            if ($registro->imagen_referencia && File::exists(public_path('images/' . $registro->imagen_referencia))) {
+                @unlink(public_path('images/' . $registro->imagen_referencia));
             }
             $registro->delete();
         }
@@ -169,47 +173,49 @@ class AdminController extends Controller
     public function guardarvendedores(\App\Http\Requests\VendedorRequest $request)
     {
         $validator = Validator::make($request->all(), [
-            'usuario'               => 'required|email|unique:vendedors,usuario',
-            'imagen_de_referencia'  => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'nombre'                => 'required|string|max:255',
-            'nombre_del_local'      => 'required|string|max:255',
-            'apellidos'             => 'required|string|max:255',
-            'telefono'              => 'required|string|max:20|unique:vendedors,telefono',
-            'numero_puesto'         => 'required|integer|min:1',
-            'password'              => 'required|string|min:8|confirmed',
-            'fk_mercado'            => 'required|exists:mercado_locals,id',
+            'usuario' => 'required|email|unique:vendedors,usuario',
+            'imagen_de_referencia' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'nombre' => 'required|string|max:255',
+            'nombre_del_local' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'telefono' => 'required|string|max:20|unique:vendedors,telefono',
+            'numero_puesto' => 'required|integer|min:1',
+            'password' => 'required|string|min:8|confirmed',
+            'fk_mercado' => 'required|exists:mercado_locals,id',
         ], [
-            'password.min'        => 'La contraseña debe tener al menos 8 caracteres.',
-            'password.confirmed'  => 'Las contraseñas no coinciden.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        if (Vendedor::where('fk_mercado', $request->fk_mercado)
-            ->where('numero_puesto', $request->numero_puesto)->exists()) {
+        if (
+            Vendedor::where('fk_mercado', $request->fk_mercado)
+                ->where('numero_puesto', $request->numero_puesto)->exists()
+        ) {
             return back()->withInput()
                 ->with('error', 'Ya existe un vendedor con el mismo Número de Puesto en este Mercado.');
         }
 
         $vendedor = new Vendedor();
-        $vendedor->usuario          = $request->usuario;
-        $vendedor->nombre           = $request->nombre;
+        $vendedor->usuario = $request->usuario;
+        $vendedor->nombre = $request->nombre;
         $vendedor->nombre_del_local = $request->nombre_del_local;
-        $vendedor->apellidos        = $request->apellidos;
-        $vendedor->telefono         = $request->telefono;
-        $vendedor->numero_puesto    = $request->numero_puesto;
-        $vendedor->fk_mercado       = $request->fk_mercado;
-        $vendedor->password         = Hash::make($request->password);
+        $vendedor->apellidos = $request->apellidos;
+        $vendedor->telefono = $request->telefono;
+        $vendedor->numero_puesto = $request->numero_puesto;
+        $vendedor->fk_mercado = $request->fk_mercado;
+        $vendedor->password = Hash::make($request->password);
 
         if ($request->hasFile('imagen_de_referencia')) {
-            $file      = $request->file('imagen_de_referencia');
-            $dir       = public_path('images');
+            $file = $request->file('imagen_de_referencia');
+            $dir = public_path('images');
             if (!File::exists($dir)) {
                 File::makeDirectory($dir, 0755, true);
             }
-            $imageName = str_replace(' ', '_', $request->nombre.'_'.$request->nombre_del_local).'.png';
+            $imageName = str_replace(' ', '_', $request->nombre . '_' . $request->nombre_del_local) . '.png';
             $file->move($dir, $imageName);
             $vendedor->imagen_de_referencia = $imageName;
         }
@@ -223,10 +229,11 @@ class AdminController extends Controller
     public function vervendedores($id)
     {
         $vendedor = Vendedor::find($id);
-        if (!$vendedor) return back()->with('error', 'Vendedor no encontrado');
+        if (!$vendedor)
+            return back()->with('error', 'Vendedor no encontrado');
 
         $mercadoLocal = $vendedor->mercadoLocal;
-        $products     = Product::where('fk_vendedors', $id)->paginate();
+        $products = Product::where('fk_vendedors', $id)->paginate();
 
         return view('AdminPuestoDelVendedor', compact('vendedor', 'mercadoLocal', 'products'))
             ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
@@ -242,16 +249,18 @@ class AdminController extends Controller
     public function actualizarvendedor(Request $request, $id)
     {
         $request->validate([
-            'usuario'         => ['required','email','max:255', Rule::unique('vendedors','usuario')->ignore($id)],
-            'password'        => 'nullable|string|min:8|confirmed',
-            'nombre'          => 'required|string|max:255',
-            'nombre_del_local'=> 'required|string|max:255',
-            'apellidos'       => 'required|string|max:255',
-            'telefono'        => ['required','string','max:255', Rule::unique('vendedors','telefono')->ignore($id)],
-            'fk_mercado'      => ['required','integer', Rule::exists('mercado_locals','id')],
-            'numero_puesto'   => [
-                'required','integer','min:1',
-                Rule::unique('vendedors','numero_puesto')->ignore($id)
+            'usuario' => ['required', 'email', 'max:255', Rule::unique('vendedors', 'usuario')->ignore($id)],
+            'password' => 'nullable|string|min:8|confirmed',
+            'nombre' => 'required|string|max:255',
+            'nombre_del_local' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'telefono' => ['required', 'string', 'max:255', Rule::unique('vendedors', 'telefono')->ignore($id)],
+            'fk_mercado' => ['required', 'integer', Rule::exists('mercado_locals', 'id')],
+            'numero_puesto' => [
+                'required',
+                'integer',
+                'min:1',
+                Rule::unique('vendedors', 'numero_puesto')->ignore($id)
                     ->where(fn($q) => $q->where('fk_mercado', $request->fk_mercado)),
             ],
             'imagen_de_referencia' => 'nullable|image|max:2048',
@@ -259,29 +268,29 @@ class AdminController extends Controller
 
         $vendedor = Vendedor::findOrFail($id);
 
-        $vendedor->usuario          = $request->input('usuario');
-        $vendedor->nombre           = $request->input('nombre');
+        $vendedor->usuario = $request->input('usuario');
+        $vendedor->nombre = $request->input('nombre');
         $vendedor->nombre_del_local = $request->input('nombre_del_local');
-        $vendedor->apellidos        = $request->input('apellidos');
-        $vendedor->telefono         = $request->input('telefono');
-        $vendedor->numero_puesto    = $request->input('numero_puesto');
-        $vendedor->fk_mercado       = $request->input('fk_mercado');
+        $vendedor->apellidos = $request->input('apellidos');
+        $vendedor->telefono = $request->input('telefono');
+        $vendedor->numero_puesto = $request->input('numero_puesto');
+        $vendedor->fk_mercado = $request->input('fk_mercado');
 
         if ($request->filled('password')) {
             $vendedor->password = Hash::make($request->input('password'));
         }
 
         if ($request->hasFile('imagen_de_referencia')) {
-            $image     = $request->file('imagen_de_referencia');
-            $dir       = public_path('images');
+            $image = $request->file('imagen_de_referencia');
+            $dir = public_path('images');
             if (!File::exists($dir)) {
                 File::makeDirectory($dir, 0755, true);
             }
-            $imageName = time().'.'.$image->extension();
+            $imageName = time() . '.' . $image->extension();
             $image->move($dir, $imageName);
 
-            if ($vendedor->imagen_de_referencia && File::exists(public_path('images/'.$vendedor->imagen_de_referencia))) {
-                @unlink(public_path('images/'.$vendedor->imagen_de_referencia));
+            if ($vendedor->imagen_de_referencia && File::exists(public_path('images/' . $vendedor->imagen_de_referencia))) {
+                @unlink(public_path('images/' . $vendedor->imagen_de_referencia));
             }
             $vendedor->imagen_de_referencia = $imageName;
         }
@@ -297,8 +306,8 @@ class AdminController extends Controller
         $vendedor = Vendedor::find($id);
         if ($vendedor) {
             User::where('usuario', $vendedor->usuario)->delete();
-            if ($vendedor->imagen_de_referencia && File::exists(public_path('images/'.$vendedor->imagen_de_referencia))) {
-                @unlink(public_path('images/'.$vendedor->imagen_de_referencia));
+            if ($vendedor->imagen_de_referencia && File::exists(public_path('images/' . $vendedor->imagen_de_referencia))) {
+                @unlink(public_path('images/' . $vendedor->imagen_de_referencia));
             }
             $vendedor->delete();
         }
@@ -317,11 +326,50 @@ class AdminController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * $clientes->perPage());
     }
 
-    public function eliminarclientes($id)
-    {
-        User::find($id)?->delete();
-        return redirect()->route('admin.clientes')->with('success', 'Cliente eliminado correctamente');
+public function eliminarclientes($id)
+{
+    try {
+        // Buscar al usuario
+        $cliente = \App\Models\User::find($id);
+
+        if (!$cliente) {
+            return redirect()->back()->with('error', 'El usuario no existe.');
+        }
+
+        // Evitar que el admin se elimine a sí mismo
+        if (Auth::guard('admin')->check() && Auth::guard('admin')->id() == $id) {
+            return redirect()->back()->with('error', 'No puedes eliminar tu propia cuenta mientras estás conectado.');
+        }
+
+        // Eliminar usuario de la base de datos
+        $cliente->delete();
+
+        // ✅ No eliminar sesiones aquí mismo para no invalidar el token CSRF del admin
+        // En lugar de eso, marcamos para limpiar después
+        register_shutdown_function(function () use ($id) {
+            try {
+                $sessions = \DB::table('sessions')->get();
+                foreach ($sessions as $session) {
+                    $payload = @unserialize(@base64_decode($session->payload));
+                    if (is_array($payload) && array_key_exists('login_web_' . $id, $payload)) {
+                        \DB::table('sessions')->where('id', $session->id)->delete();
+                    }
+                }
+            } catch (\Throwable $e) {
+                \Log::warning('Error al limpiar sesiones diferidas: ' . $e->getMessage());
+            }
+        });
+
+        // Redirigir sin afectar la sesión actual del admin
+        return redirect()->back()->with('success', 'Usuario eliminado correctamente.');
+
+    } catch (\Throwable $e) {
+        \Log::error('Error al eliminar cliente: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'Error interno al eliminar el usuario.');
     }
+}
+
+
 
     /** ---------------------------
      *  PRODUCTO
@@ -330,7 +378,8 @@ class AdminController extends Controller
     public function verproducto($id)
     {
         $product = Product::find($id);
-        if (!$product) return back()->with('error', 'Producto no encontrado.');
+        if (!$product)
+            return back()->with('error', 'Producto no encontrado.');
 
         $vendedor = $product->vendedor;
         $products = Product::where('fk_vendedors', $product->fk_vendedors)

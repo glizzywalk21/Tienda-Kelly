@@ -13,9 +13,19 @@ return [
             'provider' => 'users',
         ],
 
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'clientes', // ✅ apunta correctamente
+        ],
+
+        'cliente' => [
+            'driver' => 'session',
+            'provider' => 'clientes', // opcional, si también usás este guard
+        ],
+
         'vendedor' => [
             'driver' => 'session',
-            'provider' => 'vendedores', // Asegúrate de que coincida con el nombre correcto en 'providers'
+            'provider' => 'vendedores',
         ],
 
         'mercado' => [
@@ -30,14 +40,19 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'mercados' => [
+        'clientes' => [
             'driver' => 'eloquent',
-            'model' => App\Models\MercadoLocal::class,
+            'model' => App\Models\Cliente::class, // ✅ asegurate de tener este modelo
         ],
 
         'vendedores' => [
             'driver' => 'eloquent',
             'model' => App\Models\Vendedor::class,
+        ],
+
+        'mercados' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\MercadoLocal::class,
         ],
     ],
 
@@ -67,4 +82,3 @@ return [
     'password_timeout' => 10800,
 
 ];
-    
