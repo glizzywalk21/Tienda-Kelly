@@ -23,10 +23,9 @@
 <body class="bg-gradient-to-b from-indigo-50 via-blue-50 to-white flex flex-col min-h-screen">
   @include('components.navbar')
 
-  <!-- BOTÓN FIJO: Seguir comprando (Glass iOS) -->
+  <!-- BOTÓN FIJO: Seguir comprando -->
   <div class="fixed left-4 top-6 md:top-28 m-4 z-50">
     <div class="relative inline-block">
-      <!-- Fondo local para que el blur se note -->
       <div class="absolute -inset-3 -z-10 rounded-3xl
                   bg-[radial-gradient(120%_120%_at_0%_0%,rgba(147,197,253,0.45)_0%,transparent_60%),radial-gradient(120%_120%_at_100%_100%,rgba(196,181,253,0.45)_0%,transparent_60%)]">
       </div>
@@ -53,7 +52,6 @@
     </div>
   </div>
 
-  <!-- Agregamos padding-top para no superponer el botón -->
   <main class="flex-1 max-w-7xl mx-auto p-4 pt-16 md:pt-20 mt-10 fadeInUp">
     <h1 class="text-3xl md:text-5xl font-extrabold text-center mb-12">Mi Carrito</h1>
 
@@ -109,7 +107,12 @@
               @endforeach
             </div>
 
-            <form id="form-reserva-wrapper" action="{{ route('usuarios.reservar') }}" method="POST" class="w-full text-center mb-4" style="display:none;">
+            <!-- FORM GUARDAR RESERVA (apartado sin pagar) -->
+            <form id="form-reserva-wrapper"
+                  action="{{ route('usuarios.reservar') }}"
+                  method="POST"
+                  class="w-full text-center mb-4"
+                  style="display:none;">
               @csrf
               @if ($cartItems->isEmpty() || $total < 5)
                 <button type="button" class="w-full bg-gray-400 text-white font-semibold px-8 py-3 rounded-2xl cursor-not-allowed">Guardar Reserva</button>
@@ -117,12 +120,15 @@
                   <p class="mt-2 text-gray-600 text-center">Pedido mínimo $5 para reservar.</p>
                 @endif
               @else
-                <button type="submit" id="btn-guardar-reserva" class="w-full bg-gradient-to-r from-green-400 to-emerald-500 hover:from-emerald-500 hover:to-green-400 text-white font-semibold px-8 py-3 rounded-2xl transition btn-hover">
+                <button type="submit"
+                        id="btn-guardar-reserva"
+                        class="w-full bg-gradient-to-r from-green-400 to-emerald-500 hover:from-emerald-500 hover:to-green-400 text-white font-semibold px-8 py-3 rounded-2xl transition btn-hover">
                   Guardar Reserva
                 </button>
               @endif
             </form>
 
+            <!-- BLOQUE DE PAGO INMEDIATO -->
             <div class="payment-container w-full" id="payment-container">
               @php $eligible = $total >= 5; @endphp
               <button id="btn-pagar-total" class="w-full btn-hover {{ $eligible ? '' : 'disabled-btn' }}" style="background-color:#10b981;color:white;padding:12px 15px;border:none;border-radius:8px;font-weight:700;font-size:1.1em;" {{ $eligible ? '' : 'disabled' }}>
@@ -202,6 +208,7 @@
     </div>
   </footer>
 
+  <!-- MODAL -->
   <div id="successModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
     <div class="bg-white rounded-2xl shadow-2xl p-6 w-11/12 max-w-md relative">
       <button id="closeSuccessModalBtn" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition p-2 rounded-full hover:bg-gray-100">
@@ -229,7 +236,7 @@
       okBtn?.addEventListener('click',closeSuccessModal);
       successModal?.addEventListener('click',e=>{if(e.target===successModal)closeSuccessModal();});
 
-      // Pago
+      // Pago con tarjeta (flujo inmediato)
       const total=parseFloat('{{ number_format($total, 2, ".", "") }}');
       const eligible=total>=5.0;
 
@@ -262,7 +269,6 @@
           else{el.textContent='';el.style.display='none';field.removeAttribute('aria-invalid');}
         };
 
-        // === Solo 16 dígitos ===
         function formatCardNumber(raw){
           const digits=onlyDigits(raw).slice(0,16);
           const formatted=digits.replace(/(.{4})/g,'$1 ').trim();
@@ -274,7 +280,6 @@
           return '';
         }
 
-        // MM/AA
         function formatExpiry(v){
           const d=onlyDigits(v).slice(0,4);
           return (d.length<=2)?d:d.slice(0,2)+'/'+d.slice(2);
@@ -291,14 +296,12 @@
           return '';
         }
 
-        // CVV 3 dígitos
         function validateCVV(field){
           const d=onlyDigits(field.value);
           if(d.length!==3) return 'CVV debe tener 3 dígitos.';
           return '';
         }
 
-        // Eventos
         numInput.addEventListener('input',()=>{
           const {formatted}=formatCardNumber(numInput.value);
           numInput.value=formatted;
@@ -318,7 +321,6 @@
           setError(nameInput,'');
         });
 
-        // Submit
         formTarjetaTotal.addEventListener('submit',(e)=>{
           if(!eligible){
             e.preventDefault();
@@ -342,7 +344,7 @@
             return;
           }
 
-          // Simulación de pago exitoso
+          // Simulación de pago exitoso (front)
           e.preventDefault();
           formPagoTotal.style.display='none';
           const totalMonto=cartTotalDisplay?cartTotalDisplay.textContent:'$XX.XX';

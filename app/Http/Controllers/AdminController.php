@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
+use App\Models\Reservation;
 
 class AdminController extends Controller
 {
@@ -24,15 +26,85 @@ class AdminController extends Controller
      *  MERCADOS LOCALES
      *  ---------------------------
      */
+
     public function index()
     {
-        $id = 1;
-        $mercadoLocals = MercadoLocal::paginate();
-        $vendedors = Vendedor::paginate();
-        $clientes = User::where('id', $id)->get();
+        // Total de áreas / mercados
+        $areas = MercadoLocal::count();
 
-        return view('AdminHome', compact('mercadoLocals', 'vendedors', 'clientes'))
-            ->with('i', (request()->input('page', 1) - 1) * $mercadoLocals->perPage());
+        // Total de vendedores
+        $vendedores = Vendedor::count();
+
+        // Total de clientes finales (ROL = 4 en tabla users)
+        $clientes = User::where('ROL', 4)->count();
+
+        // Total de reservas registradas
+        $reservas = Reservation::count();
+
+        // Sesiones activas actuales
+        $sesionesActivas = DB::table('sessions')->count();
+
+        // === GRÁFICA 1: Clientes nuevos por mes (últimos ~6 meses) ===
+        $inicioMeses = Carbon::now()->subMonths(5)->startOfMonth();
+        $clientesQuery = User::where('ROL', 4)
+            ->where('created_at', '>=', $inicioMeses)
+            ->selectRaw('DATE_FORMAT(created_at, "%Y-%m") as ym, COUNT(*) as total')
+            ->groupBy('ym')
+            ->orderBy('ym')
+            ->get();
+
+        $clientesPorMesLabels = [];
+        $clientesPorMesData = [];
+        foreach ($clientesQuery as $row) {
+            $fechaMes = Carbon::createFromFormat('Y-m', $row->ym);
+            $clientesPorMesLabels[] = $fechaMes->format('M Y');
+            $clientesPorMesData[] = (int) $row->total;
+        }
+
+        // === GRÁFICA 2: Reservas por día (últimos 7 días) ===
+        $inicioDias = Carbon::now()->subDays(6)->startOfDay();
+        $reservasQuery = Reservation::where('created_at', '>=', $inicioDias)
+            ->selectRaw('DATE(created_at) as d, COUNT(*) as total')
+            ->groupBy('d')
+            ->orderBy('d')
+            ->get();
+
+        $reservasPorDiaLabels = [];
+        $reservasPorDiaData = [];
+        foreach ($reservasQuery as $row) {
+            $fechaDia = Carbon::parse($row->d);
+            $reservasPorDiaLabels[] = $fechaDia->format('d/m');
+            $reservasPorDiaData[] = (int) $row->total;
+        }
+
+        // === GRÁFICA 3: Actividad por área / mercado ===
+        $areasQuery = DB::table('reservation_items')
+            ->join('mercado_locals', 'reservation_items.fk_mercados', '=', 'mercado_locals.id')
+            ->select('mercado_locals.nombre', DB::raw('COUNT(*) as total'))
+            ->groupBy('mercado_locals.nombre')
+            ->orderBy('total', 'desc')
+            ->get();
+
+        $areasLabels = [];
+        $areasData = [];
+        foreach ($areasQuery as $row) {
+            $areasLabels[] = $row->nombre;
+            $areasData[] = (int) $row->total;
+        }
+
+        return view('AdminHome', compact(
+            'areas',
+            'vendedores',
+            'clientes',
+            'reservas',
+            'sesionesActivas',
+            'clientesPorMesLabels',
+            'clientesPorMesData',
+            'reservasPorDiaLabels',
+            'reservasPorDiaData',
+            'areasLabels',
+            'areasData'
+        ));
     }
 
     public function crearmercados()
@@ -226,6 +298,14 @@ class AdminController extends Controller
             ->with('success', 'Vendedor creado exitosamente.');
     }
 
+    public function areas()
+    {
+        // Puede ser ->paginate() si querés paginación
+        $mercadoLocals = \App\Models\MercadoLocal::all();
+
+        return view('AdminAreas', compact('mercadoLocals'));
+    }
+
     public function vervendedores($id)
     {
         $vendedor = Vendedor::find($id);
@@ -321,53 +401,56 @@ class AdminController extends Controller
      */
     public function clientes()
     {
-        $clientes = User::where('id', '!=', 1)->paginate();
+        // Mostrar solo usuarios finales (ROL = 4), sin excluir el id 1
+        $clientes = User::where('ROL', 4)->paginate();
+
         return view('AdminListadoClientes', compact('clientes'))
             ->with('i', (request()->input('page', 1) - 1) * $clientes->perPage());
     }
 
-public function eliminarclientes($id)
-{
-    try {
-        // Buscar al usuario
-        $cliente = \App\Models\User::find($id);
 
-        if (!$cliente) {
-            return redirect()->back()->with('error', 'El usuario no existe.');
-        }
+    public function eliminarclientes($id)
+    {
+        try {
+            // Buscar al usuario
+            $cliente = \App\Models\User::find($id);
 
-        // Evitar que el admin se elimine a sí mismo
-        if (Auth::guard('admin')->check() && Auth::guard('admin')->id() == $id) {
-            return redirect()->back()->with('error', 'No puedes eliminar tu propia cuenta mientras estás conectado.');
-        }
-
-        // Eliminar usuario de la base de datos
-        $cliente->delete();
-
-        // ✅ No eliminar sesiones aquí mismo para no invalidar el token CSRF del admin
-        // En lugar de eso, marcamos para limpiar después
-        register_shutdown_function(function () use ($id) {
-            try {
-                $sessions = \DB::table('sessions')->get();
-                foreach ($sessions as $session) {
-                    $payload = @unserialize(@base64_decode($session->payload));
-                    if (is_array($payload) && array_key_exists('login_web_' . $id, $payload)) {
-                        \DB::table('sessions')->where('id', $session->id)->delete();
-                    }
-                }
-            } catch (\Throwable $e) {
-                \Log::warning('Error al limpiar sesiones diferidas: ' . $e->getMessage());
+            if (!$cliente) {
+                return redirect()->back()->with('error', 'El usuario no existe.');
             }
-        });
 
-        // Redirigir sin afectar la sesión actual del admin
-        return redirect()->back()->with('success', 'Usuario eliminado correctamente.');
+            // Evitar que el admin se elimine a sí mismo
+            if (Auth::guard('admin')->check() && Auth::guard('admin')->id() == $id) {
+                return redirect()->back()->with('error', 'No puedes eliminar tu propia cuenta mientras estás conectado.');
+            }
 
-    } catch (\Throwable $e) {
-        \Log::error('Error al eliminar cliente: ' . $e->getMessage());
-        return redirect()->back()->with('error', 'Error interno al eliminar el usuario.');
+            // Eliminar usuario de la base de datos
+            $cliente->delete();
+
+            // ✅ No eliminar sesiones aquí mismo para no invalidar el token CSRF del admin
+            // En lugar de eso, marcamos para limpiar después
+            register_shutdown_function(function () use ($id) {
+                try {
+                    $sessions = \DB::table('sessions')->get();
+                    foreach ($sessions as $session) {
+                        $payload = @unserialize(@base64_decode($session->payload));
+                        if (is_array($payload) && array_key_exists('login_web_' . $id, $payload)) {
+                            \DB::table('sessions')->where('id', $session->id)->delete();
+                        }
+                    }
+                } catch (\Throwable $e) {
+                    \Log::warning('Error al limpiar sesiones diferidas: ' . $e->getMessage());
+                }
+            });
+
+            // Redirigir sin afectar la sesión actual del admin
+            return redirect()->back()->with('success', 'Usuario eliminado correctamente.');
+
+        } catch (\Throwable $e) {
+            \Log::error('Error al eliminar cliente: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error interno al eliminar el usuario.');
+        }
     }
-}
 
 
 

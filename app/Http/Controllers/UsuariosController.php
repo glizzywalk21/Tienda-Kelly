@@ -30,7 +30,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-
 class UsuariosController extends Controller
 {
     // VER MERCADOS LOCALES O INDEX
@@ -70,54 +69,43 @@ class UsuariosController extends Controller
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'telefono' => 'nullable|string|max:15',
-            // Acepta ambos formatos y luego normalizamos
             'sexo' => 'nullable|string|in:Masc,Fem,Masculino,Femenino',
             'imagen_perfil' => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:4096',
         ]);
 
         $user = User::findOrFail($id);
 
-        // Campos básicos
         $user->usuario = $request->input('usuario');
         $user->nombre = $request->input('nombre');
         $user->apellido = $request->input('apellido');
         $user->telefono = $request->input('telefono');
 
-        // Normaliza sexo a Masc/Fem
         $sexo = $request->input('sexo');
-        if ($sexo === 'Masculino')
-            $sexo = 'Masc';
-        if ($sexo === 'Femenino')
-            $sexo = 'Fem';
+        if ($sexo === 'Masculino') $sexo = 'Masc';
+        if ($sexo === 'Femenino')  $sexo = 'Fem';
         $user->sexo = $sexo;
 
-        // Password opcional
         if ($request->filled('password')) {
             $user->password = bcrypt($request->input('password'));
         }
 
-        // ====== Imagen: mover a public/images, borrar la anterior, guardar SOLO el nombre ======
         if ($request->hasFile('imagen_perfil') && $request->file('imagen_perfil')->isValid()) {
             $file = $request->file('imagen_perfil');
 
-            // Asegura carpeta
             $imagesDir = public_path('images');
             if (!is_dir($imagesDir)) {
                 @mkdir($imagesDir, 0775, true);
             }
 
-            // Nombre legible + único
             $base = Str::slug(($user->nombre . '_' . $user->apellido) ?: 'avatar', '_');
             $ext = strtolower($file->getClientOriginalExtension()) ?: 'png';
             $imageName = time() . '_' . $base . '_' . Str::random(6) . '.' . $ext;
 
-            // Mover
             $file->move($imagesDir, $imageName);
 
-            // Borrar anterior (soporta "archivo.png" o "images/archivo.png")
             if (!empty($user->imagen_perfil)) {
                 $old = $user->imagen_perfil;
-                $oldPath = Str::startsWith($old, 'images/')
+                $oldPath = \Illuminate\Support\Str::startsWith($old, 'images/')
                     ? public_path($old)
                     : public_path('images/' . ltrim($old, '/'));
                 if (file_exists($oldPath)) {
@@ -125,14 +113,11 @@ class UsuariosController extends Controller
                 }
             }
 
-            // Guardar solo nombre nuevo
             $user->imagen_perfil = $imageName;
         }
-        // ====== /Imagen ======
 
         $user->save();
 
-        // Refresca el usuario autenticado para que avatar_url se actualice en la sesión
         if (Auth::id() === $user->id) {
             Auth::setUser($user->fresh());
         }
@@ -252,7 +237,14 @@ class UsuariosController extends Controller
         return redirect()->route('usuarios.carrito')->with('success', 'Producto agregado al carrito correctamente.');
     }
 
-    // CHECKOUT
+    /**
+     * CHECKOUT (pago inmediato con tarjeta)
+     * - Crea la reserva
+     * - Mueve los ítems del carrito a reservation_items
+     * - Descuenta stock
+     * - Limpia carrito
+     * - Redirige a usuarios.reservas
+     */
     public function checkout(Request $request)
     {
         $user = Auth::user();
@@ -262,51 +254,67 @@ class UsuariosController extends Controller
 
         DB::beginTransaction();
         try {
-            $cartItems = Cart::where('fk_user', Auth::id())->with('product.vendedor')->get();
+            // Traemos el carrito con las relaciones necesarias
+            $cartItems = Cart::where('fk_user', Auth::id())
+                ->with('product.vendedor')
+                ->get();
+
             if ($cartItems->isEmpty()) {
                 DB::rollBack();
                 return redirect()->route('usuarios.carrito')->with('error', 'Su carrito está vacío. Agregue productos antes de pagar.');
             }
 
-            $reservation = Reservation::create([
-                'fk_user' => Auth::id(),
-                'total' => 0,
-                'estado' => 'en_espera'
-            ]);
+            // 1. Crear la reserva manualmente (sin ::create())
+            $reservation = new Reservation();
+            $reservation->fk_user = Auth::id();
+            $reservation->total = 0;
+            $reservation->estado = 'en_espera'; // existe la col "estado" en reservations :contentReference[oaicite:2]{index=2}
+            $reservation->retiro = 'Entrada del Mercado'; // la migración pone default, pero lo seteamos igual :contentReference[oaicite:3]{index=3}
+            $reservation->save();
 
             $total = 0;
 
+            // 2. Por cada item del carrito creamos ReservationItem
             foreach ($cartItems as $item) {
+
+                // Validar stock
                 if ($item->product->stock < $item->quantity) {
                     DB::rollBack();
                     return redirect()->route('usuarios.carrito')
-                        ->with('error', 'El producto ' . $item->product->nombre . ' no tiene suficiente stock disponible');
+                        ->with('error', 'El producto ' . $item->product->name . ' no tiene suficiente stock disponible');
                 }
 
-                ReservationItem::create([
-                    'fk_reservation' => $reservation->id,
-                    'fk_product' => $item->fk_product,
-                    'quantity' => $item->quantity,
-                    'nombre' => $item->product->nombre,
-                    'subtotal' => $item->subtotal,
-                    'fk_vendedors' => $item->product->vendedor->id,
-                    'fk_mercados' => $item->product->vendedor->fk_mercado,
-                    'precio' => $item->product->price,
-                    'estado' => 'en_espera'
-                ]);
+                $resItem = new ReservationItem();
+                $resItem->fk_reservation = $reservation->id;
+                $resItem->fk_product     = $item->fk_product;
+                $resItem->fk_vendedors   = $item->product->vendedor->id;
+                $resItem->fk_mercados    = $item->product->vendedor->fk_mercado;
+                $resItem->nombre         = $item->product->name;
+                $resItem->precio         = $item->product->price;
+                $resItem->quantity       = $item->quantity;
+                $resItem->subtotal       = $item->subtotal;
+                $resItem->estado         = 'en_espera'; // "estado" existe en reservation_items :contentReference[oaicite:4]{index=4}
+                $resItem->save();
 
+                // Descontar stock de producto
                 $item->product->decrement('stock', $item->quantity);
+
                 $total += $item->subtotal;
             }
 
+            // 3. Actualizar total de la reserva
             $reservation->total = $total;
             $reservation->save();
 
+            // 4. Vaciar carrito
             Cart::where('fk_user', Auth::id())->delete();
+
             DB::commit();
 
+            // 5. Mandar al apartado de reservas del usuario
             return redirect()->route('usuarios.reservas')
-                ->with('success', '¡El pago ha sido procesado con éxito! Revise su sección de reservas.');
+                ->with('success', '¡Pago procesado! Tu reserva fue creada correctamente.');
+
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Fallo de checkout:', [
@@ -315,6 +323,78 @@ class UsuariosController extends Controller
                 'stack_trace' => $e->getTraceAsString(),
             ]);
             return redirect()->route('usuarios.carrito')->with('error', 'Ocurrió un error al procesar el pago.');
+        }
+    }
+
+    /**
+     * GUARDAR RESERVA (sin pago tarjeta, solo "Guardar Reserva")
+     * - MISMA LÓGICA que checkout() pero sin validaciones de tarjeta
+     * - NO descarga PDF
+     * - Redirige directo a usuarios.reservas
+     */
+    public function reservar(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            // Traemos carrito con producto y vendedor
+            $cartItems = Cart::where('fk_user', Auth::id())
+                ->with('product.vendedor')
+                ->get();
+
+            if ($cartItems->isEmpty()) {
+                DB::rollBack();
+                return redirect()->route('usuarios.carrito')
+                    ->with('error', 'No tienes productos en el carrito.');
+            }
+
+            // Crear reserva
+            $reservation = new Reservation();
+            $reservation->fk_user = Auth::id();
+            $reservation->total = 0;
+            $reservation->estado = 'en_espera';
+            $reservation->retiro = 'Entrada del Mercado';
+            $reservation->save();
+
+            $total = 0;
+
+            foreach ($cartItems as $item) {
+
+                $resItem = new ReservationItem();
+                $resItem->fk_reservation = $reservation->id;
+                $resItem->fk_product     = $item->fk_product;
+                $resItem->fk_vendedors   = $item->product->vendedor->id;
+                $resItem->fk_mercados    = $item->product->vendedor->fk_mercado;
+                $resItem->nombre         = $item->product->name;
+                $resItem->precio         = $item->product->price;
+                $resItem->quantity       = $item->quantity;
+                $resItem->subtotal       = $item->subtotal;
+                $resItem->estado         = 'en_espera';
+                $resItem->save();
+
+                $total += $item->subtotal;
+            }
+
+            $reservation->total = $total;
+            $reservation->save();
+
+            // Vaciar carrito
+            Cart::where('fk_user', Auth::id())->delete();
+
+            DB::commit();
+
+            // Ir directo al panel de reservas del usuario
+            return redirect()->route('usuarios.reservas')
+                ->with('success', 'Tu reserva fue creada correctamente. Ya está en espera de los vendedores.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error al crear la reserva:', [
+                'user_id' => Auth::id(),
+                'error_message' => $e->getMessage(),
+                'stack_trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->route('usuarios.carrito')
+                ->with('error', 'Error interno al crear la reserva.');
         }
     }
 
@@ -328,7 +408,6 @@ class UsuariosController extends Controller
             'items.product.vendedor.mercadoLocal',
         ])->findOrFail($id);
 
-        // mercados únicos (evitar nulls)
         $mercados = collect($reservation->items)
             ->map(function ($item) {
                 return optional(optional($item->product)->vendedor)->mercadoLocal;
@@ -337,7 +416,6 @@ class UsuariosController extends Controller
             ->unique('id')
             ->values();
 
-        // limpiar cualquier salida previa (evita PDF corrupto)
         if (ob_get_length()) {
             @ob_end_clean();
         }
@@ -351,7 +429,8 @@ class UsuariosController extends Controller
 
         return response()->streamDownload(
             function () use ($binary) {
-                echo $binary; },
+                echo $binary;
+            },
             'recibo_reserva_' . $reservation->id . '.pdf',
             [
                 'Content-Type' => 'application/pdf',
@@ -409,46 +488,6 @@ class UsuariosController extends Controller
         }
     }
 
-    public function reservar(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-            $reservation = Reservation::create([
-                'fk_user' => Auth::id(),
-                'total' => 0,
-            ]);
-
-            $cartItems = Cart::where('fk_user', Auth::id())->get();
-            $total = 0;
-
-            foreach ($cartItems as $item) {
-                ReservationItem::create([
-                    'fk_reservation' => $reservation->id,
-                    'fk_product' => $item->fk_product,
-                    'quantity' => $item->quantity,
-                    'nombre' => $item->product->nombre,
-                    'subtotal' => $item->subtotal,
-                    'fk_vendedors' => $item->product->vendedor->id,
-                    'fk_mercados' => $item->product->vendedor->fk_mercado,
-                    'precio' => $item->product->price
-                ]);
-                $total += $item->subtotal;
-            }
-
-            $reservation->total = $total;
-            $reservation->save();
-
-            Cart::where('fk_user', Auth::id())->delete();
-            DB::commit();
-
-            // Ir directo a descarga
-            return redirect()->route('reservas.pdf', ['id' => $reservation->id]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Error al crear la reserva: ' . $e->getMessage());
-        }
-    }
-
     public function reservas()
     {
         $reservations = Reservation::where('fk_user', Auth::id())
@@ -471,53 +510,87 @@ class UsuariosController extends Controller
     /**
      * CAMBIAR ESTADO RESERVAS (usuario)
      */
-    public function publicarestadoreserva(Request $request, $id)
-    {
-        $item = ReservationItem::find($id);
-        if (!$item) {
-            return redirect()->route('usuarios.reservas')->with('error', 'El ítem de la reserva no fue encontrado.');
-        }
-
-        if ($item->reservation->user->id == Auth::id()) {
-            $estadoValido = ['enviado', 'sin_existencias', 'en_espera', 'sin_espera', 'en_entrega', 'recibido', 'sin_recibir', 'problemas', 'archivado'];
-            $nuevoEstado = $request->input('estado');
-
-            if (in_array($nuevoEstado, $estadoValido)) {
-                $item->estado = $nuevoEstado;
-                $item->save();
-
-                // Recalcular estado de la reserva según todos los ítems (bloques originales)
-                $fk = $item->fk_reservation;
-
-                $checks = [
-                    'sin_existencias' => 'sin_existencias',
-                    'en_espera' => 'en_espera',
-                    'sin_espera' => 'sin_espera',
-                    'en_entrega' => 'en_entrega',
-                    'sin_recibir' => 'sin_recibir',
-                    'problema' => 'problema',
-                    'recibido' => 'recibido',
-                ];
-
-                foreach ($checks as $estadoReserva => $valorFiltro) {
-                    $todos = ReservationItem::where('fk_reservation', $fk)
-                        ->where('estado', '!=', $valorFiltro)
-                        ->count() == 0;
-
-                    if ($todos) {
-                        $reserva = Reservation::find($fk);
-                        $reserva->estado = $estadoReserva;
-                        $reserva->save();
-                    }
-                }
-
-                return redirect()->route('usuarios.reservas')->with('success', 'El estado de la reserva ha sido actualizado.');
-            }
-            return redirect()->route('usuarios.reservas')->with('error', 'El estado proporcionado no es válido.');
-        }
-
-        return redirect()->route('usuarios.reservas')->with('error', 'No tienes permiso para actualizar este item.');
+public function publicarestadoreserva(Request $request, $id)
+{
+    // Buscar el item de reserva al que se le dio "Confirmar Recepción"
+    $item = ReservationItem::find($id);
+    if (!$item) {
+        return redirect()->route('usuarios.reservas')
+            ->with('error', 'El ítem de la reserva no fue encontrado.');
     }
+
+    // Seguridad: solo el dueño puede cambiar su estado
+    if ($item->reservation->user->id != Auth::id()) {
+        return redirect()->route('usuarios.reservas')
+            ->with('error', 'No tienes permiso para actualizar este item.');
+    }
+
+    // Estado solicitado desde el form (por ejemplo "recibido")
+    $nuevoEstado = $request->input('estado');
+
+    // Estados válidos que dejamos que el usuario ponga manualmente
+    $estadoValido = [
+        'enviado',
+        'sin_existencias',
+        'en_espera',
+        'sin_espera',
+        'en_entrega',
+        'recibido',
+        'sin_recibir',
+        'problemas',
+        'archivado'
+    ];
+
+    if (!in_array($nuevoEstado, $estadoValido)) {
+        return redirect()->route('usuarios.reservas')
+            ->with('error', 'El estado proporcionado no es válido.');
+    }
+
+    // 1. Actualizar el estado del item actual
+    $item->estado = $nuevoEstado;
+    $item->save();
+
+    $reservation = $item->reservation;
+    $reservationId = $reservation->id;
+
+    // 2. Si el usuario marcó este item como "recibido", vemos si YA RECIBIÓ TODO
+    //    - Si TODOS los items de la misma reserva están recibidos (o ya archivados),
+    //      entonces mandamos esa reserva al historial.
+    if ($nuevoEstado === 'recibido') {
+
+        // Traemos TODOS los items de esta reserva
+        $itemsDeLaReserva = ReservationItem::where('fk_reservation', $reservationId)->get();
+
+        // ¿Quedan pendientes? (pendiente = algo que NO está 'recibido' NI 'archivado')
+        $quedanPendientes = $itemsDeLaReserva->contains(function ($it) {
+            return !in_array($it->estado, ['recibido', 'archivado']);
+        });
+
+        if (!$quedanPendientes) {
+            // ✅ Todos fueron recibidos -> archivamos la reserva completa
+
+            // 2.a) Marcamos TODOS los items como 'archivado'
+            foreach ($itemsDeLaReserva as $it) {
+                $it->estado = 'archivado';
+                $it->save();
+            }
+
+            // 2.b) Marcamos la reserva como 'archivado'
+            $reservation->estado = 'archivado';
+            $reservation->save();
+
+            // 2.c) Y redirigimos directo al historial
+            return redirect()->route('usuarios.historial')
+                ->with('success', 'La reserva #' . $reservationId . ' ha sido archivada. ¡Gracias por tu compra!');
+        }
+    }
+
+    // 3. Si todavía hay items pendientes en esa reserva:
+    //    volvemos a "Mis Reservas" normal.
+    return redirect()->route('usuarios.reservas')
+        ->with('success', 'Estado actualizado correctamente.');
+}
+
 
     public function eliminarcarrito(Product $product)
     {

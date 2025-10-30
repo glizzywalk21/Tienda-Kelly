@@ -13,7 +13,7 @@
   <div class="bottom-bar fixed bottom-[1%] left-0 right-0 z-[100] flex justify-center md:hidden">
     <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around">
       <div class="flex items-center">
-        <a href="{{ route('admin.index') }}"><img class="w-6" src="{{ asset('images/admin.home.nav.png') }}" alt="Inicio"></a>
+  <a href="{{ route('admin.index') }}"><img class="w-6" src="{{ asset('images/admin.home.nav.png') }}" alt="Inicio"></a>
       </div>
       <div class="flex items-center">
         <a href="{{ route('admin.vendedores') }}"><img class="w-6" src="{{ asset('images/admin.sellers.nav.png') }}" alt="Vendedores"></a>
@@ -162,7 +162,7 @@
 
         <!-- Actions -->
         <div class="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <a href="{{ route('admin.index') }}"
+          <a href="{{ route('admin.areas') }}"
              class="inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50">
             Cancelar
           </a>

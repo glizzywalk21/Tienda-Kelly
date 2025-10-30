@@ -13,13 +13,13 @@
 <body class="bg-gradient-to-br from-indigo-50 via-blue-50 to-white text-gray-800">
     <!-- Desktop Navbar -->
     <nav class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
-        <a href="{{ route('admin.index') }}">
+    <a href="{{ route('admin.index') }}">
             <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
                 TiendaKelly <span class="text-indigo-600"><b>Admin</b></span>
             </h1>
         </a>
         <div class="flex gap-8">
-            <a href="{{ route('admin.index') }}"
+            <a href="{{ route('admin.areas') }}"
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Áreas</a>
             <a href="{{ route('admin.vendedores') }}"
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Vendedores</a>

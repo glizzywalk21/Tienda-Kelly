@@ -13,13 +13,13 @@
 
     <!-- NAVBAR DESKTOP -->
     <nav class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
-        <a href="{{ route('admin.index') }}" class="focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded">
+    <a href="{{ route('admin.index') }}" class="focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded">
             <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
                 TiendaKelly <span class="text-indigo-600"><b>Admin</b></span>
             </h1>
         </a>
         <div class="flex gap-8">
-            <a href="{{ route('admin.index') }}"
+            <a href="{{ route('admin.areas') }}"
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Áreas</a>
             <a href="{{ route('admin.vendedores') }}"
                 class="font-medium uppercase text-sm hover:text-indigo-600 transition">Vendedores</a>
@@ -160,7 +160,7 @@
 
             <!-- MÉTRICAS RÁPIDAS -->
             <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-                <a href="{{ route('admin.index') }}"
+                <a href="{{ route('admin.areas') }}"
                     class="group rounded-2xl bg-white ring-1 ring-gray-200 p-4 text-center hover:shadow-md transition">
                     <p class="text-xs text-gray-500">Áreas</p>
                     <p class="mt-1 text-2xl font-extrabold text-indigo-600">{{ number_format($areas) }}</p>

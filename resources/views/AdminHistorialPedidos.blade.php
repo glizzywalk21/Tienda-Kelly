@@ -12,13 +12,13 @@
 
   <!-- NAVBAR DESKTOP -->
   <nav class="hidden md:flex px-8 py-4 bg-white items-center justify-between shadow-lg sticky top-0 z-50">
-    <a href="{{ route('admin.index') }}">
+  <a href="{{ route('admin.index') }}">
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
         TiendaKelly <span class="text-indigo-600"><b>Admin</b></span>
       </h1>
     </a>
     <div class="flex gap-8">
-      <a href="{{ route('admin.index') }}" class="font-medium uppercase text-sm hover:text-indigo-600 transition">Áreas</a>
+  <a href="{{ route('admin.areas') }}" class="font-medium uppercase text-sm hover:text-indigo-600 transition">Áreas</a>
       <a href="{{ route('admin.vendedores') }}" class="font-medium uppercase text-sm hover:text-indigo-600 transition">Vendedores</a>
       <a href="{{ route('admin.clientes') }}" class="font-medium uppercase text-sm hover:text-indigo-600 transition">Clientes</a>
       <a href="{{ route('reservations.index') }}" class="font-semibold uppercase text-sm text-indigo-600">Reservas</a>
@@ -32,7 +32,7 @@
   <!-- NAVBAR MÓVIL -->
   <div class="bottom-bar fixed bottom-[1%] left-0 right-0 z-[100] flex justify-center md:hidden">
     <div class="bg-gray-900 rounded-2xl w-64 h-14 flex justify-around items-center">
-      <a href="{{ route('admin.index') }}"><img class="w-6" src="{{ asset('images/admin.home.nav.png') }}" alt="Inicio"></a>
+  <a href="{{ route('admin.index') }}"><img class="w-6" src="{{ asset('images/admin.home.nav.png') }}" alt="Inicio"></a>
       <a href="{{ route('admin.vendedores') }}"><img class="w-6" src="{{ asset('images/admin.sellers.nav.png') }}" alt="Vendedores"></a>
       <a href="{{ route('admin.clientes') }}"><img class="w-6" src="{{ asset('images/admin.users.nav.png') }}" alt="Clientes"></a>
       <a href="{{ route('reservations.index') }}"><img class="w-6" src="{{ asset('images/ReservasIcon.png') }}" alt="Reservas"></a>

@@ -106,7 +106,7 @@
 
         <!-- Actions -->
         <div class="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <a href="{{ route('admin.index') }}"
+       <a href="{{ route('admin.areas') }}"
              class="inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50">
             Cancelar
           </a>

@@ -38,9 +38,14 @@ Route::view('/UserHistorialPedidos', 'UserHistorialPedidos')->name('UserHistoria
 |                               ADMIN
 ======================================================================= */
 
-// Dashboard
+// Dashboard principal del admin
 Route::get('/admin', [AdminController::class, 'index'])
     ->name('admin.index')
+    ->middleware('check.user.session');
+
+// Pantalla independiente de Áreas / Mercados
+Route::get('/admin/areas', [AdminController::class, 'areas'])
+    ->name('admin.areas')
     ->middleware('check.user.session');
 
 /* --- Mercados (admin) --- */
@@ -72,7 +77,7 @@ Route::get('/admin/crearvendedores', [AdminController::class, 'crearvendedores']
 Route::post('/admin/guardarvendedores', [AdminController::class, 'guardarvendedores'])
     ->name('admin.guardarvendedores')->middleware('check.user.session');
 
-/* 👇 PERFIL DEL VENDEDOR (Vista correcta: AdminPuestoDelVendedor) */
+/* Perfil del vendedor (vista AdminPuestoDelVendedor) */
 Route::get('/admin/vervendedores/{id}', [AdminController::class, 'vervendedores'])
     ->whereNumber('id')->name('admin.vervendedores')->middleware('check.user.session');
 
@@ -93,9 +98,9 @@ Route::delete('/admin/eliminarclientes/{id}', [AdminController::class, 'eliminar
     ->whereNumber('id')->name('admin.eliminarclientes')->middleware('check.user.session');
 
 /* --- Productos (admin) --- */
-/* Muestra el producto específico (blade: AdminProductoEspecifico) */
 Route::get('/admin/verproducto/{id}', [AdminController::class, 'verproducto'])
     ->whereNumber('id')->name('admin.verproducto')->middleware('check.user.session');
+
 
 /* =======================================================================
 |                               USUARIO (Catálogo)
@@ -137,11 +142,10 @@ Route::post('/usuarios/store', [UsuariosController::class, 'store'])->name('usua
 Route::get('/usuarios/historial', [UsuariosController::class, 'historial'])
     ->name('usuarios.historial')->middleware('check.user.session');
 
-/* PDF de reservas (descargar de una vez) */
+/* PDF de reservas (descargar directamente) */
 Route::get('/usuarios/reservas/pdf/{id}', [UsuariosController::class, 'generateReceipt'])
-    ->whereNumber('id')->name('reservas.pdf'); // puedes añadir middleware si quieres protegerlo
+    ->whereNumber('id')->name('reservas.pdf');
 
-/* Ver PDF en navegador (opcional) */
 Route::get('/receipt/{id}', [UsuariosController::class, 'viewReceipt'])
     ->whereNumber('id')->name('viewReceipt')->middleware('check.user.session');
 
@@ -153,6 +157,7 @@ Route::post('/usuarios/actualizar/{id}', [UsuariosController::class, 'actualizar
 
 Route::delete('/usuarios/eliminarcarrito/{product}', [UsuariosController::class, 'eliminarcarrito'])
     ->whereNumber('product')->name('usuarios.eliminarcarrito')->middleware('check.user.session');
+
 
 /* =======================================================================
 |                               VENDEDOR
@@ -218,6 +223,7 @@ Route::get('/vendedores/historial', [VendedoresController::class, 'historial'])
 Route::delete('/vendedores/eliminarreservationitem/{id}', [VendedoresController::class, 'eliminarreservationitem'])
     ->whereNumber('id')->name('vendedores.eliminarrreservationitem')->middleware('check.user.session');
 
+
 /* =======================================================================
 |                               MERCADO (gestión)
 ======================================================================= */
@@ -268,7 +274,7 @@ Route::get('/mercados/perfil', [MercadosController::class, 'perfil'])
     ->name('mercados.perfil')->middleware('check.user.session');
 
 Route::get('/mercados/historial', [MercadosController::class, 'historial'])
-    ->name('mercados.historial');
+    ->name('mercados.historial')->middleware('check.user.session');
 
 /* =======================================================================
 |                          Carrito (demo / clásico)
@@ -284,7 +290,6 @@ Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checko
 
 /* =======================================================================
 |                         CRUD Reservations (admin/demo)
-|   Nota: Si quieres que sólo admin acceda, agrega tu middleware aquí.
 ======================================================================= */
 
 Route::middleware(['check.user.session'])->group(function () {
