@@ -163,9 +163,11 @@ class LoginController extends Controller
         $guard = session('guard', 'web');
         Auth::guard($guard)->logout();
 
+        $request->session()->flush();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('login')->with('success', 'Sesión cerrada correctamente.');
     }
+
 }

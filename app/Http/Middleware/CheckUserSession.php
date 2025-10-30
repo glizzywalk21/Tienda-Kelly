@@ -11,29 +11,34 @@ class CheckUserSession
 {
     public function handle($request, Closure $next)
     {
-        // 🔐 Verificar si hay sesión en cualquier guard
-        if (!Auth::guard('web')->check() && !Auth::guard('admin')->check()) {
+        // 🔒 Guards que existen en tu auth.php
+        $guards = ['web', 'admin', 'vendedor', 'mercado', 'cliente'];
+        $authenticated = false;
+
+        foreach ($guards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                $authenticated = true;
+                $user = Auth::guard($guard)->user();
+
+                // Validar existencia en BD
+                if (!$user) {
+                    Auth::guard($guard)->logout();
+                    Session::flush();
+                    $request->session()->invalidate();
+                    $request->session()->regenerateToken();
+                    return redirect()->route('login')->with('error', 'Tu cuenta fue eliminada.');
+                }
+
+                // Guardar el tipo de guard en sesión
+                session(['guard' => $guard]);
+                break;
+            }
+        }
+
+        if (!$authenticated) {
             return redirect()->route('login')->with('error', 'Sesión expirada o cerrada.');
         }
 
-        // 📌 Si hay usuario logueado en 'web', verificar si aún existe
-        if (Auth::guard('web')->check()) {
-            $user = Auth::guard('web')->user();
-            if (!$user || !User::where('id', $user->id)->exists()) {
-                Auth::guard('web')->logout();
-                Session::flush();
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
-
-                return redirect()->route('login')->with('error', 'Tu cuenta fue eliminada.');
-            }
-        }
-        
-        if (!Auth::guard('web')->check() && !Auth::guard('admin')->check()) {
-            return redirect()->route('login');
-        }
-
-        // 🚫 No hacer logout si es admin
         return $next($request);
     }
 }
