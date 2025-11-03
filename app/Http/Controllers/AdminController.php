@@ -29,13 +29,13 @@ class AdminController extends Controller
 
     public function index()
     {
-        // Total de áreas / mercados
+        // Total de áreas
         $areas = MercadoLocal::count();
 
         // Total de vendedores
         $vendedores = Vendedor::count();
 
-        // Total de clientes finales (ROL = 4 en tabla users)
+        // Total de clientes finales
         $clientes = User::where('ROL', 4)->count();
 
         // Total de reservas registradas
@@ -44,7 +44,7 @@ class AdminController extends Controller
         // Sesiones activas actuales
         $sesionesActivas = DB::table('sessions')->count();
 
-        // === GRÁFICA 1: Clientes nuevos por mes (últimos ~6 meses) ===
+        // === GRÁFICA 1: Clientes nuevos por mes
         $inicioMeses = Carbon::now()->subMonths(5)->startOfMonth();
         $clientesQuery = User::where('ROL', 4)
             ->where('created_at', '>=', $inicioMeses)
@@ -61,7 +61,7 @@ class AdminController extends Controller
             $clientesPorMesData[] = (int) $row->total;
         }
 
-        // === GRÁFICA 2: Reservas por día (últimos 7 días) ===
+        // === GRÁFICA 2: Reservas por día
         $inicioDias = Carbon::now()->subDays(6)->startOfDay();
         $reservasQuery = Reservation::where('created_at', '>=', $inicioDias)
             ->selectRaw('DATE(created_at) as d, COUNT(*) as total')
@@ -129,7 +129,6 @@ class AdminController extends Controller
         $mercadolocal->usuario = $request->email;
         $mercadolocal->password = Hash::make($request->password);
 
-        // Subir imagen a /public/images
         if ($request->hasFile('imagen_referencia')) {
             $image = $request->file('imagen_referencia');
             $dir = public_path('images');
@@ -181,7 +180,6 @@ class AdminController extends Controller
         $mercadoLocal->nombre = $validated['nombre'];
         $mercadoLocal->descripcion = $validated['descripcion'];
 
-        // Imagen (opcional) -> /public/images
         if ($request->hasFile('nueva_imagen')) {
             $image = $request->file('nueva_imagen');
 
@@ -300,7 +298,6 @@ class AdminController extends Controller
 
     public function areas()
     {
-        // Puede ser ->paginate() si querés paginación
         $mercadoLocals = \App\Models\MercadoLocal::all();
 
         return view('AdminAreas', compact('mercadoLocals'));
@@ -401,7 +398,6 @@ class AdminController extends Controller
      */
     public function clientes()
     {
-        // Mostrar solo usuarios finales (ROL = 4), sin excluir el id 1
         $clientes = User::where('ROL', 4)->paginate();
 
         return view('AdminListadoClientes', compact('clientes'))
@@ -412,14 +408,12 @@ class AdminController extends Controller
     public function eliminarclientes($id)
     {
         try {
-            // Buscar al usuario
             $cliente = \App\Models\User::find($id);
 
             if (!$cliente) {
                 return redirect()->back()->with('error', 'El usuario no existe.');
             }
 
-            // Evitar que el admin se elimine a sí mismo
             if (Auth::guard('admin')->check() && Auth::guard('admin')->id() == $id) {
                 return redirect()->back()->with('error', 'No puedes eliminar tu propia cuenta mientras estás conectado.');
             }
@@ -427,8 +421,6 @@ class AdminController extends Controller
             // Eliminar usuario de la base de datos
             $cliente->delete();
 
-            // ✅ No eliminar sesiones aquí mismo para no invalidar el token CSRF del admin
-            // En lugar de eso, marcamos para limpiar después
             register_shutdown_function(function () use ($id) {
                 try {
                     $sessions = \DB::table('sessions')->get();
@@ -443,7 +435,6 @@ class AdminController extends Controller
                 }
             });
 
-            // Redirigir sin afectar la sesión actual del admin
             return redirect()->back()->with('success', 'Usuario eliminado correctamente.');
 
         } catch (\Throwable $e) {
